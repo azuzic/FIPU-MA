@@ -417,7 +417,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     Fakultet informatike u Puli
 </p>
 <h1 id="1-java-ponavljanje">[1] Java Ponavljanje</h1>
-<p><strong>Posljednje ažurirano:</strong> 18. listopada 2025.</p>
+<p><strong>Posljednje ažurirano:</strong> 23. listopada 2025.</p>
 <h2 id="sadr%C5%BEaj">Sadržaj</h2>
 <!-- TOC -->
 <ul>
@@ -468,13 +468,22 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <ul>
 <li><a href="#naslje%C4%91ivanje-inheritance">Nasljeđivanje (<em>Inheritance</em>)</a></li>
 <li><a href="#polimorfizam">Polimorfizam</a></li>
-<li><a href="#samostalni-zadatak-za-vje%C5%BEbu-5">Samostalni zadatak za vježbu 5</a></li>
 </ul>
 </li>
 <li><a href="#modifikatori-modifiers">Modifikatori (Modifiers)</a>
 <ul>
 <li><a href="#access-modifiers">Access Modifiers</a></li>
 <li><a href="#non-access-modifiers">Non-Access Modifiers</a></li>
+<li><a href="#samostalni-zadatak-za-vje%C5%BEbu-5">Samostalni zadatak za vježbu 5</a></li>
+</ul>
+</li>
+<li><a href="#generics">Generics</a>
+<ul>
+<li><a href="#primjer-generi%C4%8Dke-klase">Primjer generičke klase</a></li>
+<li><a href="#generi%C4%8Dke-metode">Generičke metode</a></li>
+<li><a href="#generics-i-kolekcije">Generics i kolekcije</a></li>
+<li><a href="#bounded-generics">Bounded Generics</a></li>
+<li><a href="#samostalni-zadatak-za-vje%C5%BEbu-6">Samostalni zadatak za vježbu 6</a></li>
 </ul>
 </li>
 </ul>
@@ -502,6 +511,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <ul>
 <li><strong>Metoda</strong> <code>main(String[] args)</code> je obavezna u svakom Java programu. To je mjesto gdje program započinje s izvršavanjem</li>
 </ul>
+<div class="page"></div>
 <hr>
 <h3 id="sintaksa">Sintaksa</h3>
 <p>Ako datoteka sadrži klasu <code>Main</code> onda se i ta datoteka mora nazivati <code>Main.java</code>.</p>
@@ -631,8 +641,10 @@ System.out.println(punoIme.startsWith(<span class="hljs-string">"Ime"</span>)); 
 System.out.println(punoIme.endsWith(<span class="hljs-string">"zime"</span>)); <span class="hljs-comment">// output: true</span>
 </div></code></pre>
 </li>
-<li>
+</ul>
 <div class="page"></div>
+<ul>
+<li>
 <p><strong>Polje (Array)</strong></p>
 <ul>
 <li>Polja su strukture podataka koje pohranjuju više vrijednosti istog tipa u jednom objektu</li>
@@ -746,8 +758,10 @@ System.out.println(a != b); <span class="hljs-comment">// true</span>
 </li>
 </ul>
 </li>
-<li>
+</ul>
 <div class="page"></div>
+<ul>
+<li>
 <p><strong>Relacijski operatori (<em>Relational Operators</em>)</strong></p>
 <ul>
 <li>
@@ -781,8 +795,7 @@ System.out.println(x || y); <span class="hljs-comment">// true</span>
 <hr>
 <h3 id="kontrolne-strukture-control-flow-statements">Kontrolne strukture (<em>Control Flow Statements</em>)</h3>
 <ul>
-<li>
-<p><strong><code>if-then</code> i <code>if-then-else</code></strong></p>
+<li><strong><code>if-then</code> i <code>if-then-else</code></strong>
 <ul>
 <li>Omogućuju izvršavanje koda ovisno o uvjetu.<pre class="hljs"><code><div><span class="hljs-keyword">int</span> broj = <span class="hljs-number">10</span>;
 
@@ -795,8 +808,10 @@ System.out.println(x || y); <span class="hljs-comment">// true</span>
 </li>
 </ul>
 </li>
-<li>
+</ul>
 <div class="page"></div>
+<ul>
+<li>
 <p><strong><code>switch</code></strong></p>
 <ul>
 <li>Omogućuje izbor između više opcija temeljenih na vrijednosti izraza.<pre class="hljs"><code><div><span class="hljs-keyword">int</span> dan = <span class="hljs-number">3</span>;
@@ -845,9 +860,10 @@ System.out.println(x || y); <span class="hljs-comment">// true</span>
 </li>
 </ul>
 </li>
-<li>
+</ul>
 <div class="page"></div>
-<p><strong>Grananje (<code>break</code>, <code>continue</code>, <code>return</code>)</strong></p>
+<ul>
+<li><strong>Grananje (<code>break</code>, <code>continue</code>, <code>return</code>)</strong>
 <ul>
 <li><code>break</code> – prekida petlju ili switch</li>
 <li><code>continue</code> – preskače trenutnu iteraciju petlje</li>
@@ -1251,6 +1267,9 @@ Ime ne smije biti prazno!
 <h3 id="naslje%C4%91ivanje-i-polimorfizam">Nasljeđivanje i Polimorfizam</h3>
 <h4 id="naslje%C4%91ivanje-inheritance">Nasljeđivanje (<em>Inheritance</em>)</h4>
 <p>Omogućuje da jedna klasa <strong>naslijedi atribute i metode</strong> druge klase, čime se izbjegava dupliciranje koda i omogućuje proširenje funkcionalnosti.</p>
+<ul>
+<li><strong><code>super</code></strong> se koristi u podklasi za pristup konstruktoru ili metodama nadklase, omogućujući inicijalizaciju naslijeđenih atributa i/ili pozivanje originalnog ponašanja metode roditelja.</li>
+</ul>
 <p><em>Primjer:</em></p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Zivotinja</span> </span>{
     <span class="hljs-keyword">protected</span> String ime;
@@ -1258,15 +1277,52 @@ Ime ne smije biti prazno!
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Zivotinja</span><span class="hljs-params">(String ime)</span> </span>{
         <span class="hljs-keyword">this</span>.ime = ime;
     }
-
-    <span class="hljs-comment">// Metoda koju će podklase nadjačati</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">opisZvuka</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"Ova životinja proizvodi neki zvuk."</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">predstaviSe</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"Ja sam "</span> + ime);
     }
 }
 </div></code></pre>
 <p><strong>Podklase</strong></p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pas</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Zivotinja</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Pas</span><span class="hljs-params">(String ime)</span> </span>{
+        <span class="hljs-keyword">super</span>(ime);
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">zalaji</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"Vau vau!"</span>);
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Macka</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Zivotinja</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Macka</span><span class="hljs-params">(String ime)</span> </span>{
+        <span class="hljs-keyword">super</span>(ime);
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">zamjauci</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"Mjau mjau!"</span>);
+    }
+}
+</div></code></pre>
+<ul>
+<li><strong><code>Pas</code> i <code>Macka</code></strong> nasljeđuju sve atribute i metode iz klase <code>Zivotinja</code></li>
+<li>Podklase mogu koristiti metodu <code>predstaviSe()</code> iz nadklase</li>
+<li><code>super(ime)</code> u konstruktoru poziva konstruktor roditeljske klase <code>Zivotinja</code> kako bi se inicijalizirao atribut <code>ime</code></li>
+</ul>
+<div class="page"></div>
+<hr>
+<h4 id="polimorfizam">Polimorfizam</h4>
+<p>Polimorfizam omogućuje da <strong>varijabla tipa nadklase</strong> poziva metode koje se ponašaju različito ovisno o stvarnom tipu objekta.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Zivotinja</span> </span>{
+    <span class="hljs-keyword">protected</span> String ime;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Zivotinja</span><span class="hljs-params">(String ime)</span> </span>{
+        <span class="hljs-keyword">this</span>.ime = ime;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">opisZvuka</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Ova životinja proizvodi neki zvuk."</span>;
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pas</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Zivotinja</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Pas</span><span class="hljs-params">(String ime)</span> </span>{
         <span class="hljs-keyword">super</span>(ime);
     }
@@ -1287,110 +1343,25 @@ Ime ne smije biti prazno!
         <span class="hljs-keyword">return</span> <span class="hljs-string">"Mačka "</span> + ime + <span class="hljs-string">" se glasa: Mjau mjau!"</span>;
     }
 }
-</div></code></pre>
-<ul>
-<li><strong><code>Pas</code> i <code>Macka</code></strong> nasljeđuju sve atribute i metode iz klase <code>Zivotinja</code></li>
-<li>nadjačavaju (<code>@Override</code>) metodu <code>opisZvuka()</code> da bi imale specifično ponašanje</li>
-<li><code>super(ime)</code> u konstruktoru poziva konstruktor roditelja <code>Zivotinja</code></li>
-</ul>
-<div class="page"></div>
-<hr>
-<h4 id="polimorfizam">Polimorfizam</h4>
-<p>Polimorfizam omogućuje da <strong>varijabla tipa nadklase</strong> poziva metode koje se ponašaju različito ovisno o stvarnom tipu objekta.</p>
-<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        <span class="hljs-comment">// Varijable tipa Zivotinja, ali stvarni objekti su Pas i Macka</span>
         Zivotinja z1 = <span class="hljs-keyword">new</span> Pas(<span class="hljs-string">"Rex"</span>);
         Zivotinja z2 = <span class="hljs-keyword">new</span> Macka(<span class="hljs-string">"Mica"</span>);
 
-        <span class="hljs-comment">// Polimorfizam: ista metoda, različito ponašanje</span>
         Zivotinja[] zivotinje = { z1, z2 };
 
         <span class="hljs-keyword">for</span> (Zivotinja z : zivotinje) {
-            System.out.println(z.napraviZvuk());
+            System.out.println(z.opisZvuka());
         }
     }
 }
 </div></code></pre>
-<hr>
-<h4 id="samostalni-zadatak-za-vje%C5%BEbu-5">Samostalni zadatak za vježbu 5</h4>
-<p>Stvorite sljedeće klase:</p>
-<p><strong>1. Klasa Sportaš (osnovna klasa)</strong></p>
-<p><strong>Atributi (privatni/protected):</strong></p>
 <ul>
-<li><code>ime</code> (String)</li>
-<li><code>godine</code> (int)</li>
+<li>Varijabla tipa <code>Zivotinja</code> može držati objekte različitih podklasa</li>
+<li>Poziv <code>opisZvuka()</code> izvršava stvarnu implementaciju metode iz podklase, što pokazuje <strong>dinamički polimorfizam</strong>.</li>
+<li><code>@Override</code> omogućuje podklasama da nadjačaju i prilagode ponašanje metode iz nadklase</li>
 </ul>
-<p><strong>Konstruktor:</strong></p>
-<ul>
-<li>Inicijalizira oba atributa.</li>
-<li><strong>Metode:</strong>
-<ul>
-<li><code>getIme()</code>, <code>getGodine()</code> – getter metode.</li>
-<li><code>setIme(String ime)</code>, <code>setGodine(int godine)</code> – setter metode sa provjerom (<code>godine &gt;= 0</code>).</li>
-<li><code>opisVjezbe()</code> – metoda koja vraća tekst, npr. <code>&quot;Sportaš izvodi neku vježbu.&quot;</code></li>
-</ul>
-</li>
-</ul>
-<p><strong>2. Podklase Sportaš</strong></p>
-<ul>
-<li><strong>Nogometas</strong> – nadjačava <code>opisVjezbe()</code> i vraća <code>&quot;{ime} igra nogomet.&quot;</code></li>
-<li><strong>Kosarkas</strong> – nadjačava <code>opisVjezbe()</code> i vraća <code>&quot;{ime} igra košarku.&quot;</code></li>
-<li><strong>Plivac</strong> – nadjačava <code>opisVjezbe()</code> i vraća <code>&quot;{ime} pliva.&quot;</code></li>
-</ul>
-<div class="page"></div>
-<p><strong>3. Klasa Tim</strong></p>
-<ul>
-<li><strong>Atributi (<em>privatni</em>)</strong>:
-<ul>
-<li><code>naziv</code> (<em>String</em>) – naziv tima</li>
-<li><code>sportasi</code> – lista objekata <code>Sportaš</code></li>
-</ul>
-</li>
-<li><strong>Metode:</strong>
-<ul>
-<li><code>dodajSportasa(String ime, int godine, String tip)</code> – <strong>kompozicija</strong>, stvara sportaša prema tipu i dodaje u listu.</li>
-<li><code>dodajSportasa(Sportaš s)</code> – <strong>agregacija</strong>, dodaje već postojećeg sportaša u listu.</li>
-<li><code>ispisiSveSportase()</code> – ispisuje sve sportaše u timu: ime, godine, opis vježbe.</li>
-</ul>
-</li>
-</ul>
-<p><strong>4. Klasa SportskiKlub</strong></p>
-<ul>
-<li><strong>Atributi:</strong>
-<ul>
-<li><code>naziv</code> (String)</li>
-<li><code>timovi</code> – lista objekata <code>Tim</code></li>
-</ul>
-</li>
-<li><strong>Metode:</strong>
-<ul>
-<li><code>dodajTim(Tim t)</code> – agregacija</li>
-<li><code>ispisiSveTimove()</code> – ispisuje sve timove i sportaše u njima</li>
-</ul>
-</li>
-</ul>
-<p><strong>5. Klasa Main</strong></p>
-<ul>
-<li>U <code>main</code> metodi:
-<ol>
-<li>Stvori sportski klub.</li>
-<li>Stvori nekoliko timova.</li>
-<li>Dodaj sportaše u timove, barem jednu metodu kompozicijom i jednu agregacijom.</li>
-<li>Pozovi metode za ispis svih sportaša po timovima i po klubu.</li>
-</ol>
-</li>
-</ul>
-<p><strong>Primjer:</strong></p>
-<pre class="hljs"><code><div>Tim: Plivački tim
-Ime: Ana, Godine: 20, Ana pliva.
-Ime: Ivan, Godine: 22, Ivan pliva.
-
-Tim: Nogometni tim
-Ime: Marko, Godine: 21, Marko igra nogomet.
-Ime: Luka, Godine: 23, Luka igra nogomet.
-</div></code></pre>
-<div class="page"></div>
 <hr>
 <h3 id="modifikatori-modifiers">Modifikatori (Modifiers)</h3>
 <p>Modifikatori se koriste za kontrolu pristupa klasama, atributima, metodama i konstruktorima ili za dodavanje posebnih funkcionalnosti.</p>
@@ -1414,29 +1385,26 @@ Ime: Luka, Godine: 23, Luka igra nogomet.
     }
 }
 </div></code></pre>
-<pre class="hljs"><code><div><span class="hljs-comment">// Klasa roditelj</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Osoba</span> </span>{
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Osoba</span> </span>{
     <span class="hljs-keyword">protected</span> String grad = <span class="hljs-string">"Pula"</span>; <span class="hljs-comment">// Protected - dostupan unutar podklasa</span>
 }
-
-<span class="hljs-comment">// Klasa dijete (nasljeđivanje)</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Osoba</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ispisiGrad</span><span class="hljs-params">()</span> </span>{
         System.out.println(<span class="hljs-string">"Grad: "</span> + <span class="hljs-keyword">this</span>.grad); <span class="hljs-comment">// Protected atribut je dostupan u podklasi</span>
     }
 }
-
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Osoba o = <span class="hljs-keyword">new</span> Osoba();
         Student s = <span class="hljs-keyword">new</span> Student();
-        s.ispisiGrad(); <span class="hljs-comment">// Ispisuje: Grad: Pula</span>
+        s.ispisiGrad();               <span class="hljs-comment">// Ispisuje: Grad: Pula</span>
+        <span class="hljs-comment">//System.out.println(o.grad); // Greška: private</span>
     }
 }
 </div></code></pre>
 <blockquote>
-<p>Ako modifikator nije naveden, podrazumijeva se da je <code>public</code></p>
+<p>Ako modifikator nije naveden, Java koristi <strong>default (<em>bez modifikatora pristupa</em>)</strong> - dostupan <strong>samo unutar istog paketa</strong></p>
 </blockquote>
-<div class="page"></div>
 <hr>
 <h4 id="non-access-modifiers">Non-Access Modifiers</h4>
 <ul>
@@ -1444,7 +1412,7 @@ Ime: Luka, Godine: 23, Luka igra nogomet.
 <li><strong>static</strong> – atribut ili metoda pripada klasi, ne objektu; može se koristiti bez kreiranja objekta</li>
 <li><strong>abstract</strong> – koristi se u apstraktnim klasama i metodama; metoda nema tijelo, tijelo definira podklasa</li>
 </ul>
-<p><em>Primjeri:</em></p>
+<p><em>Primjer:</em></p>
 <pre class="hljs"><code><div><span class="hljs-comment">// Final varijable</span>
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
     <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> x = <span class="hljs-number">10</span>;
@@ -1467,9 +1435,10 @@ Ime: Luka, Godine: 23, Luka igra nogomet.
         obj.myPublicMethod(); <span class="hljs-comment">// Radi</span>
     }
 }
-
-<span class="hljs-comment">// Abstract klasa i metoda</span>
-<span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vozilo</span> </span>{
+</div></code></pre>
+<div class="page"></div>
+<p><em>Primjer:</em></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vozilo</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">vozi</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">// nema tijela</span>
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">tip</span><span class="hljs-params">()</span> </span>{
@@ -1482,7 +1451,247 @@ Ime: Luka, Godine: 23, Luka igra nogomet.
         System.out.println(<span class="hljs-string">"Automobil vozi"</span>);
     }
 }
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Vozilo v = <span class="hljs-keyword">new</span> Automobil();
+        v.tip();  <span class="hljs-comment">// Opće vozilo</span>
+        v.vozi(); <span class="hljs-comment">// Automobil vozi</span>
+    }
+}
 </div></code></pre>
+<hr>
+<h4 id="samostalni-zadatak-za-vje%C5%BEbu-5">Samostalni zadatak za vježbu 5</h4>
+<p>Stvorite sljedeće klase:</p>
+<p><strong>1. Klasa Sportaš (osnovna klasa)</strong></p>
+<p><strong>Atributi (privatni/protected):</strong></p>
+<ul>
+<li><code>ime</code> (String)</li>
+<li><code>godine</code> (int)</li>
+</ul>
+<p><strong>Konstruktor:</strong></p>
+<ul>
+<li>Inicijalizira oba atributa.</li>
+<li><strong>Metode:</strong>
+<ul>
+<li><code>getIme()</code>, <code>getGodine()</code> – getter metode.</li>
+<li><code>setIme(String ime)</code>, <code>setGodine(int godine)</code> – setter metode sa provjerom (<code>godine &gt;= 0</code>).</li>
+<li><code>oIgracu()</code> – metoda koja vraća ime i godine igrača</li>
+<li><code>opisVjezbe()</code> – metoda koja vraća tekst, npr. <code>&quot;Sportaš izvodi neku vježbu.&quot;</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Podklase Sportaš</strong></p>
+<ul>
+<li><strong>Nogometas</strong> – nadjačava <code>opisVjezbe()</code> i vraća <code>&quot;{ime} igra nogomet.&quot;</code></li>
+<li><strong>Kosarkas</strong> – nadjačava <code>opisVjezbe()</code> i vraća <code>&quot;{ime} igra košarku.&quot;</code></li>
+<li><strong>Plivac</strong> – nadjačava <code>opisVjezbe()</code> i vraća <code>&quot;{ime} pliva.&quot;</code></li>
+</ul>
+<div class="page"></div>
+<p><strong>3. Klasa Tim</strong></p>
+<ul>
+<li><strong>Atributi (<em>privatni</em>)</strong>:
+<ul>
+<li><code>naziv</code> (<em>String</em>) – naziv tima</li>
+<li><code>sportasi</code> – lista objekata <code>Sportaš</code></li>
+</ul>
+</li>
+<li><strong>Metode:</strong>
+<ul>
+<li><code>dodajSportasa(Sportaš s)</code> – dodaje već postojećeg sportaša u listu.</li>
+<li><code>ispisiSveSportase()</code> – ispisuje sve sportaše u timu: ime, godine, opis vježbe.</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. Klasa SportskiKlub</strong></p>
+<ul>
+<li><strong>Atributi:</strong>
+<ul>
+<li><code>naziv</code> (String)</li>
+<li><code>timovi</code> – lista objekata <code>Tim</code></li>
+</ul>
+</li>
+<li><strong>Metode:</strong>
+<ul>
+<li><code>dodajTim(Tim t)</code> – dodaje Tim u listu</li>
+<li><code>ispisiSveTimove()</code> – ispisuje sve timove i sportaše u njima</li>
+</ul>
+</li>
+</ul>
+<p><strong>5. Klasa Main</strong></p>
+<ul>
+<li>U <code>main</code> metodi:
+<ol>
+<li>Stvori sportski klub.</li>
+<li>Stvori nekoliko timova.</li>
+<li>Dodaj sportaše u timove.</li>
+<li>Pozovi metodu za opis vježbe sportaša za dva sportaša.</li>
+<li>Pozovi metode za ispis svih sportaša po timovima i po klubu.</li>
+</ol>
+</li>
+</ul>
+<p><strong>Primjer:</strong></p>
+<pre class="hljs"><code><div>Ana pliva.
+Luka igra nogomet.
+
+Sportski klub: Istra
+
+1. Tim: Plivački tim
+-----------------
+1. Ime: Ana (20)
+2. Ime: Ivan (22)
+
+2. Tim: Nogometni tim
+-----------------
+1. Ime: Marko (21)
+2. Ime: Luka (23)
+</div></code></pre>
+<div class="page"></div>
+<hr>
+<h3 id="generics">Generics</h3>
+<p>Generics u Javi omogućuju <strong>definiranje klasa, metoda i kolekcija koje rade s različitim tipovima podataka</strong> bez potrebe za kastanjem (<em>casting</em>) i bez gubitka tip-sigurnosti</p>
+<ul>
+<li>Koriste se uglate zagrade <code>&lt;T&gt;</code> gdje <code>T</code> predstavlja <strong>tip koji će biti određen pri korištenju</strong></li>
+</ul>
+<hr>
+<h4 id="primjer-generi%C4%8Dke-klase">Primjer generičke klase</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">// Generic klasa Box koja može držati bilo koji tip objekta</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Box</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+    <span class="hljs-keyword">private</span> T sadrzaj;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(T sadrzaj)</span> </span>{
+        <span class="hljs-keyword">this</span>.sadrzaj = sadrzaj;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> sadrzaj;
+    }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-comment">// Box za String</span>
+        Box&lt;String&gt; stringBox = <span class="hljs-keyword">new</span> Box&lt;&gt;();
+        stringBox.set(<span class="hljs-string">"Hello Generics"</span>);
+        System.out.println(stringBox.get());
+
+        <span class="hljs-comment">// Box za Integer</span>
+        Box&lt;Integer&gt; intBox = <span class="hljs-keyword">new</span> Box&lt;&gt;();
+        intBox.set(<span class="hljs-number">100</span>);
+        System.out.println(intBox.get());
+    }
+}
+</div></code></pre>
+<p><strong>Output:</strong></p>
+<pre class="hljs"><code><div>Hello Generics
+100
+</div></code></pre>
+<ul>
+<li><code>Box&lt;String&gt;</code> znači da objekt <code>Box</code> sada može držati samo <code>String</code></li>
+<li><code>Box&lt;Integer&gt;</code> znači da objekt <code>Box</code> sada može držati samo <code>Integer</code></li>
+<li>Nema potrebe za pretvaranje tipa podataka (<em>casting</em>), jer tip je sigurno definiran</li>
+</ul>
+<div class="page"></div>
+<hr>
+<h4 id="generic-metode">Generic metode</h4>
+<p>Možemo napraviti i generičke metode unutar običnih ili generičkih klasa.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+    <span class="hljs-comment">// Generička metoda koja vraća istu vrijednost koju primi</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">prikazi</span><span class="hljs-params">(T vrijednost)</span> </span>{
+        System.out.println(vrijednost);
+        <span class="hljs-keyword">return</span> vrijednost;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        String s = prikazi(<span class="hljs-string">"Test"</span>);    <span class="hljs-comment">// T = String</span>
+        Integer i = prikazi(<span class="hljs-number">123</span>);      <span class="hljs-comment">// T = Integer</span>
+    }
+}
+</div></code></pre>
+<ul>
+<li>Sintaksa <code>&lt;T&gt;</code> prije tipa povratne vrijednosti označava da je metoda generička</li>
+<li>Tip <code>T</code> se određuje automatski pri pozivu metode</li>
+</ul>
+<hr>
+<h4 id="generics-i-kolekcije">Generics i kolekcije</h4>
+<p>Generics se često koriste s kolekcijama poput <code>ArrayList</code>, <code>HashMap</code>, itd., kako bi se <strong>izbjegao casting</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> java.util.ArrayList;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        ArrayList&lt;String&gt; imena = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        imena.add(<span class="hljs-string">"Ana"</span>);
+        imena.add(<span class="hljs-string">"Ivan"</span>);
+
+        <span class="hljs-keyword">for</span> (String ime : imena) {
+            System.out.println(ime);
+        }
+
+        <span class="hljs-comment">// ArrayList&lt;Integer&gt; radi s integerima</span>
+        ArrayList&lt;Integer&gt; brojevi = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        brojevi.add(<span class="hljs-number">10</span>);
+        brojevi.add(<span class="hljs-number">20</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> broj : brojevi) {
+            System.out.println(broj);
+        }
+    }
+}
+</div></code></pre>
+<ul>
+<li><code>ArrayList&lt;String&gt;</code> može držati samo <code>String</code> objekte</li>
+<li><code>ArrayList&lt;Integer&gt;</code> može držati samo <code>Integer</code> objekte</li>
+</ul>
+<hr>
+<h4 id="bounded-generics">Bounded Generics</h4>
+<p>Možemo ograničiti tipove koje generic može prihvatiti koristeći <code>extends</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Kutija</span>&lt;<span class="hljs-title">T</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Number</span>&gt; </span>{ <span class="hljs-comment">// T može biti samo Number ili njegove podklase</span>
+    <span class="hljs-keyword">private</span> T broj;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(T broj)</span> </span>{ <span class="hljs-keyword">this</span>.broj = broj; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> broj; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Kutija&lt;Integer&gt; k1 = <span class="hljs-keyword">new</span> Kutija&lt;&gt;();
+        k1.set(<span class="hljs-number">10</span>);
+
+        Kutija&lt;Double&gt; k2 = <span class="hljs-keyword">new</span> Kutija&lt;&gt;();
+        k2.set(<span class="hljs-number">3.14</span>);
+
+        <span class="hljs-comment">// Kutija&lt;String&gt; k3 = new Kutija&lt;&gt;(); // ❌ Greška: String ne nasljeđuje Number</span>
+    }
+}
+</div></code></pre>
+<ul>
+<li><code>&lt;T extends Number&gt;</code> znači da generic može prihvatiti samo <code>Number</code> i njegove podklase (<code>Integer</code>, <code>Double</code>, <code>Float</code>, itd.)</li>
+<li>Pomaže da se ograniči upotreba tipova i poveća sigurnost koda</li>
+</ul>
+<hr>
+<h4 id="samostalni-zadatak-za-vje%C5%BEbu-6">Samostalni zadatak za vježbu 6</h4>
+<ol>
+<li>
+<p>Napiši generičku klasu <strong>Par</strong> koja može držati dva objekta bilo kojeg tipa (<code>T</code> i <code>U</code>).</p>
+<ul>
+<li>Metode: <code>getPrvi()</code>, <code>getDrugi()</code>, <code>setPrvi(T)</code>, <code>setDrugi(U)</code>.</li>
+</ul>
+</li>
+<li>
+<p>U <code>Main</code> metodi:</p>
+<ul>
+<li>Stvori <code>Par&lt;String, Integer&gt;</code> i inicijaliziraj ga</li>
+<li>Ispiši oba elementa</li>
+<li>Promijeni vrijednosti koristeći settere i ponovno ispiši</li>
+</ul>
+</li>
+<li>
+<p>Pokušaj stvoriti <code>Par&lt;Integer, String&gt;</code></p>
+<ul>
+<li>Promijeni vrijednosti prvog para koristeći String, što će se dogoditi?</li>
+</ul>
+</li>
+</ol>
 </div>
 </body>
 </html>
