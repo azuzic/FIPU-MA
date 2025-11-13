@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="2-android-studio-i-uvod-u-ui-elemente">[2] Android studio i uvod u UI elemente</h1>
+<p><strong>Posljednje ažurirano:</strong> 13. studenog 2025.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#1-instalacija">1. Instalacija</a></li>
+<li><a href="#2-kreiranje-novog-projekta">2. Kreiranje novog projekta</a></li>
+<li><a href="#3-struktura-projekta-i-emulatora">3. Struktura projekta i Emulatora</a>
+<ul>
+<li><a href="#31-struktura-projekta">3.1. Struktura projekta</a></li>
+<li><a href="#32-emulator-avd---android-virtual-device">3.2. Emulator (<em>AVD - Android Virtual Device</em>)</a></li>
+<li><a href="#33-postavljanje-glavne-aktivnosti-main-activity">3.3. Postavljanje glavne aktivnosti (<em>Main Activity</em>)</a></li>
+</ul>
+</li>
+<li><a href="#4-slaganje-ui-elemenata">4. Slaganje UI elemenata</a>
+<ul>
+<li><a href="#41-layout-managers">4.1. Layout Managers</a>
+<ul>
+<li><a href="#411-constraintlayout">4.1.1. ConstraintLayout</a></li>
+<li><a href="#412-linearlayout">4.1.2. LinearLayout</a></li>
+<li><a href="#413-relativelayout">4.1.3. RelativeLayout</a></li>
+</ul>
+</li>
+<li><a href="#42-osnovni-ui-elementi">4.2. Osnovni UI elementi</a>
+<ul>
+<li><a href="#421-textview">4.2.1. TextView</a></li>
+<li><a href="#422-divider">4.2.2. Divider</a></li>
+<li><a href="#423-button">4.2.3. Button</a></li>
+<li><a href="#424-imageview">4.2.4. ImageView</a></li>
+<li><a href="#425-edittext">4.2.5. EditText</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#5-samostalni-zadatak-za-vje%C5%BEbu">5. Samostalni zadatak za vježbu</a></li>
+</ul>
+<!-- /TOC -->
+ <div class="page"></div>
+<h2 id="1-instalacija">1. Instalacija</h2>
+<ol>
+<li>Preuzmi Android Studio s <a href="https://developer.android.com/studio">https://developer.android.com/studio</a></li>
+<li>Pokreni instalaciju i slijedi upute instalacije</li>
+<li>Prilikom prvog pokretanja, Android Studio će automatski preuzeti potrebne <strong>SDK komponente</strong>- (<em>Software Development Kit</em>).
+<ul>
+<li>Ako se pojavi dijalog s pitanjem &quot;Install missing SDK components&quot; - potvrdi instalaciju</li>
+</ul>
+</li>
+<li>Nakon što je instalacija gotova, otvori <strong>New Project</strong>.</li>
+</ol>
+<hr>
+<h2 id="2-kreiranje-novog-projekta">2. Kreiranje novog projekta</h2>
+<p>Kada stvaramo novi projekt, treba odabrati <strong>template</strong>.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/NoActivityTemplate.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>No Activity - Template</i></p>
+</div>
+<blockquote>
+<p>Za svrhe vježbi koristit ćemo <em>No Activity</em> template.</p>
+</blockquote>
+<p>Kod stvaranja novog projekta pojavit će se nekoliko važnih polja i postavki:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PostavkeNovogProjekta.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke novog projekta</i></p>
+</div>
+<ul>
+<li>
+<p><strong>Name</strong>
+Naziv projekta koji će se prikazivati u Android Studiju i unutar aplikacije.</p>
+<ul>
+<li>Primjer: <code>MojaPrvaAplikacija</code></li>
+<li>Ovaj naziv ne mora biti isti kao naziv aplikacije vidljiv korisniku - to se kasnije definira u <code>res/values/strings.xml</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Package name</strong>
+Jedinstveni identifikator aplikacije u Google Play Storeu i Android sustavu.</p>
+<ul>
+<li>Obično u obliku: <code>hr.fipu.mojaprvaaplikacija</code></li>
+<li>Mora biti jedinstven, jer ga Google koristi za razlikovanje aplikacija.</li>
+<li>Preporuka: koristi naziv ustanove/domena unatrag + ime projekta</li>
+</ul>
+</li>
+<li>
+<p><strong>Save location</strong>
+Lokacija na disku gdje će Android Studio spremiti projektne datoteke.</p>
+<ul>
+<li>Primjer: <code>C:\Users\Username\AndroidStudioProjects\MojaPrvaAplikacija</code></li>
+<li>Preporuka: koristi mapu bez razmaka i dijakritičkih znakova u imenu</li>
+</ul>
+</li>
+<li>
+<p><strong>Language</strong>
+Programski jezik u kojem će se razvijati aplikacija.</p>
+<ul>
+<li><strong>Kotlin (default)</strong> - preporučeni jezik za moderni Android razvoj (<em>Google službeno podržava</em>)</li>
+<li><strong>Java</strong> - stariji, ali još uvijek široko korišten</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Za svrhe vježbi koristit ćemo <em>Java</em> programski jezik</p>
+</blockquote>
+<ul>
+<li><strong>Minimum SDK</strong>
+Najniža verzija Android operativnog sustava koju aplikacija podržava.
+<ul>
+<li>Određuje koliko starim uređajima aplikacija može raditi</li>
+<li>Primjer: <strong>API 28: Android 9.0 (Pie)</strong></li>
+<li>Android Studio prikazuje koliki postotak aktivnih uređaja podržava odabrani API</li>
+<li>Što niži API - više uređaja podržano, ali manje novijih značajki</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Za svrhe vježbi koristit ćemo <em>SDK - API 28: Android 9.0 (Pie)</em></p>
+</blockquote>
+<ul>
+<li><strong>Build configuration language</strong>
+Određuje u kojem će jeziku biti konfiguracijske datoteke za build proces.
+<ul>
+<li>Opcije:
+<ul>
+<li><strong>Groovy DSL</strong> - klasični format <code>build.gradle</code> datoteka</li>
+<li><strong>Kotlin DSL (default)</strong> - moderniji pristup (<code>build.gradle.kts</code>) s boljom integracijom u Kotlin projekte</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Za svrhe vježbi koristit ćemo <em>Groovy DSL</em></p>
+</blockquote>
+<p>Kada smo postavili sve opcije, kliknemo <strong>Finish</strong> za kreiranje projekta. Projekt će se generirati i otvoriti u Android Studiju. Potrebno je sačekati nekoliko minuta dok se svi potrebni resursi i ovisnosti preuzmu i konfiguriraju.</p>
+<p>U gornjem desnom kutu nalazi se padajući izbornik za prikaz strukture projekta. Ako nije odabran prikaz &quot;Android&quot; inbda je odaberite.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/AndroidPrikazStruktureProjekta.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Android prikaz strukture projekta</i></p>
+</div>
+<br>
+<div class="page"></div>
+<h2 id="3-struktura-projekta-i-emulatora">3. Struktura projekta i Emulatora</h2>
+<p>Nakon što se projekt kreira, Android Studio automatski otvori glavni prozor s pregledom strukture projekta.</p>
+<h3 id="31-struktura-projekta">3.1. Struktura projekta</h3>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/StrukturaProjekta.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Struktura projekta</i></p>
+</div>
+<ul>
+<li><strong>app/java</strong> - sadrži izvorni kôd aplikacije</li>
+<li><strong>app/res</strong> - sadrži resurse aplikacije (<em>slike, tekstove, boje, layout datoteke</em>)</li>
+<li><strong>app/manifests</strong> - sadrži <code>AndroidManifest.xml</code>, datoteku s osnovnim informacijama o aplikaciji</li>
+<li><strong>Gradle Scripts</strong> - build konfiguracije projekta i modula</li>
+</ul>
+<h3 id="32-emulator-avd---android-virtual-device">3.2. Emulator (<em>AVD - Android Virtual Device</em>)</h3>
+<p>Emulator služi za testiranje aplikacije bez fizičkog uređaja. Ako nema postavljenog emulatora potrebno je napraviti sljedeće korake:</p>
+<ol>
+<li>Otvori <strong>Device Manager</strong> (<em>gumb u gornjoj alatnoj traci</em>)</li>
+<li>Klikni <strong>Create Device</strong></li>
+<li>Odaberi željeni uređaj (<em>npr. Pixel 7</em>)</li>
+<li>Odaberi verziju Android sustava (<em>npr. Android 13 - API 33</em>)</li>
+<li>Klikni <strong>Download</strong> i pričekaj instalaciju slike sustava</li>
+<li>Klikni <strong>Finish</strong></li>
+<li>Pokreni emulator pritiskom na <strong>Play (▶)</strong></li>
+</ol>
+<blockquote>
+<p>Pri instalaciji nove verzije Android Studia automatski se postavi emulator pa ga možemo odmah pokrenuti  bez postavljanja</p>
+</blockquote>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Emulator.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Emulator</i></p>
+</div>
+<p>Kada se emulator pokrene, Android Studio će ga automatski povezati s tvojim projektom i omogućiti pokretanje aplikacije klikom na <strong>Run (Shift + F10)</strong>.</p>
+<h3 id="33-postavljanje-glavne-aktivnosti-main-activity">3.3. Postavljanje glavne aktivnosti (<em>Main Activity</em>)</h3>
+<p>S obzirom da radimo s <em>No Avtivity</em> predloškom (<em>template</em>) koji nema nijedna glavna aktivnost (<strong>Main Activity</strong>). Potrebno ga je ručno dodati i namjestiti, inače ako pokušamo pokrenuti projekt dobit ćemo grešku da ne postoji zadana aktivnost:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ErrorRunningApp.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Greška pri pokretanju aplikacije - ne postoji zadana aktivnost</i></p>
+</div>
+<p>Tako da ćemo u direktoriju <em>java</em> u <em>paketu imena projekta</em> kreirati novi <strong>Empty Views Activity</strong>:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/EmptyViewsActivity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Empty Views Activity</i></p>
+</div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PostavkeEmptyViewsActivity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke nove Empty Views Activity</i></p>
+</div>
+<p>Pustit ćemo zadane postavke koje će kreirati <code>MainActivity.java</code> i <code>activity_main.xml</code> u <em>layout</em> mapi unutar <em>res</em> direktorija. Te nadodati <code>&lt;activity&gt;</code> element u <code>AndroidManifest.xml</code>.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/AndroidManifest.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Android Manifest</i></p>
+</div>
+<p>Sada je potrebno ažurirati <code>AndroidManifest.xml</code> da koristi novododani <code>MainActivity.java</code> kao zadanu aktivnost. Tako da:</p>
+<ol>
+<li>Stavimo <code>exported</code> atribut na <code>true</code></li>
+<li>Dodamo <code>&lt;intent-filter&gt;</code> element unutar <code>&lt;activity&gt;</code> element, unutar njega dodamo:</li>
+<li><code>&lt;action/&gt;</code> element, s <code>name</code> atributom s vrijednošću <code>android.intent.action.MAIN</code></li>
+<li><code>&lt;category/&gt;</code> element, s <code>name</code> atributom s vrijednošću <code>&quot;android.intent.category.LAUNCHER</code></li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">manifest</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">application</span>
+        <span class="hljs-attr">android:allowBackup</span>=<span class="hljs-string">"true"</span>
+        <span class="hljs-attr">android:dataExtractionRules</span>=<span class="hljs-string">"@xml/data_extraction_rules"</span>
+        <span class="hljs-attr">android:fullBackupContent</span>=<span class="hljs-string">"@xml/backup_rules"</span>
+        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">"@mipmap/ic_launcher"</span>
+        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"@string/app_name"</span>
+        <span class="hljs-attr">android:roundIcon</span>=<span class="hljs-string">"@mipmap/ic_launcher_round"</span>
+        <span class="hljs-attr">android:supportsRtl</span>=<span class="hljs-string">"true"</span>
+        <span class="hljs-attr">android:theme</span>=<span class="hljs-string">"@style/Theme.MojaPrvaAplikacija"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">activity</span>
+            <span class="hljs-attr">android:name</span>=<span class="hljs-string">".MainActivity"</span>
+            <span class="hljs-attr">android:exported</span>=<span class="hljs-string">"true"</span> &gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">intent-filter</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">action</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"android.intent.action.MAIN"</span> /&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">category</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"android.intent.category.LAUNCHER"</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">intent-filter</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">activity</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">manifest</span>&gt;</span>
+</div></code></pre>
+<p>Sada možemo pokrenuti projekt. Kliknemo <em>play</em> dugme (<em>Run App</em>, <code>Shift+F10</code>) na gornjoj traci:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PokretanjeProjekta.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Pokretanje projekta</i></p>
+</div>
+<p>I s desnog bočnog izbornika otvorimo pregled emulatora (<em>Running Devices</em>):</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PregledEmulatora.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Pregled emulatora</i></p>
+</div>
+<h2 id="4-slaganje-ui-elemenata">4. Slaganje UI elemenata</h2>
+<p>Sada kada imamo postavljen projekt i glavnu aktivnost, možemo krenuti sa slaganjem UI elemenata u <code>activity_main.xml</code> datoteci.</p>
+<p>Kada je odaberemo u <em>res/layout</em> direktoriju, otvorit će se <strong>Layout Editor</strong> koji omogućava vizualno slaganje elemenata.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ZadanipregledXMLa.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Zadani pregled XML-a</i></p>
+</div>
+<p>Na slici imamo 6 izbornika oko Layout Editora:</p>
+<ol>
+<li><strong>Paleta elemenata</strong> - sadrži UI elemente koje možemo povući i ispustiti u dizajn</li>
+<li><strong>Component Tree</strong> - prikazuje hijerarhiju UI elemenata u layoutu</li>
+<li><strong>Atributi elementa</strong> - omogućava uređivanje svojstava odabranog UI elementa</li>
+<li><strong>Vrste pregleda</strong>:
+<ul>
+<li><em>Design</em> - vizualni prikaz layouta</li>
+<li><em>Code</em> - XML kôd layouta</li>
+<li><em>Split</em> - kombinirani prikaz</li>
+</ul>
+</li>
+<li><strong>Izgled, rotacija i tema</strong>:</li>
+</ol>
+<ul>
+<li><em>Design surface</em> - izbor načina prikaza platna:
+<ul>
+<li><em>Design</em> - grafički prikaz s elementima</li>
+<li><em>Blueprint</em> - shematski prikaz (okviri i mjere)</li>
+<li><em>Split</em> - istovremeni prikaz <em>Design</em> i <em>Code</em></li>
+</ul>
+</li>
+<li><em>Orientation</em> - promjena orijentacije uređaja (portrait / landscape)</li>
+<li><em>Night mode</em> - simulacija tamnog načina rada (pregled izgleda aplikacije u dark theme)</li>
+</ul>
+<ol start="6">
+<li><strong>Opcije pregleda</strong> - prikaz/skrivanje sistemskih traka i drugih elemenata uređaja</li>
+</ol>
+<blockquote>
+<p>Koristit ćemo <strong>Design</strong> prikaz za vizualno slaganje elemenata iz Palete elemenata.</p>
+</blockquote>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/DesingView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Design pregled</i></p>
+</div>
+<p>Na slici iznad vidimo kako izgleda početni <em>Design</em> prikaz s jednim <strong>main</strong> elementom u Component Tree-u - <strong>ConstraintLayout</strong>, također u <em>Atributima</em> elementa možemo vidjeti svojstva odabranog <strong>ConstraintLayout</strong> elementa.  Moguće ga je zamijeniti s drugim <em>layout managerima</em> poput <strong>LinearLayout</strong> ili <strong>RelativeLayout</strong> ovisno o potrebama dizajna.</p>
+<h3 id="41-layout-managers">4.1. Layout Managers</h3>
+<p>U sljedećem poglavlju isprobati ćemo različite vrste <em>layout managera</em> i slagati osnovne UI elemente poput <strong>TextView</strong>, <strong>Button</strong>, <strong>ImageView</strong> i drugih.</p>
+<h4 id="411-constraintlayout">4.1.1. ConstraintLayout</h4>
+<p><strong>ConstraintLayout</strong> omogućava precizno pozicioniranje UI elemenata pomoću ograničenja (<em>constraints</em>). Ograničenja definiraju odnose između elemenata i njihovih roditeljskih elemenata, omogućavajući dinamično prilagođavanje izgleda na različitim veličinama ekrana.</p>
+<p>Ako potegnemo Button element iz Palete elemenata u Design površinu, vidjet ćemo da se pojavljuje nekoliko plavih krugova oko elementa. To su <em>handles</em> za postavljanje ograničenja.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ButtonConstraintLayout.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Button element s ručkama za ograničenja</i></p>
+</div>
+<p>Sada možemo povući te ručke do drugih elemenata ili rubova roditeljskog <strong>ConstraintLayout</strong> kako bismo definirali odnose. Na primjer, možemo povući gornju ručku do vrha roditeljskog elementa kako bismo postavili gornje ograničenje. Isto tako možemo postaviti lijevo, desno i donje ograničenje.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ButtonPositionedCL.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Button element s postavljenim ograničenjima</i></p>
+</div>
+<p>Taj button možemo dodatno pozicionirati pomoću atributa u <em>Atributima elementa</em> kod Layout atributa koristeći GUI sučelje za pozicioniranje ili ručno upisujući vrijednosti u input polja.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ButtonEditLayoutCE.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Button element mjenjanje vrijednosti Layout atributa</i></p>
+</div>
+<p>Ako imamo više elemenata, možemo ih povezati međusobno postavljanjem ograničenja između njih. Na primjer, možemo postaviti ograničenje između 3 <strong>Button</strong> elementa kako bi bili ravnomjerno raspoređeni jedan do drugog.</p>
+<p>Za to možemo koristiti opcije <strong>Pack</strong> i <strong>Align</strong> u gornjem izborniku Layout Editora:</p>
+<ul>
+<li><strong>Pack</strong> - grupira, širi i distribuira odabrane elemente zajedno</li>
+<li><strong>Align</strong> - poravnava odabrane elemente</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/AlignButtonsCE.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Poravnavanje button elemenata</i></p>
+</div>
+<p>Zatim ih možemo poravnat pomoću <strong>Align</strong> opcije, npr. <em>Horizontally</em> i <em>Vertically</em>, pomaknut prema gore. Te namjestiti <strong>Chain</strong> stil na <em>Spread</em> kako bi bili ravnomjerno raspoređeni.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/AlignButtonsCE2.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Aling & Chain</i></p>
+</div>
+<p>Sada imamo tri button elementa ravnomjerno raspoređena unutar <strong>ConstraintLayout</strong> roditeljskog elementa.</p>
+<h4 id="412-linearlayout">4.1.2. LinearLayout</h4>
+<p><strong>LinearLayout</strong> organizira UI elemente u linearni redoslijed, bilo horizontalno ili vertikalno. Svaki element se postavlja jedan za drugim, a orijentacija se definira pomoću atributa <code>orientation</code>.</p>
+<p>Da bi promijenili <strong>ConstraintLayout</strong> u <strong>LinearLayout</strong>, potrebno je desnim klikom na <strong>ConstraintLayout</strong> u <em>Component Tree</em> odabrati opciju <strong>Convert view...</strong> i zatim odabrati <strong>LinearLayout</strong> iz ponuđenih opcija.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ConvertView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Convert view</i></p>
+</div>
+<p>Sada možemo postaviti orijentaciju <strong>LinearLayout</strong> elementa u <em>Atributima elementa</em> na <em>vertical</em> ili <em>horizontal</em>.</p>
+<blockquote>
+<p>U primjeru ćemo postaviti na <em>horizontal</em>.</p>
+</blockquote>
+<p>Zatim možemo povući nekoliko <strong>Button</strong> elemenata iz <em>Palete elemenata</em> u <em>Design</em> površinu. Vidjet ćemo da se automatski postavljaju jedan do drugog u horizontalnom smjeru.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ButtonsLL.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Linear Layout</i></p>
+</div>
+<p>Možemo uočiti da su svi button elementi zbijeni jedan do drugog. To možemo riješiti postavljanjem <strong>layout_margin</strong> atributa za svaki button element u <em>Atributima elementa</em>. Na primjer, možemo postaviti marginu od <code>8dp</code> sa svih strana.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/LinearLayoutMargin.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Layout Margin</i></p>
+</div>
+<p>Ako pokušamo smanjiti jedan od button elemenata, vidjet ćemo da se ostali elementi povećavaju. To je zbog toga što je zadani <strong>layout_width</strong> atribut postavljen na <code>0dp</code> s <strong>layout_weight</strong> atributom postavljenim na <code>1</code>. To znači da svi elementi dijele raspoloživi prostor ravnomjerno.</p>
+<p>Ako promijenimo <strong>layout-weight</strong> atribut na <code>0</code> za sve button elemente, tada će se širina elemenata prilagoditi njihovom sadržaju.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/LayoutWeight.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Layout Weight</i></p>
+</div>
+<p>Da bi sada elemente poravnali u sredinu roditeljskog elementa, možemo postaviti <strong>gravity</strong> atribut na <em>center|top</em> u <em>Atributima elementa</em> za <strong>LinearLayout</strong> roditeljski element.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Gravity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Gravity</i></p>
+</div>
+<h4 id="413-relativelayout">4.1.3. RelativeLayout</h4>
+<p><strong>RelativeLayout</strong> omogućava pozicioniranje UI elemenata u odnosu na druge elemente ili roditeljski element. Svaki element može imati odnose definirane pomoću atributa:</p>
+<ul>
+<li><code>layout_above</code> - postavlja element iznad drugog elementa</li>
+<li><code>layout_below</code> - postavlja element ispod drugog elementa</li>
+<li><code>layout_toLeftOf</code> - postavlja element lijevo od drugog elementa</li>
+<li><code>layout_toRightOf</code> - postavlja element desno od drugog elementa</li>
+<li><code>layout_alignParentTop</code> - poravnava element s vrhom roditeljskog element</li>
+<li><code>layout_alignParentBottom</code> - poravnava element s dnom roditeljskog elementa</li>
+<li><code>layout_alignParentLeft</code> - poravnava element s lijevom stranom roditeljskog elementa</li>
+<li><code>layout_alignParentRight</code> - poravnava element s desnom stranom roditeljskog elementa</li>
+</ul>
+<p>Ako dodamo jedan <strong>Button</strong> element u <strong>RelativeLayout</strong>, možemo ga pozicionirati u odnosu na roditeljski element.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/RelativeLayout.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Relative Layout</i></p>
+</div>
+<p>Ako dodamo druge <strong>Button</strong> elemente, možemo ih pozicionirati u odnosu na prvi element koristeći gore navedene atribute.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/RelativeButtonElements.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Relative button elements</i></p>
+</div>
+<p>Ovim pristupom možemo precizno kontrolirati pozicioniranje elemenata unutar <strong>RelativeLayout</strong> roditeljskog elementa. Međutim, treba biti oprezan s previše složenih odnosa jer to može dovesti do problema s performansama i održavanjem koda.</p>
+<blockquote>
+<p>Napomena: distribucija elemenata nije toliko jednostavna kao kod <strong>ConstraintLayout</strong> ili <strong>LinearLayout</strong>, pa je preporučljivo koristiti <strong>RelativeLayout</strong> samo kada je potrebno specifično pozicioniranje elemenata u odnosu na druge.</p>
+</blockquote>
+<h3 id="42-osnovni-ui-elementi">4.2. Osnovni UI elementi</h3>
+<p>U sljedećim poglavljima proći ćemo osnovne UI elemente poput <strong>TextView</strong>, <strong>Divider</strong>, <strong>Button</strong>, <strong>ImageView</strong>, <strong>EditText</strong> i drugih unutar <em>constraint layouta</em>.</p>
+<h4 id="421-textview">4.2.1. TextView</h4>
+<p><strong>TextView</strong> je osnovni UI element za prikaz teksta u Android aplikacijama. Može se koristiti za naslove, opise, upute i druge tekstualne informacije.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/TextView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Text View element</i></p>
+</div>
+<p>Možemo prilagoditi svojstva <strong>TextView</strong> elementa u <em>Atributima elementa</em>, poput:</p>
+<ul>
+<li><code>text</code> - postavlja prikazani tekst</li>
+<li><code>textSize</code> - postavlja veličinu teksta</li>
+<li><code>textColor</code> - postavlja boju teksta</li>
+<li><code>fontFamily</code> - postavlja font teksta</li>
+<li><code>gravity</code> - postavlja poravnanje teksta unutar elementa</li>
+<li><code>textStyle</code> — podebljano/kurziv (<code>bold</code>, <code>italic</code>, <code>normal</code>)</li>
+<li><code>lines</code> — fiksan broj redaka</li>
+<li><code>ellipsize</code> — skraćivanje teksta (<code>end</code>, <code>start</code>, <code>middle</code>, <code>marquee</code>)</li>
+<li><code>includeFontPadding</code> — uklanja/ostavlja zadani font padding</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/TextViewAtributes.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Text View atributi</i></p>
+</div>
+<h4 id="422-divider">4.2.2. Divider</h4>
+<p><strong>Divider</strong> je jednostavan horizontalni ili vertikalni linijski element koji se koristi za vizualno odvajanje sadržaja unutar korisničkog sučelja. Često se koristi za razdvajanje različitih sekcija ili grupa elemenata.</p>
+<ul>
+<li>Nalazi se u <em>Paleti elemenata</em> pod kategorijom <strong>Widgets</strong></li>
+</ul>
+<p>Možemo prilagoditi svojstva <strong>Divider</strong> elementa u <em>Atributima elementa</em>, poput:</p>
+<ul>
+<li><code>layout_width</code> i <code>layout_height</code> - postavlja dimenzije dividera</li>
+<li><code>background</code> - postavlja boju ili stil pozadine dividera</li>
+<li><code>margin</code> - postavlja margine oko dividera</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Dividers.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Divider elementi</i></p>
+</div>
+<h4 id="423-button">4.2.3. Button</h4>
+<p><strong>Button</strong> je interaktivni UI element koji korisnicima omogućava izvršavanje akcija pritiskom na njega. Može se koristiti za slanje podataka, navigaciju između zaslona ili pokretanje funkcija unutar aplikacije.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ButtonElement.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Button element</i></p>
+</div>
+<p>Možemo prilagoditi svojstva <strong>Button</strong> elementa u <em>Atributima elementa</em>, poput:</p>
+<ul>
+<li><code>backgroundTint</code> - postavlja boju pozadine gumba</li>
+<li><code>cornerRadius</code> - postavlja zaobljenje kutova gumba</li>
+<li><code>text</code> - postavlja prikazani tekst na gumbu</li>
+<li><code>textColor</code> - postavlja boju teksta na gumbu</li>
+<li><code>fontFamily</code> - postavlja font teksta na gumbu</li>
+<li><code>textStyle</code> — podebljano/kurziv (<code>bold</code>, <code>italic</code>, <code>normal</code>)</li>
+<li><code>allCaps</code> - postavlja tekst na gumbu da bude velikim slovima (true/false)</li>
+<li><code>gravity</code> - postavlja poravnanje teksta unutar gumba</li>
+<li><code>drawable</code> - postavlja ikonu na gumb</li>
+</ul>
+<h4 id="424-imageview">4.2.4. ImageView</h4>
+<p><strong>ImageView</strong> je UI element koji se koristi za prikazivanje slika unutar aplikacije, tako da ubacimo sliku u <em>res/drawable</em> direktorij.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ImageElement.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Image element</i></p>
+</div>
+<h4 id="425-edittext">4.2.5. EditText</h4>
+<p><strong>EditText</strong> je UI element koji omogućava korisnicima unos teksta unutar aplikacije. Može se koristiti za unos podataka, pretraživanje ili bilo koju drugu funkciju koja zahtijeva tekstualni unos.</p>
+<p>Postoje različite vrste <strong>EditText</strong> elemenata, poput:</p>
+<ul>
+<li>Plain Text</li>
+<li>Password</li>
+<li>Email</li>
+<li>Number</li>
+<li>Phone</li>
+<li>Date</li>
+<li>Multiline Text</li>
+<li>...i drugi</li>
+</ul>
+<p>Možemo prilagoditi svojstva <strong>EditText</strong> elementa u <em>Atributima elementa</em>, poput:</p>
+<ul>
+<li><code>hint</code> - postavlja tekst koji se prikazuje kada je polje prazno</li>
+<li><code>inputType</code> - definira vrstu unosa (tekst, broj, email, lozinka, itd.)</li>
+<li><code>maxLength</code> - postavlja maksimalan broj znakova koji se mogu unijeti</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/EditText.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Edit Text element</i></p>
+</div>
+<div class="page"></div>
+<h2 id="5-samostalni-zadatak-za-vje%C5%BEbu">5. Samostalni zadatak za vježbu</h2>
+<p>Rekreirajte sljedeći izgled korisničkog sučelja koristeći naučene UI elemente i <em>layout managere</em>:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Zadatak.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Zadatak</i></p>
+</div>
+</div>
+</body>
+</html>

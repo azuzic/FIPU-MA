@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="2-elementi-grafic%CC%8Ckog-su%C4%8Delja-u-androidu">[3] - Interakcija s elementima (FoodTracker)</h1>
+<p><strong>Posljednje ažurirano:</strong> 30. listopada 2025.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#primjer-foodtracker">Primjer FoodTracker</a></li>
+</ul>
+<!-- /TOC -->
+<hr>
+<p>Postavljanje Android studio projekta i Emulatora + vježbe slaganja UI elemenata, simple non interactive elementi</p>
+<h2 id="primjer-foodtracker">Primjer FoodTracker</h2>
+<p>Napraviti ćemo aplikaciju za praćenje kalorija. Prvo ćemo kreirati novu klasu <code>FoodItem.java</code>:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/NewJavaClass.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Nova Java klasa</i></p>
+</div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/JavaClassName.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Naziv nove klase</i></p>
+</div>
+<p>Zatim ćemo dodati sljedeći kôd u klasu:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FoodItem</span> </span>{
+
+    <span class="hljs-keyword">private</span> String FoodName;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> Kalorije;
+
+    FoodItem(String foodName, <span class="hljs-keyword">int</span> kalorije) {
+        <span class="hljs-keyword">this</span>.FoodName = foodName;
+        <span class="hljs-keyword">this</span>.Kalorije = kalorije;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFoodName</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.FoodName;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getKalorije</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.Kalorije;
+    }
+
+}
+</div></code></pre>
+<p>Klasa <code>FoodItem</code> predstavlja model podataka za prehrambeni proizvod:</p>
+<ul>
+<li><strong>Atributi:</strong>
+<ul>
+<li><code>name</code> - naziv prehrambenog proizvoda (tipa <code>String</code>)</li>
+<li><code>calories</code> - broj kalorija (tipa <code>int</code>)</li>
+</ul>
+</li>
+<li><strong>Konstruktor:</strong>
+<ul>
+<li>Prima naziv i broj kalorija te inicijalizira oba atributa</li>
+<li>Atributi su označeni kao <code>final</code>, što znači da se mogu postaviti samo jednom - prilikom stvaranja objekta</li>
+</ul>
+</li>
+<li><strong>Metode:</strong>
+<ul>
+<li><code>getName()</code> vraća naziv proizvoda</li>
+<li><code>getCalories()</code> vraća broj kalorija</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Ova klasa je <strong>nepromjenjiva (<em>immutable</em>)</strong> jer nakon stvaranja objekta njegovi podaci se više ne mogu mijenjati.</p>
+</blockquote>
+<p>Zatim ćemo u <code>activity_main.xml</code> dodati dva polja za unos:</p>
+<ul>
+<li>polje za textualni input - <code>Plain Text</code> <code>&lt;EditText&gt;</code> element</li>
+<li>polje za brojčani input - <code>Number</code> <code>&lt;EditText&gt;</code> element</li>
+</ul>
+<p>Dodat ćemo dva dugma <code>&lt;Button&gt;</code> elementa:</p>
+<ul>
+<li>jedno s nazivom &quot;Dodaj stavku&quot;</li>
+<li>drugo s nazivom &quot;Resetiraj&quot;</li>
+</ul>
+<p>Dodati text <code>&lt;TextView&gt;</code> elemente &quot;<em>Ukupno kalorija: 0</em>&quot; i &quot;<em>Prazna lista...</em>&quot;.</p>
+<p>Tako da izgleda ovako:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/UI.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Izgled</i></p>
+</div>
+<p>Zatim ćemo napraviti novu klasu <code>FoodTracker.java</code> i dodati sljedeći kôd:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FoodTracker</span> </span>{
+    <span class="hljs-keyword">private</span> List&lt;FoodItem&gt; foodItems = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addFoodItem</span><span class="hljs-params">(FoodItem foodItem, Context context)</span> </span>{
+        foodItems.add(foodItem);
+        Toast.makeText(context, <span class="hljs-string">"Food item added successfully"</span>, Toast.LENGTH_SHORT).show();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getTotalCalories</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">int</span> totalCalories = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">for</span> (FoodItem foodItem : foodItems) {
+            totalCalories += foodItem.getKalorije();
+        }
+        <span class="hljs-keyword">return</span> totalCalories;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;FoodItem&gt; <span class="hljs-title">getFoodItems</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> foodItems;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clearAll</span><span class="hljs-params">()</span> </span>{
+        foodItems.clear();
+    }
+
+}
+</div></code></pre>
+<p>Klasa <code>FoodTracker</code> služi za praćenje unosa hrane i zbrajanje ukupnog broja kalorija.</p>
+<ul>
+<li><strong>Atribut:</strong>
+<ul>
+<li><code>foodItems</code> - lista objekata tipa <code>FoodItem</code>, u kojoj se pohranjuju svi dodani prehrambeni proizvodi</li>
+</ul>
+</li>
+<li><strong>Metode:</strong>
+<ul>
+<li><code>addFood(String name, int calories)</code> - dodaje novi prehrambeni proizvod u listu, stvarajući novi objekt klase <code>FoodItem</code></li>
+<li><code>getTotalCalories()</code> - prolazi kroz cijelu listu i zbraja kalorije svih proizvoda; vraća ukupni broj kalorija</li>
+<li><code>getFoodItems()</code> - vraća cijelu listu prehrambenih proizvoda</li>
+<li><code>clearAll()</code> - briše sve proizvode iz liste (prazni praćenje hrane)</li>
+</ul>
+</li>
+</ul>
+<p>U <code>MainActivity.java</code> dodat ćemo objekt <strong>FoodTracker</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>{
+  <span class="hljs-keyword">private</span> FoodTracker foodTracker;
+  ...
+}
+</div></code></pre>
+<p>Sada kada imamo klase trebamo dohvatiti <em>reference</em> na elemente kosriteći njihov <strong>ID</strong> atribut. Pa ćemo dodati sljedeće nakon <code>setContentView()</code> funkcije:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> android.widget.Button;
+<span class="hljs-keyword">import</span> android.widget.EditText;
+<span class="hljs-keyword">import</span> android.widget.TextView;
+
+...
+setContentView(R.layout.activity_main);
+
+foodTracker = <span class="hljs-keyword">new</span> FoodTracker();
+
+TextView test = findViewById(R.id.test);
+TextView lista = findViewById(R.id.lista);
+EditText inputNaziv = findViewById(R.id.inputNaziv);
+EditText inputKalorije = findViewById(R.id.inputKalorije);
+Button dodaj = findViewById(R.id.btnDodaj);
+Button resetiraj = findViewById(R.id.btnResetiraj);
+...
+</div></code></pre>
+<p>Nako čega možemo dodati interakciju s elementima:</p>
+<pre class="hljs"><code><div>dodaj.setOnClickListener(view -&gt; {
+    String naziv = inputNaziv.getText().toString();
+    <span class="hljs-keyword">int</span> kalorije = Integer.parseInt(inputKalorije.getText().toString());
+    FoodItem noviItem = <span class="hljs-keyword">new</span> FoodItem(naziv, kalorije);
+    foodTracker.addFoodItem(noviItem,<span class="hljs-keyword">this</span>);
+
+    <span class="hljs-keyword">int</span> ukupnoKalorija = foodTracker.getTotalCalories();
+    test.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija);
+
+    String stavke = <span class="hljs-string">""</span>;
+    <span class="hljs-keyword">for</span> (FoodItem item : foodTracker.getFoodItems()) {
+        stavke += item.getFoodName() + <span class="hljs-string">" - "</span> +
+                  item.getKalorije() + <span class="hljs-string">" kalorija\n"</span>;
+    }
+    lista.setText(stavke);
+
+});
+
+resetiraj.setOnClickListener(view -&gt; {
+    foodTracker.clearAll();
+    test.setText(<span class="hljs-string">"Ukupno kalorija: 0"</span>);
+    lista.setText(<span class="hljs-string">""</span>);
+});
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Done.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer</i></p>
+</div>
+</div>
+</body>
+</html>
