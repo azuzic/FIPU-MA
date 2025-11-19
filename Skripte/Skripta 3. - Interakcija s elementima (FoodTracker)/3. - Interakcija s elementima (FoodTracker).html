@@ -416,18 +416,280 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
     Fakultet informatike u Puli
 </p>
-<h1 id="2-elementi-grafic%CC%8Ckog-su%C4%8Delja-u-androidu">[3] - Interakcija s elementima (FoodTracker)</h1>
-<p><strong>Posljednje ažurirano:</strong> 30. listopada 2025.</p>
+<h1 id="3---interakcija-s-elementima-foodtracker">[3] - Interakcija s elementima (FoodTracker)</h1>
+<p><strong>Posljednje ažurirano:</strong> 19. studenog 2025.</p>
 <h2 id="sadr%C5%BEaj">Sadržaj</h2>
 <!-- TOC -->
 <ul>
 <li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
-<li><a href="#primjer-foodtracker">Primjer FoodTracker</a></li>
+<li><a href="#dohva%C4%87anje-referenci-ui-elemenata">Dohvaćanje referenci UI elemenata</a></li>
+<li><a href="#dodavanje-slu%C5%A1atelja-doga%C4%91aja-event-listener">Dodavanje slušatelja događaja (<em>Event Listener</em>)</a>
+<ul>
+<li><a href="#logiranje-poruka">Logiranje poruka</a></li>
+<li><a href="#toast-poruke">Toast poruke</a></li>
+</ul>
+</li>
+<li><a href="#druge-metode-elementa">Druge metode elementa</a></li>
+<li><a href="#foodtracker-zadatak">FoodTracker Zadatak</a>
+<ul>
+<li><a href="#primjer-rje%C5%A1enja">Primjer rješenja</a></li>
+</ul>
+</li>
 </ul>
 <!-- /TOC -->
-<hr>
-<p>Postavljanje Android studio projekta i Emulatora + vježbe slaganja UI elemenata, simple non interactive elementi</p>
-<h2 id="primjer-foodtracker">Primjer FoodTracker</h2>
+<h2 id="dohva%C4%87anje-referenci-ui-elemenata">Dohvaćanje referenci UI elemenata</h2>
+<p>U prošloj skripti smo naučili kako definirati izgled aplikacije pomoću XML datoteka. Dodavali smo različite UI elemente (<em>gumbi, tekstualna polja, liste itd.</em>) u datoteku <code>activity_main.xml</code>. Međutim, samo definiranje izgleda nije dovoljno za interakciju s tim elementima. Potrebno je povezati te elemente s logikom aplikacije u Java ili Kotlin kôdu.</p>
+<p>Za interakciju s UI elementima (<em>kao što su gumbi, tekstualna polja, liste itd.</em>), potrebno je dohvatiti njihove reference u kôdu. To se obično radi pomoću metode <code>findViewById()</code>, koja omogućuje pristup elementima definiranim u XML datotekama izgleda (<em>layout</em>).</p>
+
+<div class="page"></div>
+
+<p>Primjer XML definicije gumba s ID atributom:</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
+    <span class="hljs-attr">...</span>
+    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/my_button"</span>
+    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"Klikni me!"</span> /&gt;</span>
+...
+</div></code></pre>
+<p>Primjer dohvaćanja reference na gumb u <code>MainActivity.java</code> unutar <code>onCreate()</code> metode:</p>
+<pre class="hljs"><code><div>Button myButton = findViewById(R.id.my_button);
+</div></code></pre>
+<blockquote>
+<p>Potrebno je osigurati da se <code>findViewById()</code> poziva nakon <code>setContentView()</code>, jer se na taj način postavlja sadržaj aktivnosti i omogućuje pristup elementima izgleda.</p>
+</blockquote>
+<blockquote>
+<p>Isto tako treba uvesti odgovarajuću klasu za UI elemente koje koristimo, kao što je <code>import android.widget.Button;</code> za gumb.</p>
+</blockquote>
+<p>Pa cijeli MainActivity.java može izgledati ovako:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">package</span> hr.fipu.testing;
+
+<span class="hljs-keyword">import</span> android.os.Bundle;
+<span class="hljs-keyword">import</span> android.widget.Button;
+
+<span class="hljs-keyword">import</span> androidx.appcompat.app.AppCompatActivity;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        Button myButton = findViewById(R.id.my_button);
+    }
+}
+</div></code></pre>
+<div class="page"></div>
+<h2 id="dodavanje-slu%C5%A1atelja-doga%C4%91aja-event-listener">Dodavanje slušatelja događaja (<em>Event Listener</em>)</h2>
+<p>Sada možemo koristiti <code>myButton</code> objekt za postavljanje slušatelja događaja (<em>event listener</em>), kao što je <code>setOnClickListener()</code>, kako bismo definirali što se događa kada korisnik klikne na gumb:</p>
+<pre class="hljs"><code><div>myButton.setOnClickListener(v -&gt; {
+    <span class="hljs-comment">// Radnja koja se izvršava kada se gumb klikne</span>
+    Log.d(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Gumb je kliknut!"</span>);
+});
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Interakcija.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Logcat: Gumb je kliknut!</i></p>
+</div>
+<p>Također možemo koristiti druge metode za interakciju s elementima, kao što su <code>setOnLongClickListener()</code>, <code>setOnFocusChangeListener()</code>, itd., ovisno o vrsti elementa i željenoj interakciji.</p>
+<h3 id="logiranje-poruka">Logiranje poruka</h3>
+<p>Za ispis poruka u <em>Logcat</em> konzolu, koristi se klasa <code>Log</code>. Ovo je korisno za praćenje događaja i grešaka tijekom razvoja aplikacije.
+Primjer ispisivanja poruke u <em>Logcat</em> kada se gumb klikne:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> android.util.Log;
+...
+myButton.setOnClickListener(v -&gt; {
+    Log.d(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Gumb je kliknut!"</span>);
+});
+</div></code></pre>
+<blockquote>
+<p>Logcat se nalazi u donjem dijelu Android Studija, a može se otvoriti putem izbornika: <code>View</code> -&gt; <code>Tool Windows</code> -&gt; <code>Logcat</code>.</p>
+</blockquote>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Logcat.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Logcat ikona</i></p>
+</div>
+<p>Postoje različite razine logiranja:</p>
+<ul>
+<li><code>Log.v()</code> - Verbose</li>
+<li><code>Log.d()</code> - Debug</li>
+<li><code>Log.i()</code> - Info</li>
+<li><code>Log.w()</code> - Warning</li>
+<li><code>Log.e()</code> - Error</li>
+</ul>
+<p>Primjer korištenja različitih razina logiranja:</p>
+<pre class="hljs"><code><div>Log.v(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Ovo je verbose poruka"</span>);
+Log.d(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Ovo je debug poruka"</span>);
+Log.i(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Ovo je info poruka"</span>);
+Log.w(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Ovo je warning poruka"</span>);
+Log.e(<span class="hljs-string">"MainActivity"</span>, <span class="hljs-string">"Ovo je error poruka"</span>);
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Logs.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Logcat: Razine logiranja</i></p>
+</div>
+<h3 id="toast-poruke">Toast poruke</h3>
+<p>Toast poruke su kratke obavijesti koje se pojavljuju na ekranu kako bi informirale korisnika o nekoj radnji ili događaju. One su korisne za pružanje povratnih informacija bez ometanja korisničkog iskustva.</p>
+<p>Za prikazivanje Toast poruke, koristi se metoda <code>Toast.makeText()</code>, koja prima tri argumenta:</p>
+<ol>
+<li><strong>Kontekst</strong> - obično se koristi <code>this</code> ili <code>getApplicationContext()</code>.</li>
+<li><strong>Tekst poruke</strong> - niz znakova koji predstavlja poruku koju želite prikazati.</li>
+<li><strong>Trajanje</strong> - može biti <code>Toast.LENGTH_SHORT</code> ili <code>Toast.LENGTH_LONG</code>, ovisno o tome koliko dugo želite da poruka ostane vidljiva.</li>
+</ol>
+<p>Evo primjera kako prikazati Toast poruku kada se gumb klikne:</p>
+<pre class="hljs"><code><div>myButton.setOnClickListener(v -&gt; {
+    Toast.makeText(MainActivity.<span class="hljs-keyword">this</span>, <span class="hljs-string">"Gumb je kliknut!"</span>, Toast.LENGTH_SHORT).show();
+});
+</div></code></pre>
+<blockquote>
+<p>Potrebno je uvesti klasu <code>import android.widget.Toast;</code> za prikazivanje Toast poruka.</p>
+</blockquote>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ButtonInteraction.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Toast</i></p>
+</div>
+<div class="page"></div>
+<h2 id="druge-metode-elementa">Druge metode elementa</h2>
+<p>Osim <code>setOnClickListener()</code>, postoje i druge metode za interakciju s UI elementima, ovisno o njihovoj vrsti. Na primjer:</p>
+<ul>
+<li><strong>EditText</strong>:
+<ul>
+<li><code>getText()</code> - dohvaća uneseni tekst</li>
+<li><code>setText(String text)</code> - postavlja tekst u polje</li>
+</ul>
+</li>
+<li><strong>TextView</strong>:
+<ul>
+<li><code>setText(String text)</code> - postavlja tekst u prikaz</li>
+</ul>
+</li>
+<li><strong>Button</strong>:
+<ul>
+<li><code>setEnabled(boolean enabled)</code> - omogućuje ili onemogućuje Gumb</li>
+</ul>
+</li>
+<li><strong>CheckBox</strong>:
+<ul>
+<li><code>isChecked()</code> - provjerava je li označeno</li>
+<li><code>setChecked(boolean checked)</code> - postavlja stanje označenosti</li>
+</ul>
+</li>
+</ul>
+<p>Primjer korištenja <code>EditText</code> i <code>TextView</code>:</p>
+<pre class="hljs"><code><div>Button myButton = findViewById(R.id.my_button);
+EditText inputField = findViewById(R.id.input_field);
+TextView displayText = findViewById(R.id.display_text);
+
+myButton.setOnClickListener(v -&gt; {
+    String userInput = inputField.getText().toString();
+    displayText.setText(userInput);
+});
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Pozdrav.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>getText() & setText() metode</i></p>
+</div>
+<blockquote>
+<p>Potrebno je uvesti klase <code>import android.widget.EditText;</code> i <code>import android.widget.TextView;</code> za rad s tim elementima.</p>
+</blockquote>
+<div class="page"></div>
+<p>Potrebno je obratiti pažnju na konverziju tipova podataka prilikom dohvaćanja unosa iz <code>EditText</code>, jer se tekst dohvaća kao <code>String</code>. Ako je potreban broj, potrebno je izvršiti odgovarajuću konverziju, npr. <code>Integer.parseInt()</code> za cijele brojeve.</p>
+<p>Primjer konverzije unosa iz <code>EditText</code> u <code>int</code>:</p>
+<pre class="hljs"><code><div>EditText numberInput = findViewById(R.id.number_input);
+myButton.setOnClickListener(v -&gt; {
+    <span class="hljs-keyword">int</span> number = Integer.parseInt(numberInput.getText().toString());
+    <span class="hljs-comment">// Daljnja obrada broja</span>
+});
+</div></code></pre>
+<p>U slučaju da korisnik unese neispravan broj ili ostavi polje prazno, može doći do iznimke <code>NumberFormatException</code>. Stoga je preporučljivo dodati provjeru unosa prije konverzije.</p>
+<p>Primjer provjere unosa:</p>
+<pre class="hljs"><code><div>myButton.setOnClickListener(v -&gt; {
+    String inputText = numberInput.getText().toString();
+    <span class="hljs-keyword">if</span> (!inputText.isEmpty()) {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">int</span> number = Integer.parseInt(inputText);
+            <span class="hljs-comment">// Daljnja obrada broja</span>
+        } <span class="hljs-keyword">catch</span> (NumberFormatException e) {
+            Toast.makeText(MainActivity.<span class="hljs-keyword">this</span>, <span class="hljs-string">"Unesite ispravan broj!"</span>, Toast.LENGTH_SHORT).show();
+        }
+    } <span class="hljs-keyword">else</span> {
+        Toast.makeText(MainActivity.<span class="hljs-keyword">this</span>, <span class="hljs-string">"Polje ne smije biti prazno!"</span>, Toast.LENGTH_SHORT).show();
+    }
+});
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Provjera.png" width="300px" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>NumberFormatException</i></p>
+</div>
+<div class="page"></div>
+<h2 id="foodtracker-zadatak">FoodTracker Zadatak</h2>
+<p>Potrebno je napraviti jednostavnu aplikaciju za praćenje kalorija unesenih prehrambenih proizvoda.</p>
+<p><strong>1. Model podataka</strong>
+Kreirajte novu klasu <code>FoodItem.java</code> koja sadrži:</p>
+<ul>
+<li>naziv proizvoda (<code>String</code>)</li>
+<li>broj kalorija (<code>int</code>)</li>
+<li>konstruktor koji postavlja oba podatka</li>
+<li>metode <code>getFoodName()</code> i <code>getKalorije()</code></li>
+</ul>
+<p><strong>2. UI elementi (activity_main.xml)</strong>
+U prikaz dodajte:</p>
+<ul>
+<li>tekstualni unos za naziv (<code>EditText</code>)</li>
+<li>numerički unos za kalorije (<code>EditText</code>)</li>
+<li>dva gumba: “Dodaj stavku” i “Resetiraj”</li>
+<li><code>TextView</code> za prikaz <em>Ukupno kalorija: 0</em></li>
+<li><code>TextView</code> za prikaz liste ili poruke <em>Prazna lista...</em></li>
+</ul>
+<p><strong>3. Klasa FoodTracker</strong>
+Napravite novu klasu <code>FoodTracker.java</code> sa sljedećim funkcionalnostima:</p>
+<ul>
+<li>lista <code>List&lt;FoodItem&gt;</code></li>
+<li>metoda <code>addFoodItem()</code> za dodavanje stavke (<em>uz prikaz Toast poruke</em>)</li>
+<li>metoda <code>getTotalCalories()</code> za izračun ukupnih kalorija</li>
+<li>metoda <code>getFoodItems()</code> za dohvat liste</li>
+<li>metoda <code>clearAll()</code> za brisanje svih unosa</li>
+</ul>
+<p><strong>4. Spajanje UI-a i logike (MainActivity.java)</strong></p>
+<ul>
+<li>kreirajte objekt <code>FoodTracker</code></li>
+<li>dohvatite reference svih UI elemenata pomoću <code>findViewById()</code></li>
+<li>na klik gumba <em>Dodaj</em>:
+<ul>
+<li>pročitajte unos</li>
+<li>stvorite novi <code>FoodItem</code></li>
+<li>dodajte ga u <code>FoodTracker</code></li>
+<li>osvježite prikaz ukupnih kalorija</li>
+<li>ispišite listu svih stavki</li>
+</ul>
+</li>
+<li>na klik gumba <em>Resetiraj</em>:
+<ul>
+<li>obrišite sve stavke</li>
+<li>postavite ukupne kalorije na 0</li>
+<li>ispraznite prikaz liste</li>
+</ul>
+</li>
+</ul>
+<div class="page"></div>
+<h3 id="primjer-rje%C5%A1enja">Primjer rješenja</h3>
 <p>Napraviti ćemo aplikaciju za praćenje kalorija. Prvo ćemo kreirati novu klasu <code>FoodItem.java</code>:</p>
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
@@ -443,6 +705,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Naziv nove klase</i></p>
 </div>
+<div class="page"></div>
 <p>Zatim ćemo dodati sljedeći kôd u klasu:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FoodItem</span> </span>{
 
@@ -499,6 +762,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <li>drugo s nazivom &quot;Resetiraj&quot;</li>
 </ul>
 <p>Dodati text <code>&lt;TextView&gt;</code> elemente &quot;<em>Ukupno kalorija: 0</em>&quot; i &quot;<em>Prazna lista...</em>&quot;.</p>
+<div class="page"></div>
 <p>Tako da izgleda ovako:</p>
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
@@ -507,6 +771,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Izgled</i></p>
 </div>
+<div class="page"></div>
 <p>Zatim ćemo napraviti novu klasu <code>FoodTracker.java</code> i dodati sljedeći kôd:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">import</span> java.util.ArrayList;
 <span class="hljs-keyword">import</span> java.util.List;
@@ -516,7 +781,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addFoodItem</span><span class="hljs-params">(FoodItem foodItem, Context context)</span> </span>{
         foodItems.add(foodItem);
-        Toast.makeText(context, <span class="hljs-string">"Food item added successfully"</span>, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, (<span class="hljs-string">"Stavka "</span> + foodItem.getFoodName() + <span class="hljs-string">" uspješno dodana"</span>), Toast.LENGTH_SHORT).show();
     }
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getTotalCalories</span><span class="hljs-params">()</span> </span>{
@@ -554,6 +819,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 </ul>
 </li>
 </ul>
+<div class="page"></div>
 <p>U <code>MainActivity.java</code> dodat ćemo objekt <strong>FoodTracker</strong>:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>{
   <span class="hljs-keyword">private</span> FoodTracker foodTracker;
@@ -570,15 +836,16 @@ setContentView(R.layout.activity_main);
 
 foodTracker = <span class="hljs-keyword">new</span> FoodTracker();
 
-TextView test = findViewById(R.id.test);
-TextView lista = findViewById(R.id.lista);
+TextView textUkupno = findViewById(R.id.ukupno);
+TextView textLista = findViewById(R.id.lista);
 EditText inputNaziv = findViewById(R.id.inputNaziv);
 EditText inputKalorije = findViewById(R.id.inputKalorije);
 Button dodaj = findViewById(R.id.btnDodaj);
 Button resetiraj = findViewById(R.id.btnResetiraj);
 ...
 </div></code></pre>
-<p>Nako čega možemo dodati interakciju s elementima:</p>
+<div class="page"></div>
+<p>Nakon čega možemo dodati interakciju s elementima:</p>
 <pre class="hljs"><code><div>dodaj.setOnClickListener(view -&gt; {
     String naziv = inputNaziv.getText().toString();
     <span class="hljs-keyword">int</span> kalorije = Integer.parseInt(inputKalorije.getText().toString());
@@ -586,23 +853,24 @@ Button resetiraj = findViewById(R.id.btnResetiraj);
     foodTracker.addFoodItem(noviItem,<span class="hljs-keyword">this</span>);
 
     <span class="hljs-keyword">int</span> ukupnoKalorija = foodTracker.getTotalCalories();
-    test.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija);
+    textUkupno.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija);
 
     String stavke = <span class="hljs-string">""</span>;
     <span class="hljs-keyword">for</span> (FoodItem item : foodTracker.getFoodItems()) {
         stavke += item.getFoodName() + <span class="hljs-string">" - "</span> +
                   item.getKalorije() + <span class="hljs-string">" kalorija\n"</span>;
     }
-    lista.setText(stavke);
+    textLista.setText(stavke);
 
 });
 
 resetiraj.setOnClickListener(view -&gt; {
     foodTracker.clearAll();
-    test.setText(<span class="hljs-string">"Ukupno kalorija: 0"</span>);
-    lista.setText(<span class="hljs-string">""</span>);
+    textUkupno.setText(<span class="hljs-string">"Ukupno kalorija: 0"</span>);
+    textLista.setText(<span class="hljs-string">""</span>);
 });
 </div></code></pre>
+<div class="page"></div>
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
         <img src="slike/Done.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
