@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="4---aktivnosti-i-navigacija">[4] - Aktivnosti i navigacija</h1>
+<p><strong>Posljednje ažurirano:</strong> 20. studenog 2025.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#dodavanje-nove-aktivnosti">Dodavanje nove aktivnosti</a></li>
+<li><a href="#intent-i-navigacija-izme%C4%91u-aktivnosti">Intent i navigacija između aktivnosti</a>
+<ul>
+<li><a href="#singleton---dijeljenje-podataka-izme%C4%91u-aktivnosti">Singleton - dijeljenje podataka između aktivnosti</a></li>
+<li><a href="#vra%C4%87anje-na-prethodnu-aktivnost---finish">Vraćanje na prethodnu aktivnost - finish()</a></li>
+</ul>
+</li>
+<li><a href="#razmjena-podataka-izme%C4%91u-aktivnosti---extra--launcher">Razmjena podataka između aktivnosti - <em>extra</em> &amp; <em>launcher</em></a>
+<ul>
+<li><a href="#extra-podaci">Extra podaci</a></li>
+<li><a href="#launcher-za-pokretanje-aktivnosti-za-rezultat">Launcher za pokretanje aktivnosti za rezultat</a></li>
+</ul>
+</li>
+<li><a href="#dijalog-za-potvrdu-resetiranja-liste">Dijalog za potvrdu resetiranja liste</a></li>
+<li><a href="#snackbar-za-obavijest-resetiranja-i-undo-akciju">Snackbar za obavijest resetiranja i undo akciju</a></li>
+</ul>
+<!-- /TOC -->
+<h2 id="dodavanje-nove-aktivnosti">Dodavanje nove aktivnosti</h2>
+<p>Proširit ćemo prethodni primjer aplikacije <strong>FoodTracker</strong> dodavanjem novih aktivnosti za postavljanje cilja unosa kalorija i dodavanje stavki. Naučit ćemo kako kreirati nove aktivnosti, kako navigirati između aktivnosti te kako prenositi podatke između njih.</p>
+<div class="page"></div>
+<p>Prvo, kreirajmo novu aktivnost za postavljanje cilja unosa kalorija.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/NewEmptyActivity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Nova prazna aktivnost</i></p>
+</div>
+<p>Namjestimo naziv nove aktivnosti na <strong>SettingsActivity</strong> i dodajmo polje za unos cilja kalorija u odgovarajući XML layout. Također ćemo dodati gumb za spremanje cilja kalorija.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/SettingsActivity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>SettingsActivity</i></p>
+</div>
+<div class="page"></div>
+<p>U MainActivity-ju dodajmo gumb za navigaciju do SettingsActivity-ja.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/GUI.png" style="filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>GUI</i></p>
+</div>
+<div class="page"></div>
+<p>S obzirom da smo dodali cilj kalorija, potrebno je ažurirati klasu FoodTracker kako bi uključivala i ovaj novi atribut. Tako da ćemo dodato novi atribut <strong>CaloriesGoal</strong> s defaultnom vrijednošću od 1000 kalorija i (<em>get/set</em>) metode za dohvat i postavljanje ovog atributa.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FoodTracker</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">float</span> CaloriesGoal = <span class="hljs-number">1000</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> <span class="hljs-title">getCaloriesGoal</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> CaloriesGoal;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCaloriesGoal</span><span class="hljs-params">(<span class="hljs-keyword">float</span> caloriesGoal)</span> </span>{
+        <span class="hljs-keyword">if</span> (caloriesGoal &lt; <span class="hljs-number">0</span>){
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Calories goal cannot be less than 0"</span>);
+        }
+        CaloriesGoal = caloriesGoal;
+    }
+}
+</div></code></pre>
+<blockquote>
+<p><em>IllegalArgumentException</em> je iznimka koja se baca kada metoda primi neispravan argument.</p>
+</blockquote>
+<h2 id="intent-i-navigacija-izme%C4%91u-aktivnosti">Intent i navigacija između aktivnosti</h2>
+<p>Navigacija između aktivnosti u Androidu se obično vrši pomoću <em>Intent</em>-a. <em>Intent</em> je objekt koji omogućava komunikaciju između različitih komponenti aplikacije, uključujući aktivnosti.</p>
+<p>Za navigaciju do <strong>SettingsActivity</strong> iz <strong>MainActivity</strong>, koristit ćemo <em>Intent</em> na sljedeći način, kada korisnik klikne na gumb za postavke u <strong>MainActivity</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> android.content.Intent;
+...
+Button postavke = findViewById(R.id.btnPostavke);
+postavke.setOnClickListener(v -&gt; {
+    Intent intent = <span class="hljs-keyword">new</span> Intent(MainActivity.<span class="hljs-keyword">this</span>, SettingsActivity<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    startActivity(intent);
+});
+...
+</div></code></pre>
+<p>Ovdje kreiramo novi <em>Intent</em> koji specificira trenutnu aktivnost (<code>MainActivity.this</code>) i ciljnu aktivnost (<code>SettingsActivity.class</code>). Zatim pozivamo <code>startActivity(intent)</code> kako bismo pokrenuli novu aktivnost. Postoje dvije vrste namjera:</p>
+<ul>
+<li><strong>Eksplicitne</strong> namjere specificiraju točno koju komponentu trebaju pokrenuti, kada navigiramo između aktivnosti ili pokrećemo servise unutar vlastite aplikacije.</li>
+<li><strong>Implicitne</strong> namjere ne specificiraju komponentu, već opisuju radnju koju trebaju izvršiti, dopuštajući sustavu da odabere odgovarajuću komponentu, kada želimo koristiti vanjske aplikacije za izvršavanje radnje, kao što su otvaranje web stranica, slanje e-maila ili obavljanje poziva.</li>
+</ul>
+<p>Sada trebamo ažurirati <strong>SettingsActivity</strong> kako bismo dohvatili uneseni cilj kalorija i spremili ga u instancu <strong>FoodTracker</strong> kada korisnik klikne na gumb za spremanje.</p>
+<pre class="hljs"><code><div>...
+foodTracker = <span class="hljs-keyword">new</span> FoodTracker();
+
+EditText inputCilj = findViewById(R.id.inputCilj);
+inputCilj.setText(String.valueOf(foodTracker.getCaloriesGoal()));
+
+Button btnSpremi = findViewById(R.id.btnSpremi);
+btnSpremi.setOnClickListener(v -&gt; {
+    String caloriesGoalText = inputCilj.getText().toString();
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">float</span> caloriesGoal = Float.parseFloat(caloriesGoalText);
+        foodTracker.setCaloriesGoal(caloriesGoal);
+    }
+    <span class="hljs-keyword">catch</span> (Exception e) {
+        Toast.makeText(<span class="hljs-keyword">this</span>, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+});
+...
+</div></code></pre>
+<blockquote>
+<p>Koristimo <strong>try-catch</strong> blok kako bismo uhvatili potencijalne iznimke koje mogu nastati prilikom parsiranja unosa korisnika ili postavljanja cilja kalorija, u ovom slučaju prikazujemo poruku o pogrešci iznimke pomoću <strong>Toast</strong> poruke.</p>
+</blockquote>
+<h3 id="singleton---dijeljenje-podataka-izme%C4%91u-aktivnosti">Singleton - dijeljenje podataka između aktivnosti</h3>
+<p>Sada imamo problem što je instanca <strong>FoodTracker</strong> kreirana unutar <strong>SettingsActivity</strong>, pa promjene koje napravimo neće biti vidljive u <strong>MainActivity</strong>. Stoga ćemo pretvoriti <strong>FoodTracker</strong> u <strong>singleton</strong> klasu kako bismo osigurali da postoji samo jedna instanca ove klase koja je dostupna iz svih aktivnosti.</p>
+<blockquote>
+<p><strong>Singleton</strong> je obrazac koji osigurava da klasa ima samo jednu instancu i pruža globalnu točku pristupa toj instanci.</p>
+</blockquote>
+<p>To radimo na način da dodamo statičku varijablu unutar klase koja će držati jedinu instancu klase i javnu statičku metodu koja će vraćati tu instancu.</p>
+<div class="page"></div>
+<p>Tako da ćemo modificirati klasu <strong>FoodTracker</strong> na sljedeći način:</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> FoodTracker instance; <span class="hljs-comment">// Statička varijabla za jedinu instancu</span>
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">FoodTracker</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Privatni konstruktor kako bi se spriječilo instanciranje izvana</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> FoodTracker <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {
+        instance = <span class="hljs-keyword">new</span> FoodTracker();
+    }
+    <span class="hljs-keyword">return</span> instance;
+}
+...
+</div></code></pre>
+<ul>
+<li><strong>Serializable</strong> se koristi kako bi se omogućilo serijaliziranje objekata, što je korisno ako želimo prenijeti objekte između aktivnosti putem <em>Intent</em>-a.</li>
+<li><strong>Synchronized</strong> služi za osiguranje da je metoda thread-safe, što znači da samo jedan thread može pristupiti metodi u isto vrijeme, čime se sprječavaju problemi u višedretvenim okruženjima.</li>
+</ul>
+<p>Sada možemo dohvatiti instancu <strong>FoodTracker</strong> u obje aktivnosti koristeći <code>FoodTracker.getInstance()</code>, čime osiguravamo da obje aktivnosti rade s istom instancom.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// U MainActivity &amp; SettingsActivity</span>
+foodTracker = FoodTracker.getInstance();
+</div></code></pre>
+<h3 id="vra%C4%87anje-na-prethodnu-aktivnost---finish">Vraćanje na prethodnu aktivnost - finish()</h3>
+<p>Sada se želimo vratiti na <strong>MainActivity</strong> nakon što korisnik spremi cilj kalorija u <strong>SettingsActivity</strong>.</p>
+<pre class="hljs"><code><div>...
+btnSaveGoal.setOnClickListener(v -&gt; {
+    ...
+    Intent intent = <span class="hljs-keyword">new</span> Intent(SettingsActivity.<span class="hljs-keyword">this</span>, MainActivity<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    startActivity(intent);
+});
+...
+</div></code></pre>
+<div class="page"></div>
+<p>Međutim, bolje je koristiti <code>finish()</code> metodu kako bismo zatvorili trenutnu aktivnost i vratili se na prethodnu aktivnost u <strong>stogu</strong> aktivnosti, umjesto da pokrećemo novu instancu <strong>MainActivity</strong>.</p>
+<pre class="hljs"><code><div>...
+btnSaveGoal.setOnClickListener(v -&gt; {
+    ...
+    finish(); <span class="hljs-comment">// Zatvara SettingsActivity i vraća se na MainActivity</span>
+});
+...
+</div></code></pre>
+<p>Kada korisnik klikne na gumb za spremanje, trenutna aktivnost (<strong>SettingsActivity</strong>) će se zatvoriti, a korisnik će se vratiti na prethodnu aktivnost (<strong>MainActivity</strong>).</p>
+<p>Potrebno je u MainActivity ažurirati prikaz nakon povratka iz SettingsActivity kako bi se prikazao novi cilj kalorija. To možemo učiniti u <code>onResume()</code> metodi.</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResume</span><span class="hljs-params">()</span> </span>{
+    TextView textUkupno = findViewById(R.id.ukupno);
+    <span class="hljs-keyword">int</span> ukupnoKalorija = foodTracker.getTotalCalories();
+    textUkupno.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija + <span class="hljs-string">"/"</span> + foodTracker.getCaloriesGoal());
+}
+...
+</div></code></pre>
+<p>Kada se <strong>MainActivity</strong> ponovno prikaže nakon povratka iz <strong>SettingsActivity</strong>, <code>onResume()</code> metoda će se pozvati, ažurirajući prikaz s novim ciljem kalorija.</p>
+<p>Međutim sada nam se duplicira kod za postavljanje teksta u TextView. Bolje je izdvojiti taj kod u zasebnu metodu kako bismo izbjegli dupliciranje.</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-keyword">private</span> TextView textUkupno;
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateUI</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> ukupnoKalorija = foodTracker.getTotalCalories();
+    textUkupno.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija + <span class="hljs-string">"/"</span> + foodTracker.getCaloriesGoal());
+}
+...
+</div></code></pre>
+<p><em>textUkupno</em> sada postavljamo u <code>onCreate()</code> metodi, a zatim pozivamo <code>updateUI()</code> unutar <code>onResume()</code> metode i kada dodamo novu stavku.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PostavljenCilj.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavljen cilj</i></p>
+</div>
+<h2 id="razmjena-podataka-izme%C4%91u-aktivnosti---extra--launcher">Razmjena podataka između aktivnosti - <em>extra</em> &amp; <em>launcher</em></h2>
+<p>Ponekad je potrebno prenijeti podatke između aktivnosti bez korištenja singletona. To možemo učiniti pomoću <em>extra</em> podataka unutar <em>Intent</em>-a.</p>
+<p>Napravit ćemo novu aktivnost <strong>AddItemActivity</strong> koja će omogućiti korisniku da unese naziv i kalorijsku vrijednost nove stavke hrane.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/AddItemActivity.png" style="filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>AddItemActivity & MainActivity GUI Updated</i></p>
+</div>
+<div class="page"></div>
+<h3 id="extra-podaci">Extra podaci</h3>
+<p>U <strong>AddItemActivity</strong>, nakon što korisnik unese podatke i klikne na gumb za dodavanje, kreirat ćemo novi <em>Intent</em> za povratak u <strong>MainActivity</strong> i dodati unesene podatke kao <em>extra</em>.</p>
+<pre class="hljs"><code><div>...
+EditText inputNaziv = findViewById(R.id.inputNaziv);
+EditText inputKalorije = findViewById(R.id.inputKalorije);
+
+Button btnSave = findViewById(R.id.btnDodajStavku);
+Button btnCancel = findViewById(R.id.btnOdustani);
+
+btnSave.setOnClickListener(v -&gt; {
+    Intent resultIntent = <span class="hljs-keyword">new</span> Intent(); <span class="hljs-comment">// Kreiramo prazan Intent za povratak rezultata</span>
+
+    String naziv = inputNaziv.getText().toString();
+    Float kalorije = Float.parseFloat(inputKalorije.getText().toString());
+
+    resultIntent.putExtra(<span class="hljs-string">"naziv"</span>, naziv); <span class="hljs-comment">// key-value parovi</span>
+    resultIntent.putExtra(<span class="hljs-string">"kalorije"</span>, kalorije); <span class="hljs-comment">// key-value parovi</span>
+
+    setResult(RESULT_OK, resultIntent); <span class="hljs-comment">// Postavljamo rezultat za povratak u MainActivity</span>
+    finish(); <span class="hljs-comment">// Zatvaramo AddItemActivity</span>
+});
+btnCancel.setOnClickListener(v -&gt; finish());
+...
+</div></code></pre>
+<blockquote>
+<p><strong>RESULT_OK</strong> je standardna konstanta koja označava da je operacija uspješno završena.</p>
+</blockquote>
+<div class="page"></div>
+<h3 id="launcher-za-pokretanje-aktivnosti-za-rezultat">Launcher za pokretanje aktivnosti za rezultat</h3>
+<p>U <strong>MainActivity</strong>, pokrenut ćemo <strong>AddItemActivity</strong> koristeći <strong>Launcher</strong> i obraditi rezultat u <code>ActivityResultLauncher</code>.</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-keyword">private</span> ActivityResultLauncher&lt;Intent&gt; addItemLauncher = registerForActivityResult(
+    <span class="hljs-keyword">new</span> ActivityResultContracts.StartActivityForResult(),
+    result -&gt; {
+        <span class="hljs-keyword">if</span> (result.getResultCode() == RESULT_OK) {
+            Intent data = result.getData();
+
+            String naziv = data.getStringExtra(<span class="hljs-string">"naziv"</span>); <span class="hljs-comment">// Dohvaćamo podatke</span>
+            <span class="hljs-keyword">float</span> kalorije = data.getFloatExtra(<span class="hljs-string">"kalorije"</span>, <span class="hljs-number">0</span>);
+
+            foodTracker.addFoodItem(<span class="hljs-keyword">new</span> FoodItem(naziv, kalorije)); <span class="hljs-comment">// Dodajemo novu stavku</span>
+
+            updateUI();
+
+            String stavke = <span class="hljs-string">""</span>;
+            <span class="hljs-keyword">for</span> (FoodItem item : foodTracker.getFoodItems()) {
+                stavke += item.getFoodName() + <span class="hljs-string">" - "</span> +
+                        item.getKalorije() + <span class="hljs-string">" kalorija\n"</span>;
+            }
+            textLista.setText(stavke);
+        }
+    }
+);
+
+btnDodaj.setOnClickListener(v -&gt; {
+    Intent intent = <span class="hljs-keyword">new</span> Intent(MainActivity.<span class="hljs-keyword">this</span>, AddItemActivity<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    addItemLauncher.launch(intent); <span class="hljs-comment">// Pokrećemo AddItemActivity za rezultat</span>
+});
+...
+</div></code></pre>
+<blockquote>
+<p><strong>ActivityResultLauncher</strong> je novi način za pokretanje aktivnosti za rezultat, koji zamjenjuje stariji <code>startActivityForResult()</code> metodu.</p>
+</blockquote>
+<div class="page"></div>
+<h2 id="dijalog-za-potvrdu-resetiranja-liste">Dijalog za potvrdu resetiranja liste</h2>
+<p>Kada korisnik klikne na gumb za resetiranje liste, prikazat ćemo dijalog za potvrdu kako bismo spriječili slučajno brisanje podataka.</p>
+<blockquote>
+<p><strong>AlertDialog</strong> je klasa koja omogućava prikazivanje dijaloga s porukama i opcijama za korisnika:</p>
+</blockquote>
+<ul>
+<li>Pozitivni gumb (npr. &quot;Da&quot;) za potvrdu akcije.</li>
+<li>Negativni gumb (npr. &quot;Ne&quot;) za otkazivanje akcije</li>
+</ul>
+<pre class="hljs"><code><div>...
+resetiraj.setOnClickListener(view -&gt; {
+    AlertDialog.Builder builder = <span class="hljs-keyword">new</span> AlertDialog.Builder(MainActivity.<span class="hljs-keyword">this</span>);
+    builder.setTitle(<span class="hljs-string">"Potvrda resetiranja"</span>)
+            .setMessage(<span class="hljs-string">"Jeste li sigurni da želite resetirati podatke?"</span>)
+            .setPositiveButton(<span class="hljs-string">"Da"</span>, (dialog, which) -&gt; {
+                foodTracker.clearAll();
+                <span class="hljs-keyword">int</span> ukupnoKalorija = foodTracker.getTotalCalories();
+                textUkupno.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija + <span class="hljs-string">"/"</span> + foodTracker.getCaloriesGoal());
+                textLista.setText(<span class="hljs-string">"Prazna lista..."</span>);
+            })
+            .setNegativeButton(<span class="hljs-string">"Ne"</span>, (dialog, which) -&gt; dialog.dismiss())
+            .create()
+            .show();
+});
+...
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Dijalog.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dijalog</i></p>
+</div>
+<div class="page"></div>
+<h2 id="snackbar-za-obavijest-resetiranja-i-undo-akciju">Snackbar za obavijest resetiranja i undo akciju</h2>
+<p>Kada korisnik resetira podatke, prikazat ćemo <strong>Snackbar</strong> obavijest koja potvrđuje da su podaci uspješno resetirani. Dodajmo i mogućnost vraćanja (undo) kako bismo omogućili korisniku da odustane od resetiranja.</p>
+<pre class="hljs"><code><div>...
+.setPositiveButton(<span class="hljs-string">"Da"</span>, (dialog, which) -&gt; {
+    <span class="hljs-comment">// Spremi stare podatke za undo</span>
+    List&lt;FoodItem&gt; oldItems = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(foodTracker.getFoodItems());
+    <span class="hljs-keyword">float</span> oldGoal = foodTracker.getCaloriesGoal();
+    
+    foodTracker.clearAll();
+    <span class="hljs-keyword">int</span> ukupnoKalorija = foodTracker.getTotalCalories();
+    textUkupno.setText(<span class="hljs-string">"Ukupno kalorija: "</span> + ukupnoKalorija + <span class="hljs-string">"/"</span> + foodTracker.getCaloriesGoal());
+    textLista.setText(<span class="hljs-string">"Prazna lista..."</span>);
+    
+    Snackbar.make(findViewById(R.id.main), <span class="hljs-string">"Podaci su uspješno resetirani."</span>, Snackbar.LENGTH_LONG)
+            .setAction(<span class="hljs-string">"Undo"</span>, v -&gt; {
+                foodTracker.setCaloriesGoal(oldGoal);
+                <span class="hljs-keyword">for</span> (FoodItem item : oldItems) {
+                    foodTracker.addFoodItem(item, <span class="hljs-keyword">this</span>);
+                }
+                updateUI();
+            })
+            .show();
+})
+...
+</div></code></pre>
+<blockquote>
+<p>Akcija <strong>Undo</strong> omogućava korisniku da oporaviti izbrisane podatke u <strong>LENGTH_LONG</strong> vremenom trajanja (<em>3.5 sekunde</em>).</p>
+</blockquote>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Reset.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Snackbar</i></p>
+</div>
+</div>
+</body>
+</html>

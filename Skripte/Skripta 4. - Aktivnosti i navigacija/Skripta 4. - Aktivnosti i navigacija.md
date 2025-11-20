@@ -15,200 +15,396 @@
 
 # [4] - Aktivnosti i navigacija
 
-**Posljednje ažurirano:** 13. studenog 2025.
+**Posljednje ažurirano:** 20. studenog 2025.
 
 ## Sadržaj
 <!-- TOC -->
 - [Sadržaj](#sadržaj)
-- [Primjer FoodTracker](#primjer-foodtracker)
+- [Dodavanje nove aktivnosti](#dodavanje-nove-aktivnosti)
+- [Intent i navigacija između aktivnosti](#intent-i-navigacija-između-aktivnosti)
+    - [Singleton - dijeljenje podataka između aktivnosti](#singleton---dijeljenje-podataka-između-aktivnosti)
+    - [Vraćanje na prethodnu aktivnost - finish()](#vraćanje-na-prethodnu-aktivnost---finish)
+- [Razmjena podataka između aktivnosti - *extra* & *launcher*](#razmjena-podataka-između-aktivnosti---extra--launcher)
+    - [Extra podaci](#extra-podaci)
+    - [Launcher za pokretanje aktivnosti za rezultat](#launcher-za-pokretanje-aktivnosti-za-rezultat)
+- [Dijalog za potvrdu resetiranja liste](#dijalog-za-potvrdu-resetiranja-liste)
+- [Snackbar za obavijest resetiranja i undo akciju](#snackbar-za-obavijest-resetiranja-i-undo-akciju)
 <!-- /TOC -->
 
----
-Postavljanje Android studio projekta i Emulatora + vježbe slaganja UI elemenata, simple non interactive elementi
+## Dodavanje nove aktivnosti
 
-## Primjer FoodTracker
+Proširit ćemo prethodni primjer aplikacije **FoodTracker** dodavanjem novih aktivnosti za postavljanje cilja unosa kalorija i dodavanje stavki. Naučit ćemo kako kreirati nove aktivnosti, kako navigirati između aktivnosti te kako prenositi podatke između njih.
 
-Napraviti ćemo aplikaciju za praćenje kalorija. Prvo ćemo kreirati novu klasu `FoodItem.java`:
+<div class="page"></div>
 
-<div style="width: fit-content; display: flex; flex-direction: column;">
-    <div style="display: flex; justify-content: center;">
-        <img src="slike/NewJavaClass.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
-    </div>
-    <br/>
-    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Nova Java klasa</i></p>
-</div>
+Prvo, kreirajmo novu aktivnost za postavljanje cilja unosa kalorija.
 
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
-        <img src="slike/JavaClassName.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+        <img src="slike/NewEmptyActivity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
     </div>
     <br/>
-    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Naziv nove klase</i></p>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Nova prazna aktivnost</i></p>
 </div>
 
-Zatim ćemo dodati sljedeći kôd u klasu:
+Namjestimo naziv nove aktivnosti na **SettingsActivity** i dodajmo polje za unos cilja kalorija u odgovarajući XML layout. Također ćemo dodati gumb za spremanje cilja kalorija.
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/SettingsActivity.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>SettingsActivity</i></p>
+</div>
+
+<div class="page"></div>
+
+U MainActivity-ju dodajmo gumb za navigaciju do SettingsActivity-ja.
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/GUI.png" style="filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>GUI</i></p>
+</div>
+
+<div class="page"></div>
+
+S obzirom da smo dodali cilj kalorija, potrebno je ažurirati klasu FoodTracker kako bi uključivala i ovaj novi atribut. Tako da ćemo dodato novi atribut **CaloriesGoal** s defaultnom vrijednošću od 1000 kalorija i (*get/set*) metode za dohvat i postavljanje ovog atributa.
 
 ```java
-public class FoodItem {
-
-    private String FoodName;
-    private int Kalorije;
-
-    FoodItem(String foodName, int kalorije) {
-        this.FoodName = foodName;
-        this.Kalorije = kalorije;
-    }
-
-    public String getFoodName() {
-        return this.FoodName;
-    }
-
-    public int getKalorije() {
-        return this.Kalorije;
-    }
-
-}
-```
-
-Klasa `FoodItem` predstavlja model podataka za prehrambeni proizvod:
-  - **Atributi:**
-    - `name` - naziv prehrambenog proizvoda (tipa `String`)
-    - `calories` - broj kalorija (tipa `int`)
-  - **Konstruktor:**
-    - Prima naziv i broj kalorija te inicijalizira oba atributa
-    - Atributi su označeni kao `final`, što znači da se mogu postaviti samo jednom - prilikom stvaranja objekta
-  - **Metode:**
-    - `getName()` vraća naziv proizvoda
-    - `getCalories()` vraća broj kalorija
-
-> Ova klasa je **nepromjenjiva (*immutable*)** jer nakon stvaranja objekta njegovi podaci se više ne mogu mijenjati.
-
-Zatim ćemo u `activity_main.xml` dodati dva polja za unos:
-  - polje za textualni input - `Plain Text` `<EditText>` element
-  - polje za brojčani input - `Number` `<EditText>` element
-
-Dodat ćemo dva dugma `<Button>` elementa:
-  - jedno s nazivom "Dodaj stavku"
-  - drugo s nazivom "Resetiraj"
-
-Dodati text `<TextView>` elemente "*Ukupno kalorija: 0*" i "*Prazna lista...*".
-
-Tako da izgleda ovako:
-
-<div style="width: fit-content; display: flex; flex-direction: column;">
-    <div style="display: flex; justify-content: center;">
-        <img src="slike/UI.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
-    </div>
-    <br/>
-    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Izgled</i></p>
-</div>
-
-Zatim ćemo napraviti novu klasu `FoodTracker.java` i dodati sljedeći kôd:
-
-```java
-import java.util.ArrayList;
-import java.util.List;
-
 public class FoodTracker {
-    private List<FoodItem> foodItems = new ArrayList<>();
+    private float CaloriesGoal = 1000;
 
-    public void addFoodItem(FoodItem foodItem, Context context) {
-        foodItems.add(foodItem);
-        Toast.makeText(context, "Food item added successfully", Toast.LENGTH_SHORT).show();
+    public float getCaloriesGoal() {
+        return CaloriesGoal;
     }
 
-    public int getTotalCalories() {
-        int totalCalories = 0;
-
-        for (FoodItem foodItem : foodItems) {
-            totalCalories += foodItem.getKalorije();
+    public void setCaloriesGoal(float caloriesGoal) {
+        if (caloriesGoal < 0){
+            throw new IllegalArgumentException("Calories goal cannot be less than 0");
         }
-        return totalCalories;
+        CaloriesGoal = caloriesGoal;
     }
-
-    public List<FoodItem> getFoodItems() {
-        return foodItems;
-    }
-
-    public void clearAll() {
-        foodItems.clear();
-    }
-
 }
 ```
 
-Klasa `FoodTracker` služi za praćenje unosa hrane i zbrajanje ukupnog broja kalorija.
-- **Atribut:**
-  - `foodItems` - lista objekata tipa `FoodItem`, u kojoj se pohranjuju svi dodani prehrambeni proizvodi
-- **Metode:**
-  - `addFood(String name, int calories)` - dodaje novi prehrambeni proizvod u listu, stvarajući novi objekt klase `FoodItem`
-  - `getTotalCalories()` - prolazi kroz cijelu listu i zbraja kalorije svih proizvoda; vraća ukupni broj kalorija
-  - `getFoodItems()` - vraća cijelu listu prehrambenih proizvoda
-  - `clearAll()` - briše sve proizvode iz liste (prazni praćenje hrane)
+> *IllegalArgumentException* je iznimka koja se baca kada metoda primi neispravan argument.
 
-U `MainActivity.java` dodat ćemo objekt **FoodTracker**:
+## Intent i navigacija između aktivnosti
+
+Navigacija između aktivnosti u Androidu se obično vrši pomoću *Intent*-a. *Intent* je objekt koji omogućava komunikaciju između različitih komponenti aplikacije, uključujući aktivnosti.
+
+Za navigaciju do **SettingsActivity** iz **MainActivity**, koristit ćemo *Intent* na sljedeći način, kada korisnik klikne na gumb za postavke u **MainActivity**:
 
 ```java
-public class MainActivity extends AppCompatActivity {
-  private FoodTracker foodTracker;
-  ...
-}
-```
-
-Sada kada imamo klase trebamo dohvatiti *reference* na elemente kosriteći njihov **ID** atribut. Pa ćemo dodati sljedeće nakon `setContentView()` funkcije:
-```java
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
+import android.content.Intent;
 ...
-setContentView(R.layout.activity_main);
+Button postavke = findViewById(R.id.btnPostavke);
+postavke.setOnClickListener(v -> {
+    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+    startActivity(intent);
+});
+...
+```
 
+Ovdje kreiramo novi *Intent* koji specificira trenutnu aktivnost (`MainActivity.this`) i ciljnu aktivnost (`SettingsActivity.class`). Zatim pozivamo `startActivity(intent)` kako bismo pokrenuli novu aktivnost. Postoje dvije vrste namjera:
+- **Eksplicitne** namjere specificiraju točno koju komponentu trebaju pokrenuti, kada navigiramo između aktivnosti ili pokrećemo servise unutar vlastite aplikacije.
+- **Implicitne** namjere ne specificiraju komponentu, već opisuju radnju koju trebaju izvršiti, dopuštajući sustavu da odabere odgovarajuću komponentu, kada želimo koristiti vanjske aplikacije za izvršavanje radnje, kao što su otvaranje web stranica, slanje e-maila ili obavljanje poziva.
+
+Sada trebamo ažurirati **SettingsActivity** kako bismo dohvatili uneseni cilj kalorija i spremili ga u instancu **FoodTracker** kada korisnik klikne na gumb za spremanje.
+
+```java
+...
 foodTracker = new FoodTracker();
 
-TextView test = findViewById(R.id.test);
-TextView lista = findViewById(R.id.lista);
-EditText inputNaziv = findViewById(R.id.inputNaziv);
-EditText inputKalorije = findViewById(R.id.inputKalorije);
-Button dodaj = findViewById(R.id.btnDodaj);
-Button resetiraj = findViewById(R.id.btnResetiraj);
+EditText inputCilj = findViewById(R.id.inputCilj);
+inputCilj.setText(String.valueOf(foodTracker.getCaloriesGoal()));
+
+Button btnSpremi = findViewById(R.id.btnSpremi);
+btnSpremi.setOnClickListener(v -> {
+    String caloriesGoalText = inputCilj.getText().toString();
+    try {
+        float caloriesGoal = Float.parseFloat(caloriesGoalText);
+        foodTracker.setCaloriesGoal(caloriesGoal);
+    }
+    catch (Exception e) {
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+});
 ...
 ```
 
-Nako čega možemo dodati interakciju s elementima:
+> Koristimo **try-catch** blok kako bismo uhvatili potencijalne iznimke koje mogu nastati prilikom parsiranja unosa korisnika ili postavljanja cilja kalorija, u ovom slučaju prikazujemo poruku o pogrešci iznimke pomoću **Toast** poruke.
+
+### Singleton - dijeljenje podataka između aktivnosti
+
+Sada imamo problem što je instanca **FoodTracker** kreirana unutar **SettingsActivity**, pa promjene koje napravimo neće biti vidljive u **MainActivity**. Stoga ćemo pretvoriti **FoodTracker** u **singleton** klasu kako bismo osigurali da postoji samo jedna instanca ove klase koja je dostupna iz svih aktivnosti.
+
+> **Singleton** je obrazac koji osigurava da klasa ima samo jednu instancu i pruža globalnu točku pristupa toj instanci.
+
+To radimo na način da dodamo statičku varijablu unutar klase koja će držati jedinu instancu klase i javnu statičku metodu koja će vraćati tu instancu.
+
+<div class="page"></div>
+
+Tako da ćemo modificirati klasu **FoodTracker** na sljedeći način:
+```java
+...
+private static FoodTracker instance; // Statička varijabla za jedinu instancu
+
+private FoodTracker() {
+    // Privatni konstruktor kako bi se spriječilo instanciranje izvana
+}
+
+public static synchronized FoodTracker getInstance() {
+    if (instance == null) {
+        instance = new FoodTracker();
+    }
+    return instance;
+}
+...
+```
+
+- **Serializable** se koristi kako bi se omogućilo serijaliziranje objekata, što je korisno ako želimo prenijeti objekte između aktivnosti putem *Intent*-a. 
+- **Synchronized** služi za osiguranje da je metoda thread-safe, što znači da samo jedan thread može pristupiti metodi u isto vrijeme, čime se sprječavaju problemi u višedretvenim okruženjima.
+
+Sada možemo dohvatiti instancu **FoodTracker** u obje aktivnosti koristeći `FoodTracker.getInstance()`, čime osiguravamo da obje aktivnosti rade s istom instancom.
 
 ```java
-dodaj.setOnClickListener(view -> {
-    String naziv = inputNaziv.getText().toString();
-    int kalorije = Integer.parseInt(inputKalorije.getText().toString());
-    FoodItem noviItem = new FoodItem(naziv, kalorije);
-    foodTracker.addFoodItem(noviItem,this);
+// U MainActivity & SettingsActivity
+foodTracker = FoodTracker.getInstance();
+```
 
+### Vraćanje na prethodnu aktivnost - finish()
+
+Sada se želimo vratiti na **MainActivity** nakon što korisnik spremi cilj kalorija u **SettingsActivity**. 
+
+```java
+...
+btnSaveGoal.setOnClickListener(v -> {
+    ...
+    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+    startActivity(intent);
+});
+...
+```
+
+<div class="page"></div>
+
+Međutim, bolje je koristiti `finish()` metodu kako bismo zatvorili trenutnu aktivnost i vratili se na prethodnu aktivnost u **stogu** aktivnosti, umjesto da pokrećemo novu instancu **MainActivity**.
+
+```java 
+...
+btnSaveGoal.setOnClickListener(v -> {
+    ...
+    finish(); // Zatvara SettingsActivity i vraća se na MainActivity
+});
+...
+``` 
+
+Kada korisnik klikne na gumb za spremanje, trenutna aktivnost (**SettingsActivity**) će se zatvoriti, a korisnik će se vratiti na prethodnu aktivnost (**MainActivity**).
+
+Potrebno je u MainActivity ažurirati prikaz nakon povratka iz SettingsActivity kako bi se prikazao novi cilj kalorija. To možemo učiniti u `onResume()` metodi.
+
+```java
+...
+@Override
+protected void onResume() {
+    TextView textUkupno = findViewById(R.id.ukupno);
     int ukupnoKalorija = foodTracker.getTotalCalories();
-    test.setText("Ukupno kalorija: " + ukupnoKalorija);
+    textUkupno.setText("Ukupno kalorija: " + ukupnoKalorija + "/" + foodTracker.getCaloriesGoal());
+}
+...
+``` 
 
-    String stavke = "";
-    for (FoodItem item : foodTracker.getFoodItems()) {
-        stavke += item.getFoodName() + " - " +
-                  item.getKalorije() + " kalorija\n";
+Kada se **MainActivity** ponovno prikaže nakon povratka iz **SettingsActivity**, `onResume()` metoda će se pozvati, ažurirajući prikaz s novim ciljem kalorija.
+
+Međutim sada nam se duplicira kod za postavljanje teksta u TextView. Bolje je izdvojiti taj kod u zasebnu metodu kako bismo izbjegli dupliciranje.
+
+```java
+...
+private TextView textUkupno;
+
+private void updateUI() {
+    int ukupnoKalorija = foodTracker.getTotalCalories();
+    textUkupno.setText("Ukupno kalorija: " + ukupnoKalorija + "/" + foodTracker.getCaloriesGoal());
+}
+...
+```
+
+*textUkupno* sada postavljamo u `onCreate()` metodi, a zatim pozivamo `updateUI()` unutar `onResume()` metode i kada dodamo novu stavku.
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PostavljenCilj.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavljen cilj</i></p>
+</div>
+
+## Razmjena podataka između aktivnosti - *extra* & *launcher*
+
+Ponekad je potrebno prenijeti podatke između aktivnosti bez korištenja singletona. To možemo učiniti pomoću *extra* podataka unutar *Intent*-a. 
+
+Napravit ćemo novu aktivnost **AddItemActivity** koja će omogućiti korisniku da unese naziv i kalorijsku vrijednost nove stavke hrane.
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/AddItemActivity.png" style="filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>AddItemActivity & MainActivity GUI Updated</i></p>
+</div>
+
+<div class="page"></div>
+
+### Extra podaci
+
+U **AddItemActivity**, nakon što korisnik unese podatke i klikne na gumb za dodavanje, kreirat ćemo novi *Intent* za povratak u **MainActivity** i dodati unesene podatke kao *extra*.
+
+```java
+...
+EditText inputNaziv = findViewById(R.id.inputNaziv);
+EditText inputKalorije = findViewById(R.id.inputKalorije);
+
+Button btnSave = findViewById(R.id.btnDodajStavku);
+Button btnCancel = findViewById(R.id.btnOdustani);
+
+btnSave.setOnClickListener(v -> {
+    Intent resultIntent = new Intent(); // Kreiramo prazan Intent za povratak rezultata
+
+    String naziv = inputNaziv.getText().toString();
+    Float kalorije = Float.parseFloat(inputKalorije.getText().toString());
+
+    resultIntent.putExtra("naziv", naziv); // key-value parovi
+    resultIntent.putExtra("kalorije", kalorije); // key-value parovi
+
+    setResult(RESULT_OK, resultIntent); // Postavljamo rezultat za povratak u MainActivity
+    finish(); // Zatvaramo AddItemActivity
+});
+btnCancel.setOnClickListener(v -> finish());
+...
+```
+
+> **RESULT_OK** je standardna konstanta koja označava da je operacija uspješno završena.
+
+<div class="page"></div>
+
+### Launcher za pokretanje aktivnosti za rezultat
+
+U **MainActivity**, pokrenut ćemo **AddItemActivity** koristeći **Launcher** i obraditi rezultat u `ActivityResultLauncher`.
+
+```java
+...
+private ActivityResultLauncher<Intent> addItemLauncher = registerForActivityResult(
+    new ActivityResultContracts.StartActivityForResult(),
+    result -> {
+        if (result.getResultCode() == RESULT_OK) {
+            Intent data = result.getData();
+
+            String naziv = data.getStringExtra("naziv"); // Dohvaćamo podatke
+            float kalorije = data.getFloatExtra("kalorije", 0);
+
+            foodTracker.addFoodItem(new FoodItem(naziv, kalorije)); // Dodajemo novu stavku
+
+            updateUI();
+
+            String stavke = "";
+            for (FoodItem item : foodTracker.getFoodItems()) {
+                stavke += item.getFoodName() + " - " +
+                        item.getKalorije() + " kalorija\n";
+            }
+            textLista.setText(stavke);
+        }
     }
-    lista.setText(stavke);
+);
 
+btnDodaj.setOnClickListener(v -> {
+    Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
+    addItemLauncher.launch(intent); // Pokrećemo AddItemActivity za rezultat
 });
+...
+```
 
+> **ActivityResultLauncher** je novi način za pokretanje aktivnosti za rezultat, koji zamjenjuje stariji `startActivityForResult()` metodu.
+
+<div class="page"></div>
+
+## Dijalog za potvrdu resetiranja liste
+
+Kada korisnik klikne na gumb za resetiranje liste, prikazat ćemo dijalog za potvrdu kako bismo spriječili slučajno brisanje podataka. 
+
+> **AlertDialog** je klasa koja omogućava prikazivanje dijaloga s porukama i opcijama za korisnika: 
+- Pozitivni gumb (npr. "Da") za potvrdu akcije.
+- Negativni gumb (npr. "Ne") za otkazivanje akcije
+
+```java
+...
 resetiraj.setOnClickListener(view -> {
-    foodTracker.clearAll();
-    test.setText("Ukupno kalorija: 0");
-    lista.setText("");
+    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    builder.setTitle("Potvrda resetiranja")
+            .setMessage("Jeste li sigurni da želite resetirati podatke?")
+            .setPositiveButton("Da", (dialog, which) -> {
+                foodTracker.clearAll();
+                int ukupnoKalorija = foodTracker.getTotalCalories();
+                textUkupno.setText("Ukupno kalorija: " + ukupnoKalorija + "/" + foodTracker.getCaloriesGoal());
+                textLista.setText("Prazna lista...");
+            })
+            .setNegativeButton("Ne", (dialog, which) -> dialog.dismiss())
+            .create()
+            .show();
 });
+...
 ```
 
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
-        <img src="slike/Done.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+        <img src="slike/Dijalog.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
     </div>
     <br/>
-    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer</i></p>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dijalog</i></p>
+</div>
+
+<div class="page"></div>
+
+## Snackbar za obavijest resetiranja i undo akciju
+
+Kada korisnik resetira podatke, prikazat ćemo **Snackbar** obavijest koja potvrđuje da su podaci uspješno resetirani. Dodajmo i mogućnost vraćanja (undo) kako bismo omogućili korisniku da odustane od resetiranja.
+
+```java
+...
+.setPositiveButton("Da", (dialog, which) -> {
+    // Spremi stare podatke za undo
+    List<FoodItem> oldItems = new ArrayList<>(foodTracker.getFoodItems());
+    float oldGoal = foodTracker.getCaloriesGoal();
+    
+    foodTracker.clearAll();
+    int ukupnoKalorija = foodTracker.getTotalCalories();
+    textUkupno.setText("Ukupno kalorija: " + ukupnoKalorija + "/" + foodTracker.getCaloriesGoal());
+    textLista.setText("Prazna lista...");
+    
+    Snackbar.make(findViewById(R.id.main), "Podaci su uspješno resetirani.", Snackbar.LENGTH_LONG)
+            .setAction("Undo", v -> {
+                foodTracker.setCaloriesGoal(oldGoal);
+                for (FoodItem item : oldItems) {
+                    foodTracker.addFoodItem(item, this);
+                }
+                updateUI();
+            })
+            .show();
+})
+...
+```
+
+> Akcija **Undo** omogućava korisniku da oporaviti izbrisane podatke u **LENGTH_LONG** vremenom trajanja (*3.5 sekunde*).
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Reset.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Snackbar</i></p>
 </div>
 
 </div>
