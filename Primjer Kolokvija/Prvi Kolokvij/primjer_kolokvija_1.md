@@ -6,7 +6,7 @@
 
 Kolokvij nosi ukupno **25 bodova** i piše se **120 minuta**.
 
-Svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta neka budu:
+Za svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta neka budu:
 - Template: **No Activity**
 - Project name: **za svaki zadatak zasebno, npr.** `K1_Z1`, `K1_Z2`, `K1_Z3`
 - Package name: **hr.fipu.(project_name)**
@@ -25,7 +25,7 @@ Svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta neka 
 
 > **Napomena**: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (*ChatGPT, GitHub Copilot, itd.*).
 
-> **Napomena**: Svaki zadatak predajte kao zaseban projekt, ne predajte sve zadatke u jednom projektu.
+> **Napomena**: Svaki zadatak predajte kao zaseban projekt, ne predajete sve zadatke u jednom projektu.
 
 <div class="page"></div>
 
@@ -187,7 +187,7 @@ Zadan je sljedeći xml layout:
 
 Rekreirajte ga programski u `MainActivity` klasi koristeći Java kôd, bez korištenja XML layout datoteke. 
 - Postavite elemente kao u zadanom XML-u. 
-    - Prtiskom na glavno dugme ("Click Me"), dodajte plavo dugme u `LinearLayout` container
+    - Pritiskom na glavno dugme ("Click Me"), dodajte plavo dugme u `LinearLayout` container
     - Svako plavo dugme treba imati event listener koji će ga izbrisati kada se na njega klikne
 
 <div class="page"></div>
@@ -208,7 +208,7 @@ Rekreirajte ga programski u `MainActivity` klasi koristeći Java kôd, bez kori�
     1. `app/manifests/` - sadrži `AndroidManifest.xml` datoteku
     2. `app/java/direktorij/` - sadrži `.java` datoteke
     3. `app/res/drawable/` - sadrži slike korištene u aplikaciji
-    4. `app/res/layout/` - sadrži `.xml` datoteke za layout-e
+    4. `app/res/layout/` - sadrži `.xml` datoteke za layoute
     5. `app/res/values/` - sadrži `colors.xml` & `strings.xml` datoteke
 
 <div style="width: fit-content; display: flex; flex-direction: column;">
