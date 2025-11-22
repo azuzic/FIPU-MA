@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="5---dinami%C4%8Dko-definiranje-prikaza">[5] - Dinamičko definiranje prikaza</h1>
+<p><strong>Posljednje ažurirano:</strong> 21. studenog 2025.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#programsko-definiranje-prikaza">Programsko definiranje prikaza</a></li>
+<li><a href="#programska-izmjena-prikaza">Programska izmjena prikaza</a></li>
+</ul>
+<!-- /TOC -->
+<div class="page"></div>
+<h2 id="programsko-definiranje-prikaza">Programsko definiranje prikaza</h2>
+<p>U prethodnom poglavlju smo vidjeli kako definirati prikaz korištenjem XML datoteka. Međutim, moguće je definirati prikaz i programskim putem, tj. u samom kôdu aktivnosti ili fragmenta. Ovakav pristup može biti koristan kada želimo dinamički mijenjati izgled korisničkog sučelja na temelju određenih uvjeta ili podataka.</p>
+<p>Primjerice, možemo stvoriti jednostavnu aktivnost koja programskim putem definira nekoliko elemenata i postavlja ih unutar <code>ConstraintLayout</code>. Izgledala bi kao na slici:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/PrimjerGUI.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>GUI za rekreirati</i></p>
+</div>
+<p>Gdje mi želimo programskim putem definirati <code>EditText</code> i <code>Button</code> unutar <code>ConstraintLayout</code> da bude posloženo kao u xml datoteci.</p>
+<div class="page"></div>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span>
+    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span>
+    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/main"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:padding</span>=<span class="hljs-string">"32dp"</span>
+    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">".MainActivity"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">EditText</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/editTextText"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"0dp"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:layout_marginBottom</span>=<span class="hljs-string">"8dp"</span>
+        <span class="hljs-attr">android:ems</span>=<span class="hljs-string">"10"</span>
+        <span class="hljs-attr">android:hint</span>=<span class="hljs-string">"Unesi text..."</span>
+        <span class="hljs-attr">android:inputType</span>=<span class="hljs-string">"text"</span>
+        <span class="hljs-attr">app:layout_constraintBottom_toTopOf</span>=<span class="hljs-string">"@+id/button"</span>
+        <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintHorizontal_bias</span>=<span class="hljs-string">"0.5"</span>
+        <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintVertical_bias</span>=<span class="hljs-string">"0.0"</span>
+        <span class="hljs-attr">app:layout_constraintVertical_chainStyle</span>=<span class="hljs-string">"packed"</span> /&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/button"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"0dp"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:text</span>=<span class="hljs-string">"Klikni me"</span>
+        <span class="hljs-attr">app:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintHorizontal_bias</span>=<span class="hljs-string">"0.5"</span>
+        <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintTop_toBottomOf</span>=<span class="hljs-string">"@+id/editTextText"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span>
+</div></code></pre>
+<p>Prvo ćemo u <code>onCreate</code> metodi naše aktivnosti definirati <code>ConstraintLayout</code> i postaviti ga kao glavni prikaz aktivnosti. Zatim ćemo stvoriti <code>EditText</code> i <code>Button</code>, postaviti njihove atribute i dodati ih u <code>ConstraintLayout</code>. Na kraju, definirat ćemo ograničenja za pozicioniranje elemenata unutar <code>ConstraintLayout</code>.</p>
+<ol>
+<li>Kreiramo <code>ConstraintLayout</code> i postavljamo ga kao glavni prikaz aktivnosti:</li>
+</ol>
+<pre class="hljs"><code><div>...
+ConstraintLayout mainLayout = <span class="hljs-keyword">new</span> ConstraintLayout(<span class="hljs-keyword">this</span>);
+setContentView(mainLayout);
+...
+</div></code></pre>
+<blockquote>
+<p><code>setConntentView()</code> uvijek mora biti pozvan nakon što smo definirali glavni layout.</p>
+</blockquote>
+<ol start="2">
+<li>Postavimo atribute za <code>ConstraintLayout</code> koristeći <code>setLayoutParams()</code> metodu:</li>
+</ol>
+<pre class="hljs"><code><div>...
+mainLayout.setLayoutParams(<span class="hljs-keyword">new</span> ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT)
+);
+... 
+</div></code></pre>
+<p>Za postavljanje parametara izgleda koristimo <code>ViewGroup.LayoutParams</code> kako bismo definirali širinu i visinu <code>ConstraintLayout</code>-a. Da bismo dodali padding, koristimo <code>setPadding()</code> metodu:</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-keyword">int</span> mainPaddingDp = (<span class="hljs-keyword">int</span>) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, <span class="hljs-number">32</span>, getResources().getDisplayMetrics());
+mainLayout.setPadding(mainPaddingDp, mainPaddingDp, mainPaddingDp, mainPaddingDp);
+...
+</div></code></pre>
+<p>Ovdje koristimo <code>TypedValue.applyDimension()</code> kako bismo pretvorili vrijednost paddinga iz dp u piksela, što je potrebno za pravilno postavljanje paddinga na različitim uređajima s različitim gustoćama ekrana.</p>
+<ol start="3">
+<li>Kreiramo <code>EditText</code> i postavljamo njegove atribute:</li>
+</ol>
+<pre class="hljs"><code><div>...
+EditText editText = <span class="hljs-keyword">new</span> EditText(<span class="hljs-keyword">this</span>);
+
+editText.setHint(<span class="hljs-string">"Unesi text..."</span>);
+editText.setId(EditText.generateViewId());
+editText.setInputType(InputType.TYPE_CLASS_TEXT);
+
+editText.setLayoutParams(<span class="hljs-keyword">new</span> ViewGroup.LayoutParams(
+    <span class="hljs-number">0</span>, ViewGroup.LayoutParams.WRAP_CONTENT)
+);
+
+mainLayout.addView(editText);
+...
+</div></code></pre>
+<blockquote>
+<p>Koristimo <code>EditText.generateViewId()</code> kako bismo generirali jedinstveni ID za <code>EditText</code>, što je važno za postavljanje ograničenja u <code>ConstraintLayout</code>.</p>
+</blockquote>
+<div class="page"></div>
+<ol start="4">
+<li>Kreiramo <code>Button</code> i postavljamo njegove atribute:</li>
+</ol>
+<pre class="hljs"><code><div>...
+Button button = <span class="hljs-keyword">new</span> Button(<span class="hljs-keyword">this</span>);
+
+button.setText(<span class="hljs-string">"Klikni me"</span>);
+button.setId(Button.generateViewId());
+
+button.setLayoutParams(<span class="hljs-keyword">new</span> ViewGroup.LayoutParams(
+    <span class="hljs-number">0</span>, ViewGroup.LayoutParams.WRAP_CONTENT)
+);
+mainLayout.addView(button);
+...
+</div></code></pre>
+<ol start="5">
+<li>Definiramo ograničenja za pozicioniranje elemenata unutar <code>ConstraintLayout</code>:</li>
+</ol>
+<pre class="hljs"><code><div>...
+ConstraintSet set = <span class="hljs-keyword">new</span> ConstraintSet(); <span class="hljs-comment">// Stvaramo constraint set</span>
+set.clone(mainLayout); <span class="hljs-comment">// Kopiramo trenutne atribute iz constraint layout-a</span>
+
+<span class="hljs-comment">// Constraint za EditText</span>
+set.connect(editText.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+set.connect(editText.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+set.setVerticalBias(editText.getId(), <span class="hljs-number">0</span>);
+
+<span class="hljs-comment">// Constraint za Button</span>
+set.connect(button.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+set.connect(button.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+
+</div></code></pre>
+<p>Koristimo <code>ConstraintSet</code> kako bismo definirali veze između elemenata i roditeljskog <code>ConstraintLayout</code>.</p>
+<div class="page"></div>
+<ol start="6">
+<li>Stvaramo vertikalni lanac kako bismo postigli željeni raspored elemenata:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// Chain</span>
+set.createVerticalChain(
+    ConstraintSet.PARENT_ID, ConstraintSet.TOP,
+    ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,
+    <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{editText.getId(), button.getId()}, <span class="hljs-comment">//definira redoslijed elemenata u lancu</span>
+    <span class="hljs-keyword">null</span>, 
+    ConstraintSet.CHAIN_PACKED);
+
+set.applyTo(mainLayout);
+...
+</div></code></pre>
+<p><code>createVerticalChain()</code> metoda omogućuje nam da definiramo lanac elemenata unutar <code>ConstraintLayout</code>, što nam pomaže u postizanju željenog rasporeda.</p>
+<ol start="7">
+<li>Na kraju, dodajemo kôd za pravilno rukovanje sistemskim prozorima:</li>
+</ol>
+<pre class="hljs"><code><div>setContentView(mainLayout);
+ViewCompat.setOnApplyWindowInsetsListener(mainLayout, (v, insets) -&gt; {
+    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+    v.setPadding(systemBars.left + mainPaddingDp,
+                 systemBars.top + mainPaddingDp,
+                 systemBars.right + mainPaddingDp,
+                 systemBars.bottom + mainPaddingDp);
+    <span class="hljs-keyword">return</span> insets;
+}); 
+</div></code></pre>
+<blockquote>
+<p>Ovaj dio kôda osigurava da naš <code>ConstraintLayout</code> pravilno obrađuje sistemske prozore (<em>kao što su statusna traka i navigacijska traka</em>) dodavanjem odgovarajućeg paddinga.</p>
+</blockquote>
+<p>Nakon što pokrenemo aplikaciju, vidjet ćemo da su <code>EditText</code> i <code>Button</code> pravilno postavljeni unutar <code>ConstraintLayout</code>, baš kao što je definirano u XML datoteci.</p>
+<p>Sada ćemo dodati funkcionalnost gumbu tako da prikaže unos iz <code>EditText</code>-a u <code>Toast</code> poruci kada se klikne.</p>
+<pre class="hljs"><code><div>button.setOnClickListener(v -&gt; {
+    String inputText = editText.getText().toString();
+    Toast.makeText(<span class="hljs-keyword">this</span>, inputText, Toast.LENGTH_SHORT).show();
+});
+</div></code></pre>
+<blockquote>
+<p>Moguće je dodati ovaj kôd odmah nakon što smo definirali <code>Button</code> i prije nego što primijenimo <code>ConstraintSet</code>, čak i ako nije dodan u mainLayout.</p>
+</blockquote>
+<div class="page"></div>
+<h2 id="programska-izmjena-prikaza">Programska izmjena prikaza</h2>
+<p>Pored programskog definiranja prikaza, moguće je i dinamički mijenjati postojeći prikaz tijekom izvođenja aplikacije. Na primjer, proširit ćemo našu prethodnu aplikaciju tako da kada kliknemo na gumb, tekst unesen u <code>EditText</code> bude prikazan u <code>TextView</code> koji ćemo dodati dinamički u <code>LinearLayout</code>. Također ćemo dodati dugme za brisanje svih unosa.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Stvaramo reset button i postavljamo njegove atribute</span>
+Button buttonReset = <span class="hljs-keyword">new</span> Button(<span class="hljs-keyword">this</span>);
+
+buttonReset.setText(<span class="hljs-string">"Resetiraj"</span>);
+buttonReset.getBackground().setTint(Color.parseColor(<span class="hljs-string">"#FF9800"</span>));
+buttonReset.setId(Button.generateViewId());
+
+buttonReset.setLayoutParams(<span class="hljs-keyword">new</span> ViewGroup.LayoutParams(
+    <span class="hljs-number">0</span>, ViewGroup.LayoutParams.WRAP_CONTENT)
+);
+mainLayout.addView(buttonReset);
+
+<span class="hljs-comment">// Stvaramo linear layout i postavljamo njegove atribute</span>
+LinearLayout linearLayout = <span class="hljs-keyword">new</span> LinearLayout(<span class="hljs-keyword">this</span>);
+
+linearLayout.setOrientation(LinearLayout.VERTICAL);
+linearLayout.setPadding(mainPaddingDp/<span class="hljs-number">2</span>, mainPaddingDp/<span class="hljs-number">2</span>, mainPaddingDp/<span class="hljs-number">2</span>, mainPaddingDp/<span class="hljs-number">2</span>);
+linearLayout.setBackgroundColor(Color.parseColor(<span class="hljs-string">"#E6E6E6"</span>));
+linearLayout.setId(LinearLayout.generateViewId());
+
+linearLayout.setLayoutParams( <span class="hljs-keyword">new</span> LinearLayout.LayoutParams(
+    <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
+);
+mainLayout.addView(linearLayout);
+...
+<span class="hljs-comment">// Constraint za Reset Button</span>
+set.connect(buttonReset.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+set.connect(buttonReset.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+<span class="hljs-comment">// Constraint za Linear Layout</span>
+set.connect(linearLayout.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+set.connect(linearLayout.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+
+set.createVerticalChain(
+        ConstraintSet.PARENT_ID, ConstraintSet.TOP,
+        ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,
+        <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{editText.getId(), buttonAdd.getId(), buttonReset.getId(), linearLayout.getId()},
+        <span class="hljs-keyword">null</span>,
+        ConstraintSet.CHAIN_PACKED);
+...
+</div></code></pre>
+<blockquote>
+<p>Potrebno je prethodno ažurirati vertikalni lanac kako bi uključio nove elemente.</p>
+</blockquote>
+<p>Sada ćemo ažurirati <code>OnClickListener</code> za glavni gumb kako bismo dodali novi <code>TextView</code> u <code>LinearLayout</code> svaki put kada se klikne. Također ćemo dodati <code>OnClickListener</code> za reset gumb koji će ukloniti sve <code>TextView</code> elemente iz <code>LinearLayout</code>.</p>
+<pre class="hljs"><code><div>buttonAdd.setOnClickListener(v -&gt; {
+    String inputText = editText.getText().toString();
+    TextView textView = <span class="hljs-keyword">new</span> TextView(<span class="hljs-keyword">this</span>);
+    textView.setTextSize(<span class="hljs-number">20</span>);
+    textView.setText(<span class="hljs-string">"- "</span> + inputText);
+    linearLayout.addView(textView);
+});
+
+buttonReset.setOnClickListener(v -&gt; {
+    linearLayout.removeAllViews();
+});
+</div></code></pre>
+<p>Sada, svaki put kada korisnik unese tekst u <code>EditText</code> i klikne na gumb &quot;Klikni me&quot;, novi <code>TextView</code> će biti dodan u <code>LinearLayout</code> s unesenim tekstom. Kada korisnik klikne na gumb &quot;Resetiraj&quot;, svi unosi će biti uklonjeni iz <code>LinearLayout</code>.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/DynamicList.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dinamičko dodavanje elemenata</i></p>
+</div>
+</div>
+</body>
+</html>

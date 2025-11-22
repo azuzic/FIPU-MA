@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne aplikacije</h1>
+<h2 id="primjer-kolokvija-1">Primjer kolokvija #1</h2>
+<p>Kolokvij nosi ukupno <strong>25 bodova</strong> i piše se <strong>120 minuta</strong>.</p>
+<p>Svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta neka budu:</p>
+<ul>
+<li>Template: <strong>No Activity</strong></li>
+<li>Project name: <strong>za svaki zadatak zasebno, npr.</strong> <code>K1_Z1</code>, <code>K1_Z2</code>, <code>K1_Z3</code></li>
+<li>Package name: <strong>hr.fipu.(project_name)</strong></li>
+<li>Save location: <strong>po želji</strong></li>
+<li>Language: <strong>Java</strong></li>
+<li>Minimum SDK: <strong>API 28: (Pie) Android 9.0</strong></li>
+<li>Build configuration language: <strong>Groovy DSL (build.gradle)</strong></li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Postavke.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke svakog projekta</i></p>
+</div>
+<blockquote>
+<p><strong>Napomena</strong>: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (<em>ChatGPT, GitHub Copilot, itd.</em>).</p>
+</blockquote>
+<blockquote>
+<p><strong>Napomena</strong>: Svaki zadatak predajte kao zaseban projekt, ne predajte sve zadatke u jednom projektu.</p>
+</blockquote>
+<div class="page"></div>
+<h2 id="zadatak-1-5-bodova">Zadatak 1. (5 bodova)</h2>
+<p>Zadana je sljedeća slika korisničkog sučelja za Android aplikaciju, rekreirajte je koristeći <strong>constraint layout</strong> kao glavni layout:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/zadatak_1.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Zadatak 1. - GUI za rekreirati</i></p>
+</div>
+<blockquote>
+<p><strong>Napomena</strong>: Slike korištene u zadatku nalaze se u mapi <code>zadatak_1</code> kada preuzmete ovaj primjer kolokvija.</p>
+</blockquote>
+<div class="page"></div>
+<h3 id="specifikacije-korisni%C4%8Dkog-su%C4%8Delja">Specifikacije korisničkog sučelja:</h3>
+<p><strong>Header</strong></p>
+<ul>
+<li>Background boja: <code>#191919</code></li>
+</ul>
+<p><strong>Naslov &quot;Discogs&quot;</strong></p>
+<ul>
+<li>Veličina teksta: <code>48sp</code></li>
+<li>Boja: <strong>Bijela</strong></li>
+<li>Font stil: <strong>Bold</strong></li>
+<li>Font obitelj: <code>sans-serif-condensed-medium</code></li>
+</ul>
+<p><strong>Logo</strong></p>
+<ul>
+<li>Dimenzije: <code>48dp × 48dp</code></li>
+</ul>
+<p><strong>Slike albuma</strong></p>
+<ul>
+<li>Dimenzije: <code>15dp × 15dp</code></li>
+</ul>
+<p><strong>Naslovi albuma</strong></p>
+<ul>
+<li>Veličina teksta: <code>16sp</code></li>
+<li>Boja: <strong>Crna</strong></li>
+<li>Font stil: <strong>Bold</strong></li>
+<li>Redak: Single line</li>
+</ul>
+<p><strong>Autori albuma</strong></p>
+<ul>
+<li>Veličina teksta: <code>16sp</code></li>
+<li>Boja: <strong>Siva</strong></li>
+</ul>
+<p><strong>Dugma</strong></p>
+<ul>
+<li>Background tint: <code>#26A69A</code></li>
+</ul>
+<blockquote>
+<p><strong>Napomena</strong>: Razmak između elemenata neka bude sličan kao na slici, ali nije potrebno da bude identičan. Postoji više načina da se postigne sličan izgled.</p>
+</blockquote>
+<div class="page"></div>
+<h2 id="zadatak-2-12-bodova">Zadatak 2. (12 bodova)</h2>
+<ol>
+<li>Izradite klasu <code>Knjiga</code> koja ima sljedeće atribute:
+<ul>
+<li><code>String naslov</code></li>
+<li><code>String autor</code></li>
+<li><code>int godinaIzdavanja</code></li>
+<li><code>String opis</code></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Napišite konstruktor koji prima sve atribute kao parametre i inicijalizira ih. Također, implementirajte metode za dohvaćanje (gettere) svih atributa.</li>
+</ul>
+<ol start="2">
+<li>
+<p>Izradite klasu <code>Knjiznica</code> koja sadrži listu objekata tipa <code>Knjiga</code>. Implementirajte sljedeće metode:</p>
+<ul>
+<li><code>void dodajKnjigu(Knjiga knjiga)</code> - dodaje knjigu u knjižnicu</li>
+<li><code>void ukloniKnjigu(String naslov)</code> - uklanja knjigu iz knjižnice prema naslovu</li>
+<li><code>Knjiga nadjiKnjigu(String naslov)</code> - pronalazi i vraća knjigu prema naslovu</li>
+<li><code>List&lt;Knjiga&gt; dohvatiSveKnjige()</code> - vraća listu svih knjiga u knjižnici</li>
+</ul>
+</li>
+<li>
+<p><code>MainActivity</code> klasa treba prikazivati listu svih knjiga. Korisničko sučelje treba sadržavati:</p>
+<ul>
+<li><code>EditText</code> za unos naslova knjige za brisanje ili otvaranje detalja</li>
+<li>Dugme za dodavanje nove knjige koje otvara <code>DodajKnjiguActivity</code></li>
+<li>Dugme za brisanje knjige
+<ul>
+<li>Prilikom klika na dugme, knjiga čiji je naslov unesen u <code>EditText</code> treba biti obrisana iz knjižnice</li>
+<li>Prikazati poruku o uspješnom brisanju knjige</li>
+<li>Nakon brisanja, ažurirati prikaz liste knjiga</li>
+<li>Ako knjiga nije pronađena, prikazati odgovarajuću poruku</li>
+</ul>
+</li>
+<li>Dugme za prikaz detalja knjige koje otvara <code>DetaljiKnjigeActivity</code>
+<ul>
+<li>Prikazati detalje knjige čiji je naslov unesen u <code>EditText</code></li>
+<li>Ako knjiga nije pronađena, prikazati odgovarajuću poruku</li>
+</ul>
+</li>
+<li><code>TextView</code> za prikaz liste knjiga (<em>naslov i autor</em>)</li>
+</ul>
+</li>
+<li>
+<p><code>DodajKnjiguActivity</code> klasa treba omogućiti korisniku da unese detalje nove knjige putem korisničkog sučelja i doda je u knjižnicu.</p>
+<ul>
+<li>Korisničko sučelje treba sadržavati polja za unos naslova, autora, godine izdavanja i opisa knjige, te dugme za dodavanje knjige</li>
+<li>Nakon unosa podataka i klika na dugme, nova knjiga treba biti dodana u knjižnicu unutar <code>MainActivity</code> koristeći <strong>extra</strong> proslijeđene podatke nakon zatvaranja <code>DodajKnjiguActivity</code> i povratka na <code>MainActivity</code>
+<ul>
+<li>Prikazati poruku o uspješnom dodavanju knjige</li>
+<li>Spriječiti dodavanje knjige ako je već postoji knjiga s istim naslovom, te prikazati odgovarajuću poruku</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<div class="page"></div>
+<ol start="5">
+<li><code>DetaljiKnjigeActivity</code> klasa treba prikazati detalje knjige čiji je naslov unesen u <code>MainActivity</code>.
+<ul>
+<li>Korisničko sučelje treba sadržavati <code>TextView</code> za prikaz naslova, autora, godine izdavanja i opisa knjige</li>
+<li>Dugme za povratak na <code>MainActivity</code></li>
+</ul>
+</li>
+</ol>
+<p>Podaci:</p>
+<pre class="hljs"><code><div>knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="hljs-string">"Hobit"</span>, <span class="hljs-string">"J.R.R. Tolkien"</span>, <span class="hljs-number">1937</span>,
+    <span class="hljs-string">"Fantastični roman koji prati avanture hobita Bilba Bagginsa dok putuje Međuzemljem kako bi povratio blago koje je zmaj Smaug oteo patuljcima. Knjiga je uvod u bogati svijet 'Gospodara prstenova' i predstavlja čitateljima mnoge rase i mjesta koja će kasnije postati ključna."</span>));
+knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="hljs-string">"1984"</span>, <span class="hljs-string">"George Orwell"</span>, <span class="hljs-number">1949</span>,
+    <span class="hljs-string">"Distopijski roman koji opisuje život u totalitarnoj državi Oceaniji, gdje Veliki Brat sve nadzire, a misao je zločin. Glavni lik, Winston Smith, radi za Ministarstvo istine i potajno se buni protiv režima, što ga dovodi u veliku opasnost."</span>));
+knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="hljs-string">"Ponos i predrasude"</span>, <span class="hljs-string">"Jane Austen"</span>, <span class="hljs-number">1813</span>,
+    <span class="hljs-string">"Ljubavni roman koji istražuje složene društvene odnose i pitanja braka, morala i odgoja u Engleskoj početkom 19. stoljeća kroz priču o Elizabeth Bennet i gospodinu Darcyju. Kroz duhovite dijaloge i složene likove, Austen kritizira društvene konvencije svog vremena."</span>));
+knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="hljs-string">"Ubiti pticu rugalicu"</span>, <span class="hljs-string">"Harper Lee"</span>, <span class="hljs-number">1960</span>,
+    <span class="hljs-string">"Roman smješten na američkom Jugu tijekom Velike depresije, koji se bavi ozbiljnim temama rasne nepravde i gubitka nevinosti, promatranim očima djevojčice Scout Finch. Njezin otac, Atticus Finch, odvjetnik je koji brani crnca lažno optuženog za silovanje bjelkinje, što izaziva bijes u njihovoj zajednici."</span>));
+knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="hljs-string">"Alkemičar"</span>, <span class="hljs-string">"Paulo Coelho"</span>, <span class="hljs-number">1988</span>,
+    <span class="hljs-string">"Filozofski roman koji prati mladog andaluzijskog pastira Santiaga u njegovoj potrazi za blagom skrivenim u egipatskim piramidama. Putovanje ga uči o važnosti slušanja vlastitog srca, prepoznavanju znakova i ostvarivanju svoje 'Osobne legende'."</span>));
+</div></code></pre>
+<div class="page"></div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/zadatak_2.png" style="filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Zadatak 2. - primjer sučelja</i></p>
+</div>
+<blockquote>
+<p><strong>Napomena</strong>: Izgled korisničkog sučelja nije strogo definiran, ali treba sadržavati sve tražene elemente i biti funkcionalan.</p>
+</blockquote>
+<div class="page"></div>
+<h2 id="zadatak-3-8-bodova">Zadatak 3. (8 bodova)</h2>
+<p>Zadan je sljedeći xml layout:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"vertical"</span>
+    <span class="hljs-attr">android:paddingStart</span>=<span class="hljs-string">"40px"</span>
+    <span class="hljs-attr">android:paddingLeft</span>=<span class="hljs-string">"40px"</span>
+    <span class="hljs-attr">android:paddingTop</span>=<span class="hljs-string">"256px"</span>
+    <span class="hljs-attr">android:paddingEnd</span>=<span class="hljs-string">"40px"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/textView"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:text</span>=<span class="hljs-string">"Self removing blue buttons!"</span>
+        <span class="hljs-attr">android:textSize</span>=<span class="hljs-string">"24sp"</span> /&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">Button</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/button"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:backgroundTint</span>=<span class="hljs-string">"#C3C3C3"</span>
+        <span class="hljs-attr">android:text</span>=<span class="hljs-string">"Click Me"</span>
+        <span class="hljs-attr">android:textColor</span>=<span class="hljs-string">"#000000"</span> /&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/buttonContainer"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"vertical"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span>
+</div></code></pre>
+<p>Rekreirajte ga programski u <code>MainActivity</code> klasi koristeći Java kôd, bez korištenja XML layout datoteke.</p>
+<ul>
+<li>Postavite elemente kao u zadanom XML-u.
+<ul>
+<li>Prtiskom na glavno dugme (&quot;Click Me&quot;), dodajte plavo dugme u <code>LinearLayout</code> container</li>
+<li>Svako plavo dugme treba imati event listener koji će ga izbrisati kada se na njega klikne</li>
+</ul>
+</li>
+</ul>
+<div class="page"></div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/zadatak_3.png"  width="450px" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Zadatak 3. - GUI za rekreirati programski</i></p>
+</div>
+<div class="page"></div>
+<h2 id="predajte-sljede%C4%87e">Predajte sljedeće:</h2>
+<ul>
+<li>Za svaki zadatak zasebno predajete <code>.zip</code> datoteku koja sadrži strukturu projekta:
+<ol>
+<li><code>app/manifests/</code> - sadrži <code>AndroidManifest.xml</code> datoteku</li>
+<li><code>app/java/direktorij/</code> - sadrži <code>.java</code> datoteke</li>
+<li><code>app/res/drawable/</code> - sadrži slike korištene u aplikaciji</li>
+<li><code>app/res/layout/</code> - sadrži <code>.xml</code> datoteke za layout-e</li>
+<li><code>app/res/values/</code> - sadrži <code>colors.xml</code> &amp; <code>strings.xml</code> datoteke</li>
+</ol>
+</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ZaPredatiPrimjer.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer mapa i datoteka za predati</i></p>
+</div>
+<blockquote>
+<p><strong>Napomena</strong>: Svaki zadatak predajte kao zaseban projekt, ne predajte sve zadatke u jednom projektu.</p>
+</blockquote>
+</div>
+</body>
+</html>

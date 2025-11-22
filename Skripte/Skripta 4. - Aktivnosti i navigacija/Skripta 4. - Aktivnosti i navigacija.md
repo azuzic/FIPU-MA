@@ -15,7 +15,7 @@
 
 # [4] - Aktivnosti i navigacija
 
-**Posljednje ažurirano:** 20. studenog 2025.
+**Posljednje ažurirano:** 21. studenog 2025.
 
 ## Sadržaj
 <!-- TOC -->
@@ -220,7 +220,7 @@ protected void onResume() {
 
 Kada se **MainActivity** ponovno prikaže nakon povratka iz **SettingsActivity**, `onResume()` metoda će se pozvati, ažurirajući prikaz s novim ciljem kalorija.
 
-Međutim sada nam se duplicira kod za postavljanje teksta u TextView. Bolje je izdvojiti taj kod u zasebnu metodu kako bismo izbjegli dupliciranje.
+Međutim sada nam se duplicira kôd za postavljanje teksta u TextView. Bolje je izdvojiti taj kôd u zasebnu metodu kako bismo izbjegli dupliciranje.
 
 ```java
 ...
