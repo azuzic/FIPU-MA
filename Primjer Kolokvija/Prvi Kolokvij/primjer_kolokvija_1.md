@@ -6,7 +6,7 @@
 
 Kolokvij nosi ukupno **25 bodova** i piše se **120 minuta**.
 
-Za svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta neka budu:
+Svaki zadatak rješavate u zasebnom Android projektu. Postavke projekta neka budu:
 - Template: **No Activity**
 - Project name: **za svaki zadatak zasebno, npr.** `K1_Z1`, `K1_Z2`, `K1_Z3`
 - Package name: **hr.fipu.(project_name)**
@@ -23,9 +23,9 @@ Za svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta ne
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke svakog projekta</i></p>
 </div>
 
-> **Napomena**: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (*ChatGPT, GitHub Copilot, itd.*).
+> **Napomena**: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (*ChatGPT, DeepSeek, Gemini, Claude, Grok itd.*).
 
-> **Napomena**: Svaki zadatak predajte kao zaseban projekt, ne predajete sve zadatke u jednom projektu.
+> **Napomena**: Iako Android Studio ima Gemini AI integraciju, nije dozvoljeno koristiti tu funkcionalnost tijekom pisanja kolokvija. Potrebno je isključiti AI funkcionalnosti u Android Studiju prije početka rada na kolokviju.
 
 <div class="page"></div>
 
@@ -76,6 +76,8 @@ Zadana je sljedeća slika korisničkog sučelja za Android aplikaciju, rekreiraj
 - Background tint: `#26A69A`
 
 > **Napomena**: Razmak između elemenata neka bude sličan kao na slici, ali nije potrebno da bude identičan. Postoji više načina da se postigne sličan izgled.
+
+> **Napomena**: Blueprint izgled je tu samo kao pomoć pri izradi sučelja, nije potrebno da vaše blueprint izgleda identično kao slici.
 
 <div class="page"></div>
 
@@ -187,7 +189,7 @@ Zadan je sljedeći xml layout:
 
 Rekreirajte ga programski u `MainActivity` klasi koristeći Java kôd, bez korištenja XML layout datoteke. 
 - Postavite elemente kao u zadanom XML-u. 
-    - Pritiskom na glavno dugme ("Click Me"), dodajte plavo dugme u `LinearLayout` container
+    - Pritiskom na glavno dugme ("Click Me"), dodajte plavo dugme s textom "`i`. Ukloni me" u `LinearLayout` container, gdje `i` predstavlja inkrement broja plavih dugmadi koja su dodana (*1, 2, 3, ...*), koji se povećava sa svakim novim dodanim dugmetom.
     - Svako plavo dugme treba imati event listener koji će ga izbrisati kada se na njega klikne
 
 <div class="page"></div>
@@ -204,12 +206,14 @@ Rekreirajte ga programski u `MainActivity` klasi koristeći Java kôd, bez kori�
 
 ## Predajte sljedeće:
 
-- Za svaki zadatak zasebno predajete `.zip` datoteku koja sadrži strukturu projekta:
+- Za svaki zadatak zasebno predajete mapu koja sadrži strukturu projekta:
     1. `app/manifests/` - sadrži `AndroidManifest.xml` datoteku
     2. `app/java/direktorij/` - sadrži `.java` datoteke
     3. `app/res/drawable/` - sadrži slike korištene u aplikaciji
     4. `app/res/layout/` - sadrži `.xml` datoteke za layoute
     5. `app/res/values/` - sadrži `colors.xml` & `strings.xml` datoteke
+
+- **Zatim sve zip-ate u jednu datoteku i predajete tu `.zip` datoteku.**
 
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
@@ -219,6 +223,6 @@ Rekreirajte ga programski u `MainActivity` klasi koristeći Java kôd, bez kori�
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer mapa i datoteka za predati</i></p>
 </div>
 
-> **Napomena**: Svaki zadatak predajte kao zaseban projekt, ne predajte sve zadatke u jednom projektu.
+> **Napomena**: Svaki zadatak predajete kao zaseban projekt, ne predajete sve zadatke u jednom projektu.
 
 </div>

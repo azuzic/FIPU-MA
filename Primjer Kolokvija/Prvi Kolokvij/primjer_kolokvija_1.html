@@ -410,7 +410,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <h1 id="mobilne-aplikacije">Mobilne aplikacije</h1>
 <h2 id="primjer-kolokvija-1">Primjer kolokvija #1</h2>
 <p>Kolokvij nosi ukupno <strong>25 bodova</strong> i piše se <strong>120 minuta</strong>.</p>
-<p>Za svaki projekt koristite zasebnu Android Studio instancu. Postavke projekta neka budu:</p>
+<p>Svaki zadatak rješavate u zasebnom Android projektu. Postavke projekta neka budu:</p>
 <ul>
 <li>Template: <strong>No Activity</strong></li>
 <li>Project name: <strong>za svaki zadatak zasebno, npr.</strong> <code>K1_Z1</code>, <code>K1_Z2</code>, <code>K1_Z3</code></li>
@@ -428,10 +428,10 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke svakog projekta</i></p>
 </div>
 <blockquote>
-<p><strong>Napomena</strong>: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (<em>ChatGPT, GitHub Copilot, itd.</em>).</p>
+<p><strong>Napomena</strong>: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (<em>ChatGPT, DeepSeek, Gemini, Claude, Grok itd.</em>).</p>
 </blockquote>
 <blockquote>
-<p><strong>Napomena</strong>: Svaki zadatak predajte kao zaseban projekt, ne predajete sve zadatke u jednom projektu.</p>
+<p><strong>Napomena</strong>: Iako Android Studio ima Gemini AI integraciju, nije dozvoljeno koristiti tu funkcionalnost tijekom pisanja kolokvija. Potrebno je isključiti AI funkcionalnosti u Android Studiju prije početka rada na kolokviju.</p>
 </blockquote>
 <div class="page"></div>
 <h2 id="zadatak-1-5-bodova">Zadatak 1. (5 bodova)</h2>
@@ -485,6 +485,9 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 </ul>
 <blockquote>
 <p><strong>Napomena</strong>: Razmak između elemenata neka bude sličan kao na slici, ali nije potrebno da bude identičan. Postoji više načina da se postigne sličan izgled.</p>
+</blockquote>
+<blockquote>
+<p><strong>Napomena</strong>: Blueprint izgled je tu samo kao pomoć pri izradi sučelja, nije potrebno da vaše blueprint izgleda identično kao slici.</p>
 </blockquote>
 <div class="page"></div>
 <h2 id="zadatak-2-12-bodova">Zadatak 2. (12 bodova)</h2>
@@ -616,7 +619,7 @@ knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="
 <ul>
 <li>Postavite elemente kao u zadanom XML-u.
 <ul>
-<li>Pritiskom na glavno dugme (&quot;Click Me&quot;), dodajte plavo dugme u <code>LinearLayout</code> container</li>
+<li>Pritiskom na glavno dugme (&quot;Click Me&quot;), dodajte plavo dugme s textom &quot;<code>i</code>. Ukloni me&quot; u <code>LinearLayout</code> container, gdje <code>i</code> predstavlja inkrement broja plavih dugmadi koja su dodana (<em>1, 2, 3, ...</em>), koji se povećava sa svakim novim dodanim dugmetom.</li>
 <li>Svako plavo dugme treba imati event listener koji će ga izbrisati kada se na njega klikne</li>
 </ul>
 </li>
@@ -632,7 +635,8 @@ knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="
 <div class="page"></div>
 <h2 id="predajte-sljede%C4%87e">Predajte sljedeće:</h2>
 <ul>
-<li>Za svaki zadatak zasebno predajete <code>.zip</code> datoteku koja sadrži strukturu projekta:
+<li>
+<p>Za svaki zadatak zasebno predajete mapu koja sadrži strukturu projekta:</p>
 <ol>
 <li><code>app/manifests/</code> - sadrži <code>AndroidManifest.xml</code> datoteku</li>
 <li><code>app/java/direktorij/</code> - sadrži <code>.java</code> datoteke</li>
@@ -640,6 +644,9 @@ knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="
 <li><code>app/res/layout/</code> - sadrži <code>.xml</code> datoteke za layoute</li>
 <li><code>app/res/values/</code> - sadrži <code>colors.xml</code> &amp; <code>strings.xml</code> datoteke</li>
 </ol>
+</li>
+<li>
+<p><strong>Zatim sve zip-ate u jednu datoteku i predajete tu <code>.zip</code> datoteku.</strong></p>
 </li>
 </ul>
 <div style="width: fit-content; display: flex; flex-direction: column;">
@@ -650,7 +657,7 @@ knjiznica.dodajKnjigu(<span class="hljs-keyword">new</span> Knjiga(<span class="
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer mapa i datoteka za predati</i></p>
 </div>
 <blockquote>
-<p><strong>Napomena</strong>: Svaki zadatak predajte kao zaseban projekt, ne predajte sve zadatke u jednom projektu.</p>
+<p><strong>Napomena</strong>: Svaki zadatak predajete kao zaseban projekt, ne predajete sve zadatke u jednom projektu.</p>
 </blockquote>
 </div>
 </body>
