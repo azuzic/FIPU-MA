@@ -60,7 +60,7 @@ Zadana je sljedeća slika korisničkog sučelja za Android aplikaciju, rekreiraj
 - Dimenzije: `48dp × 48dp`
 
 **Slike albuma**
-- Dimenzije: `15dp × 15dp`
+- Dimenzije: `150dp × 150dp`
 
 **Naslovi albuma**
 - Veličina teksta: `16sp`
