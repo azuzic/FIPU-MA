@@ -23,9 +23,9 @@ Svaki zadatak rješavate u zasebnom Android projektu. Postavke projekta neka bud
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke svakog projekta</i></p>
 </div>
 
-> **Napomena**: Pri rješavanju svih zadataka možete koristiti službenu Android dokumentaciju i materijale s predavanja. Nije dozvoljeno koristiti generative AI alate (*ChatGPT, DeepSeek, Gemini, Claude, Grok itd.*).
+> **Napomena**: Pri rješavanju zadataka dopušteno je koristiti službenu Android dokumentaciju, materijale s predavanja i internet. Nije dopušteno koristiti generative AI alate (*ChatGPT, DeepSeek, Claude, Grok itd.*).
 
-> **Napomena**: Iako Android Studio ima Gemini AI integraciju, nije dozvoljeno koristiti tu funkcionalnost tijekom pisanja kolokvija. Potrebno je isključiti AI funkcionalnosti u Android Studiju prije početka rada na kolokviju.
+> **Napomena**: Android Studio ima integrirani **Gemini** AI i njegova uporaba je dopuštena *isključivo* za manje funkcionalnosti poput automatskog dovršavanja koda i sugestija unutar editora. **Nije dopušteno generirati kompletna rješenja zadataka od početka do kraja.**
 
 <div class="page"></div>
 
