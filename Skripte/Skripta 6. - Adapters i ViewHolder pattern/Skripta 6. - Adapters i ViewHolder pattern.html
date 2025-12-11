@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Skripta 6. - Adapters i ViewHolder pattern.md</title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="6---adapters-i-viewholder-pattern">[6] - Adapters i ViewHolder pattern</h1>
+<p><strong>Posljednje ažurirano:</strong> 11. prosinca 2025.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#mobilne-aplikacije">Mobilne Aplikacije</a></li>
+<li><a href="#5---adapters-i-viewholder-pattern">[5] - Adapters i ViewHolder pattern</a>
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#adapteri">Adapteri</a></li>
+<li><a href="#viewholder-pattern">ViewHolder pattern</a>
+<ul>
+<li><a href="#recyclerview">RecyclerView</a>
+<ul>
+<li><a href="#primjer-kori%C5%A1tenja-recyclerview">Primjer korištenja RecyclerView</a></li>
+<li><a href="#a%C5%BEuriranje-recyclerview">Ažuriranje RecyclerView</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<div class="page"></div>
+<h2 id="adapteri">Adapteri</h2>
+<p>Adapter u Androidu predstavlja ključnu komponentu koja povezuje izvor podataka i njihov vizualni prikaz u korisničkom sučelju. Koristi se svaki put kada trebamo prikazati kolekciju elemenata, poput lista, nizova ili objekata, u obliku koji se može skrolati ili dinamički ažurirati.</p>
+<p><strong>Adapter</strong> ima nekoliko osnovnih zadataka:</p>
+<ul>
+<li>obavještava <strong>RecyclerView</strong> koliko elemenata treba prikazati</li>
+<li>određuje izgled <strong>pojedinog elementa</strong> liste, napuhavanjem layouta (<em>inflating layout</em>)</li>
+<li><strong>puni</strong> svaki element konkretnim podacima (<em>tekst, slika, ikona, ...</em>)</li>
+</ul>
+<p>Drugim riječima, Android bez adaptera ne zna:</p>
+<ul>
+<li>koliko stavki lista sadrži</li>
+<li>kako izgleda pojedina stavka</li>
+<li>kako se svaki redak puni sadržajem</li>
+</ul>
+<p><strong>Adapter</strong> tako preuzima ulogu prevoditelja između &quot;suhih&quot; podataka i stvarnog prikaza na ekranu. Omogućuje odvajanje logike prikaza od logike podataka, što olakšava održavanje, proširivanje i ponovno korištenje koda.</p>
+<p><strong>Glavne komponente</strong></p>
+<ul>
+<li><strong>RecyclerView</strong> – prikazuje listu elemenata</li>
+<li><strong>LayoutManager</strong> – definira raspored (<em>vertikalni, horizontalni, mrežni</em>)</li>
+<li><strong>Adapter</strong> – povezuje podatke s prikazom, kreira <strong>ViewHolder</strong> i puni elemente</li>
+<li><strong>ViewHolder</strong> – čuva reference na UI elemente unutar itema radi bržeg bindanja</li>
+<li><strong>ItemDecoration</strong> – dodaje razmake, obrube ili linije između itema</li>
+<li><strong>ItemAnimator</strong> – animira dodavanje, brisanje i promjene stavki</li>
+</ul>
+<blockquote>
+<p>Prije se koristio <em>ListView</em>, međutim moderni Android danas preferira <em>RecyclerView</em>, jer <em>ListView</em> ima ograničenja</p>
+</blockquote>
+<h2 id="viewholder-pattern">ViewHolder pattern</h2>
+<p><code>ViewHolder</code> pattern koristi se kako bi <em>RecyclerView</em> radio učinkovitije, posebno kada lista sadrži veliki broj elemenata. Njegova glavna svrha je <strong>izbjegavanje ponovljenih i skupih poziva <code>findViewById</code></strong>, koji bi inače usporavali listu prilikom pomicanja.</p>
+<p>Kada se jedan prikaz reciklira, <em>RecyclerView</em> ponovno koristi već postojeći View umjesto da kreira novi. Bez <em>ViewHoldera</em>, svaki put bi se moralo ispočetka tražiti reference na UI elemente unutar itema (<em>npr. TextView, ImageView</em>), što je neefikasno.</p>
+<p><em>ViewHolder</em> rješava taj problem tako da <strong>jednom pronađe sve potrebne view elemente i spremi ih u objekte</strong>, pa adapter može direktno pristupiti tim referencama.</p>
+<ul>
+<li>U <code>onCreateViewHolder()</code> se napuhuje (<em>inflate</em>) layout za jedan item i inicijalno kreira <em>ViewHolder</em> koji čuva sve UI reference</li>
+<li>U <code>onBindViewHolder()</code> adapter samo postavlja podatke u te već spremljene view elemente bez dodatnog pretraživanja, što omogućuje brzo i glatko pomicanje</li>
+</ul>
+<h3 id="recyclerview">RecyclerView</h3>
+<p><code>RecyclerView</code> je napredna komponenta za prikaz lista i kolekcija podataka. Dizajniran je tako da radi brzo, učinkovito i fleksibilno, posebno kada radimo s velikim brojem elemenata. Ključni princip je <strong>recikliranje prikaza</strong> – umjesto da za svaki element stvara novi View, <em>RecyclerView</em> ponovno koristi već postojeće prikaze koji više nisu na ekranu.</p>
+<blockquote>
+<p><em>RecyclerView</em> je dio AndroidX biblioteka, stoga ga je potrebno dodati u projekt putem <code>build.gradle</code> datoteke prije korištenja ili ga preuzeti unutar <em>Palette</em> GUI-a kod XML pregleda.</p>
+</blockquote>
+<p>Za razliku od starijeg <code>ListView</code>, <code>RecyclerView</code> omogućuje:</p>
+<ul>
+<li>potpunu kontrolu nad rasporedom elemenata putem različitih <code>LayoutManagera</code></li>
+<li>dodavanje ukrasnih elemenata i razmaka preko <code>ItemDecoration</code></li>
+<li>animacije pri dodavanju, uklanjanju i promjenama elemenata</li>
+<li>lakše korištenje <em>ViewHolder</em> patterna koji je obvezan i poboljšava performanse</li>
+</ul>
+<h4 id="primjer-kori%C5%A1tenja-recyclerview">Primjer korištenja RecyclerView</h4>
+<p>Dodat ćemo <strong>RecyclerView</strong> u <code>activity_main.xml</code> iz <em>Palette</em> GUI-a:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span>
+    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span>
+    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/main"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">".MainActivity"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.recyclerview.widget.RecyclerView</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/myRecyclerView"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"0dp"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"0dp"</span>
+        <span class="hljs-attr">app:layoutManager</span>=<span class="hljs-string">"androidx.recyclerview.widget.LinearLayoutManager"</span>
+        <span class="hljs-attr">android:layout_marginStart</span>=<span class="hljs-string">"32dp"</span>
+        <span class="hljs-attr">android:layout_marginTop</span>=<span class="hljs-string">"32dp"</span>
+        <span class="hljs-attr">android:layout_marginEnd</span>=<span class="hljs-string">"32dp"</span>
+        <span class="hljs-attr">android:layout_marginBottom</span>=<span class="hljs-string">"32dp"</span>
+        <span class="hljs-attr">app:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span>
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/RecyclerView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dodavanje RecyclerView</i></p>
+</div>
+<p>Zatim ćemo napraviti jedan item (<code>list_item.xml</code>) u <em>layout</em> direktoriju:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"vertical"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/itemText"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+        <span class="hljs-attr">android:padding</span>=<span class="hljs-string">"12dp"</span>
+        <span class="hljs-attr">android:textSize</span>=<span class="hljs-string">"18sp"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span>
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/list_item.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>list_item.xml</i></p>
+</div>
+<p>Sada možemo napraviti <strong>Adapter</strong> klasu <code>MyAdapter.java</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">Adapter</span>&lt;<span class="hljs-title">MyAdapter</span>.<span class="hljs-title">MyViewHolder</span>&gt; </span>{
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; items;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> OnItemClickListener listener;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(List&lt;String&gt; items, OnItemClickListener listener)</span> </span>{
+        <span class="hljs-keyword">this</span>.items = items;
+        <span class="hljs-keyword">this</span>.listener = listener;
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnItemClickListener</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onItemClick</span><span class="hljs-params">(String item, <span class="hljs-keyword">int</span> position)</span></span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>{
+        TextView text;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyViewHolder</span><span class="hljs-params">(@NonNull View itemView)</span> </span>{
+            <span class="hljs-keyword">super</span>(itemView);
+            text = itemView.findViewById(R.id.itemText);
+        }
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(String item, OnItemClickListener listener, <span class="hljs-keyword">int</span> position)</span> </span>{
+            text.setText(item);
+            itemView.setOnClickListener(v -&gt; {
+                <span class="hljs-keyword">if</span> (listener != <span class="hljs-keyword">null</span>) listener.onItemClick(item, position);
+            });
+        }
+    }
+
+    <span class="hljs-meta">@NonNull</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> MyViewHolder <span class="hljs-title">onCreateViewHolder</span><span class="hljs-params">(@NonNull ViewGroup parent, <span class="hljs-keyword">int</span> viewType)</span> </span>{
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item, parent, <span class="hljs-keyword">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyViewHolder(view);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(@NonNull MyViewHolder holder, <span class="hljs-keyword">int</span> position)</span> </span>{
+        String item =items.get(position);
+        holder.bind(item, listener, position);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getItemCount</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> items.size();
+    }
+}
+</div></code></pre>
+<div class="page"></div>
+<p>Korištenje u aktivnosti <code>MainActivity.java</code>:</p>
+<pre class="hljs"><code><div>RecyclerView recycler = findViewById(R.id.myRecyclerView);
+MyAdapter adapter = <span class="hljs-keyword">new</span> MyAdapter(
+    Arrays.asList(<span class="hljs-string">"Item 1"</span>, <span class="hljs-string">"Item 2"</span>, <span class="hljs-string">"Item 3"</span>, <span class="hljs-string">"Item 4"</span>),
+    (item, pos) -&gt; {
+        Toast.makeText(<span class="hljs-keyword">this</span>, <span class="hljs-string">"["</span> + pos + <span class="hljs-string">" ] Clicked: "</span> + item, Toast.LENGTH_SHORT).show();
+    }
+);
+recycler.setAdapter(adapter);
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/RecyclerViewPrimjer.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>RecyclerView primjer</i></p>
+</div>
+<p><code>MyAdapter</code> klasa je velika tako da ćemo je razdijeliti u sekcije i pobjasniti. Prvo kreiramo klasu adaptera koja nasljeđuje <code>RecyclerView.Adapter</code> i koristi vlastiti <code>ViewHolder</code>. U adapteru držimo listu podataka i listener za klikove na elemente.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">Adapter</span>&lt;<span class="hljs-title">MyAdapter</span>.<span class="hljs-title">MyViewHolder</span>&gt; </span>{
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; items;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> OnItemClickListener listener;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(List&lt;String&gt; items, OnItemClickListener listener)</span> </span>{
+        <span class="hljs-keyword">this</span>.items = items;
+        <span class="hljs-keyword">this</span>.listener = listener;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnItemClickListener</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onItemClick</span><span class="hljs-params">(String item, <span class="hljs-keyword">int</span> position)</span></span>;
+    }
+
+    ...
+</div></code></pre>
+<ul>
+<li><code>items</code> sadrži sve stavke koje želimo prikazati</li>
+<li><code>listener</code> omogućuje vanjskom kodu da reagira kada korisnik klikne na redak</li>
+<li>Interface <code>OnItemClickListener</code> definira metodu koja prima item i njegovu poziciju</li>
+</ul>
+<p>Nakon toga definiramo <code>ViewHolder</code> koji drži reference na UI elemente reda i može ih popuniti podacima.</p>
+<pre class="hljs"><code><div>    ...
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>{
+        TextView text;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyViewHolder</span><span class="hljs-params">(@NonNull View itemView)</span> </span>{
+            <span class="hljs-keyword">super</span>(itemView);
+            text = itemView.findViewById(R.id.itemText);
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(String item, OnItemClickListener listener, <span class="hljs-keyword">int</span> position)</span> </span>{
+            text.setText(item);
+            itemView.setOnClickListener(v -&gt; {
+                <span class="hljs-keyword">if</span> (listener != <span class="hljs-keyword">null</span>) listener.onItemClick(item, position);
+            });
+        }
+    }
+    ...
+</div></code></pre>
+<ul>
+<li>Konstruktor <em>ViewHoldera</em> pronalazi <code>TextView</code> u layoutu</li>
+<li>Metoda <code>bind</code> postavlja tekst i dodaje click listener koji poziva callback iz interfacea</li>
+</ul>
+<div class="page"></div>
+<p>Adapter <strong>mora kreirati</strong> <em>ViewHolder</em> kada <em>RecyclerView</em> zatraži novi element.</p>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@NonNull</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> MyViewHolder <span class="hljs-title">onCreateViewHolder</span><span class="hljs-params">(@NonNull ViewGroup parent, <span class="hljs-keyword">int</span> viewType)</span> </span>{
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item, parent, <span class="hljs-keyword">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyViewHolder(view);
+    }
+</div></code></pre>
+<ul>
+<li>Layout za jedan red napuhujemo (inflate) iz <code>list_item.xml</code></li>
+<li>Vraćamo novi <em>ViewHolder</em> koji čuva reference na UI elemente</li>
+</ul>
+<p>Kada RecyclerView treba prikazati podatke na određenoj poziciji, adapter bind-a podatke u ViewHolder.</p>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(@NonNull MyViewHolder holder, <span class="hljs-keyword">int</span> position)</span> </span>{
+        String item = items.get(position);
+        holder.bind(item, listener, position);
+    }
+</div></code></pre>
+<ul>
+<li>Dohvaća se item iz liste prema poziciji</li>
+<li>Poziva se <code>bind</code> da se postavi tekst i aktivira click listener</li>
+</ul>
+<p>Na kraju postavljamo <em>getter</em> ta broj elemenata:</p>
+<pre class="hljs"><code><div>    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getItemCount</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> items.size();
+    }
+}
+</div></code></pre>
+<ul>
+<li>Vraća veličinu liste, što <em>RecyclerView</em> koristi za stvaranje i recikliranje redaka</li>
+</ul>
+<h4 id="a%C5%BEuriranje-recyclerview">Ažuriranje RecyclerView</h4>
+<p>Kada stvorimo <em>adapter</em>, želimo ga i ažurirati s novom listom. Tako da ćemo dodati dodatnu metodu <code>setItems()</code>.</p>
+<pre class="hljs"><code><div>    ...
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setItems</span><span class="hljs-params">(List&lt;String&gt; newItems)</span> </span>{
+        <span class="hljs-keyword">this</span>.items = newItems;
+        notifyDataSetChanged();
+    }
+    ...
+</div></code></pre>
+<p><strong><code>notifyDataSetChanged()</code></strong> koristimo kada se podaci u adapteru promijene i želimo da RecyclerView ponovno nacrta sve elemente.</p>
+<ul>
+<li>Bez ovog poziva RecyclerView neće automatski osvježiti prikaz, pa će stari podaci ostati prikazani</li>
+<li>Ova metoda obavještava adapter da su svi itemi potencijalno promijenjeni i da je potrebno ponovno izračunavanje svih ViewHolder-a</li>
+<li>Koristi se npr. nakon dodavanja, brisanja ili izmjene elemenata u listi podataka</li>
+</ul>
+<blockquote>
+<p>U praksi se <strong><code>notifyDataSetChanged()</code></strong> rijetko koristi jer ponovno bindanje svih itema nije učinkovito. Bolje je koristiti <strong><code>DiffUtil</code></strong> ili specifične metode poput <code>notifyItemInserted()</code>, <code>notifyItemRemoved()</code> ili <code>notifyItemChanged()</code> koje osvježavaju samo promijenjene elemente, što poboljšava performanse RecyclerView-a.</p>
+</blockquote>
+<p>Zato ćemo ažurirati <code>setItems()</code> da koristi <strong>DiffUtil</strong> tako da ćemo napraviti <code>MyDiffCallback</code> klasu:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDiffCallback</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">DiffUtil</span>.<span class="hljs-title">Callback</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; oldList;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; newList;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyDiffCallback</span><span class="hljs-params">(List&lt;String&gt; oldList, List&lt;String&gt; newList)</span> </span>{
+        <span class="hljs-keyword">this</span>.oldList = oldList;
+        <span class="hljs-keyword">this</span>.newList = newList;
+    }
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getOldListSize</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> oldList.size(); }
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getNewListSize</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> newList.size(); }
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">areItemsTheSame</span><span class="hljs-params">(<span class="hljs-keyword">int</span> oldItemPosition, <span class="hljs-keyword">int</span> newItemPosition)</span> </span>{
+        <span class="hljs-keyword">return</span> areContentsTheSame(oldItemPosition, newItemPosition);
+    }
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">areContentsTheSame</span><span class="hljs-params">(<span class="hljs-keyword">int</span> oldItemPosition, <span class="hljs-keyword">int</span> newItemPosition)</span> </span>{
+        <span class="hljs-keyword">return</span> oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+    }
+}
+</div></code></pre>
+<p>Prima novu i staru listu te ih uspoređuje (<em>pojedine stavke <code>areItemsTheSame()</code> i njihova svojstva, tjst. sadržaj <code>areContentsTheSame()</code></em>) i vraća rezultat usporedbe listi. Sada možemo koristiti ovu klasu za ažuriranje <em>adaptera</em>.</p>
+<pre class="hljs"><code><div>    ...
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setItems</span><span class="hljs-params">(List&lt;String&gt; newItems)</span> </span>{
+        DiffUtil.DiffResult diffResult =
+                DiffUtil.calculateDiff(<span class="hljs-keyword">new</span> MyDiffCallback(<span class="hljs-keyword">this</span>.items, newItems));
+        <span class="hljs-keyword">this</span>.items = newItems;
+        diffResult.dispatchUpdatesTo(<span class="hljs-keyword">this</span>);
+    }
+    ...
+</div></code></pre>
+</div>
+</body>
+</html>

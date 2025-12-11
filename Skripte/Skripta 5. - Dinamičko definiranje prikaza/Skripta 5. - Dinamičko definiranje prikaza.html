@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title></title>
+		<title>Skripta 5. - Dinamičko definiranje prikaza</title>
 		<meta
 			http-equiv="Content-type"
 			content="text/html;charset=UTF-8" />
@@ -417,13 +417,19 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     Fakultet informatike u Puli
 </p>
 <h1 id="5---dinami%C4%8Dko-definiranje-prikaza">[5] - Dinamičko definiranje prikaza</h1>
-<p><strong>Posljednje ažurirano:</strong> 21. studenog 2025.</p>
+<p><strong>Posljednje ažurirano:</strong> 10. prosinca 2025.</p>
 <h2 id="sadr%C5%BEaj">Sadržaj</h2>
 <!-- TOC -->
 <ul>
 <li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
 <li><a href="#programsko-definiranje-prikaza">Programsko definiranje prikaza</a></li>
 <li><a href="#programska-izmjena-prikaza">Programska izmjena prikaza</a></li>
+<li><a href="#definiranje-vlastitog-prikaza">Definiranje vlastitog prikaza</a>
+<ul>
+<li><a href="#koriste%C4%87i-postoje%C4%87e-prikaze">Koristeći postojeće prikaze</a></li>
+<li><a href="#samostalna-izrada-prikaza">Samostalna izrada prikaza</a></li>
+</ul>
+</li>
 </ul>
 <!-- /TOC -->
 <div class="page"></div>
@@ -668,6 +674,198 @@ buttonReset.setOnClickListener(v -&gt; {
     </div>
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dinamičko dodavanje elemenata</i></p>
+</div>
+<div class="page"></div>
+<h2 id="definiranje-vlastitog-prikaza">Definiranje vlastitog prikaza</h2>
+<p>Pored korištenja ugrađenih Android prikaza, možemo kreirati i vlastite prilagođene prikaze koji nasljeđuju postojeće klase ili implementiraju vlastita sučelja.</p>
+<h3 id="koriste%C4%87i-postoje%C4%87e-prikaze">Koristeći postojeće prikaze</h3>
+<p>Možemo se vratiti na prijašnji zadatak FoodTracker gdje imamo više <code>MainActivity</code>, <code>SettingsActivity</code> i <code>AddItemActivity</code>.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/FoodTracker.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>FoodTracker</i></p>
+</div>
+<p>Ovdje koristimo <code>TextView</code> widget za prikaz liste stavki. Umjesto da svaki put ažuriramo <code>TextView</code> koji nas dosta limitira na izgled, napravit ćemo vlastiti <strong>prikaz</strong> stavke.</p>
+<p>Prije toga ćemo promijeniti <code>TextView</code> widget u vertikalni <code>LinearLayout</code>, te isto tako ažurirati <code>MainAcctivity</code> da koristi linear layout i zakomentirati prijašnji kôd koji nam sada ne radi.</p>
+<div class="page"></div>
+<p>Sada možemo stvoriti novu klasu <code>StavkaView</code> i proširit je s <code>LinearLayout</code>, zatim ćemo unutar nje dodati dva <code>TextView</code> elementa za <strong>naziv</strong> i <strong>kalorije</strong> koje ćemo stvoriti i namjestiti u konstruktoru.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StavkaView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LinearLayout</span> </span>{
+    <span class="hljs-keyword">private</span> TextView textNaziv;
+    <span class="hljs-keyword">private</span> TextView textKalorije;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">StavkaView</span><span class="hljs-params">(Context context, String naziv, <span class="hljs-keyword">float</span> kalorije)</span> </span>{
+        <span class="hljs-keyword">super</span>(context);
+        <span class="hljs-keyword">this</span>.setOrientation(LinearLayout.HORIZONTAL);
+
+        textNaziv = <span class="hljs-keyword">new</span> TextView(context);
+        textNaziv.setText(naziv);
+        addView(textNaziv);
+
+        textKalorije = <span class="hljs-keyword">new</span> TextView(context);
+        textKalorije.setText(kalorije + <span class="hljs-string">" kcal"</span>);
+        addView(textKalorije);
+    }
+}
+</div></code></pre>
+<p>Kada pokrenemo imamo ovakav izgled:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/StavkaView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>StavkaView</i></p>
+</div>
+<div class="page"></div>
+<p>Kada imamo vlastiti prikaz, onda ga možemo preurediti kako želimo. Primjer:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">StavkaView</span><span class="hljs-params">(Context context, String naziv, <span class="hljs-keyword">float</span> kalorije)</span> </span>{
+    <span class="hljs-keyword">super</span>(context);
+    <span class="hljs-keyword">this</span>.setOrientation(LinearLayout.HORIZONTAL);
+
+    setPadding(<span class="hljs-number">64</span>, <span class="hljs-number">32</span>, <span class="hljs-number">64</span>, <span class="hljs-number">32</span>);
+
+    textNaziv = <span class="hljs-keyword">new</span> TextView(context);
+    textNaziv.setText(naziv);
+    textNaziv.setTextSize(<span class="hljs-number">16f</span>);
+
+    LayoutParams nazivParams = <span class="hljs-keyword">new</span> LayoutParams(<span class="hljs-number">0</span>, LayoutParams.WRAP_CONTENT, <span class="hljs-number">1.0f</span>);
+    addView(textNaziv, nazivParams);
+
+    textKalorije = <span class="hljs-keyword">new</span> TextView(context);
+    textKalorije.setText(kalorije + <span class="hljs-string">" kcal"</span>);
+    textKalorije.setTextSize(<span class="hljs-number">16f</span>);
+    textKalorije.setTypeface(<span class="hljs-keyword">null</span>, Typeface.BOLD);
+    LayoutParams kalorijeParams = <span class="hljs-keyword">new</span> LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    addView(textKalorije, kalorijeParams);
+}
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/StavkaViewNice.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Uređen prikaz StavkaView</i></p>
+</div>
+<h3 id="samostalna-izrada-prikaza">Samostalna izrada prikaza</h3>
+<p>Sada kada znamo kako napraviti vlastiti prikaz za stavku, pokušat ćemo izraditi vlastiti prikaz za <strong>cilj</strong> <code>ProgressView</code> potpuno iz nule. Za početak, u <code>activity_main.xml</code> dodajemo jedan <strong>ConstraintLayout</strong> u koji ćemo smjestiti naš prilagođeni prikaz.</p>
+<p>Prvo ćemo inicijalizirati nekoliko ključnih varijabli koje će nam služiti za praćenje stanja i crtanje prikaza:</p>
+<ul>
+<li><code>float currentProgress &amp; maxProgress</code>
+<ul>
+<li>Početna i maksimalna vrijednost napretka</li>
+</ul>
+</li>
+<li><code>Paint backgroundPaint, progressPaint &amp; textPaint</code>
+<ul>
+<li><strong>Paint</strong> objekt za crtanje</li>
+</ul>
+</li>
+</ul>
+<p>Također ćemo dodati pomoćnu metodu <code>initPaints()</code> za namještanje <strong>Paint</strong> objekata i <strong>settere</strong> za <strong>currentProgress</strong> i <strong>maxProgress</strong>:</p>
+<ul>
+<li><code>Paint initPaints()</code>
+<ul>
+<li>Inicijalizacira i konfiguira <code>Paint</code> objekt koji se koristiti kod <code>onDraw</code> metode</li>
+<li>Omogućuje definiranje boja, debljine linija, stila ispune i ostalih grafičkih svojstava</li>
+</ul>
+</li>
+<li><code>setCurrentProgress(float currentProgress)</code></li>
+<li><code>setMaxProgress(float maxProgress)</code></li>
+</ul>
+<blockquote>
+<p><strong><code>invalidate()</code></strong> metoda se koristi za <strong>osvježavanje prikaza</strong>, ponovo poziva <em>onDraw</em> i crta prikaz s ažuriranim vrijednostima. Obično se koristi nakon promjene stanja prikaza, u ovom slučaju kada se ažurira <em>currentProgress</em> ili <em>maxProgress</em>.</p>
+</blockquote>
+<p>Budući da kreiramo vlastiti prikaz, moramo napraviti <strong>@Override</strong> za dvije ključne metode:</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/12266899/onmeasure-custom-view-explanation"><code>onMeasure(int widthMeasureSpec, int heightMeasureSpec)</code></a>
+<ul>
+<li>Ova metoda služi za određivanje dimenzija našeg prikaza unutar roditeljskog layouta</li>
+<li>Budući da se element nalazi unutar <strong>ConstraintLayout-a</strong>, potrebno je pravilno postavljanje širine i visine, kao i osiguravanje da se prikaz skalira i reagira na ograničenja roditelja</li>
+</ul>
+</li>
+<li><code>onDraw(@NonNull Canvas canvas)</code>
+<ul>
+<li>Ovdje definiramo kako će naš prikaz izgledati</li>
+<li>Koristeći <code>Canvas</code>, možemo crtati oblike, linije, tekst i boje koje predstavljaju napredak ili stanje cilja</li>
+</ul>
+</li>
+</ul>
+<p><code>ProgressView</code> izgleda kao sljedeće:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProgressView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">View</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">float</span> currentProgress = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">float</span> maxProgress = <span class="hljs-number">100</span>;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Paint backgroundPaint;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Paint progressPaint;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Paint textPaint;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ProgressView</span><span class="hljs-params">(Context context)</span> </span>{
+        <span class="hljs-keyword">super</span>(context);
+        backgroundPaint = initPaints();
+        progressPaint = <span class="hljs-keyword">new</span> Paint(backgroundPaint);
+        textPaint = <span class="hljs-keyword">new</span> Paint(backgroundPaint);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMeasure</span><span class="hljs-params">(<span class="hljs-keyword">int</span> widthMeasureSpec, <span class="hljs-keyword">int</span> heightMeasureSpec)</span> </span>{
+        <span class="hljs-keyword">int</span> desiredHeight = (<span class="hljs-keyword">int</span>) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, <span class="hljs-number">32</span>, getResources().getDisplayMetrics()
+        );
+        setMeasuredDimension(widthMeasureSpec, desiredHeight);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> Paint <span class="hljs-title">initPaints</span><span class="hljs-params">()</span> </span>{
+        Paint base = <span class="hljs-keyword">new</span> Paint();
+        base.setStyle(Paint.Style.FILL);
+        base.setAntiAlias(<span class="hljs-keyword">true</span>);
+        <span class="hljs-keyword">return</span> base;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDraw</span><span class="hljs-params">(@NonNull Canvas canvas)</span> </span>{
+        <span class="hljs-keyword">super</span>.onDraw(canvas);
+        <span class="hljs-keyword">int</span> width = getWidth();
+        <span class="hljs-keyword">int</span> height = getHeight();
+        Log.d(<span class="hljs-string">"TAG"</span>, <span class="hljs-string">"onDraw: "</span> + height);
+
+        <span class="hljs-comment">// Pozadina</span>
+        backgroundPaint.setColor(Color.LTGRAY);
+        canvas.drawRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height, backgroundPaint);
+
+        <span class="hljs-comment">// Progress</span>
+        <span class="hljs-keyword">float</span> ratio = (maxProgress &gt; <span class="hljs-number">0</span>) ? Math.min(currentProgress / maxProgress, <span class="hljs-number">1f</span>) : <span class="hljs-number">0f</span>;
+        <span class="hljs-keyword">int</span> progressWidth = (<span class="hljs-keyword">int</span>) (width * ratio);
+
+        <span class="hljs-comment">// Boja</span>
+        progressPaint.setColor(ratio &lt; <span class="hljs-number">1.0</span> ? Color.rgb(<span class="hljs-number">76</span>, <span class="hljs-number">175</span>, <span class="hljs-number">80</span>) : Color.RED);
+        canvas.drawRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, progressWidth, height, progressPaint);
+
+        <span class="hljs-comment">// Tekst</span>
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(height / <span class="hljs-number">2f</span>);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        String text = currentProgress + <span class="hljs-string">" / "</span> + maxProgress ;
+        canvas.drawText(text, width / <span class="hljs-number">2f</span>, height / <span class="hljs-number">2f</span> + textPaint.getTextSize() / <span class="hljs-number">2</span>, textPaint);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCurrentProgress</span><span class="hljs-params">(<span class="hljs-keyword">float</span> currentProgress)</span> </span>{
+        <span class="hljs-keyword">this</span>.currentProgress = currentProgress;
+        invalidate();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMaxProgress</span><span class="hljs-params">(<span class="hljs-keyword">float</span> maxProgress)</span> </span>{
+        <span class="hljs-keyword">this</span>.maxProgress = maxProgress;
+        invalidate();
+    }
+
+}
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ProgressView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>ProgressView</i></p>
 </div>
 </div>
 </body>

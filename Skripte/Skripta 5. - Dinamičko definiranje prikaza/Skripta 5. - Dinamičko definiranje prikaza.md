@@ -19,12 +19,16 @@
 
 ## Sadržaj
 <!-- TOC -->
-- [Sadržaj](#sadržaj)
-- [Programsko definiranje prikaza](#programsko-definiranje-prikaza)
-- [Programska izmjena prikaza](#programska-izmjena-prikaza)
-- [Definiranje vlastitog prikaza](#definiranje-vlastitog-prikaza)
-    - [Koristeći postojeće prikaze](#koristeći-postojeće-prikaze)
-    - [Samostalna izrada prikaza](#samostalna-izrada-prikaza)
+
+- [Mobilne Aplikacije](#mobilne-aplikacije)
+- [[5] - Dinamičko definiranje prikaza](#5---dinami%C4%8Dko-definiranje-prikaza)
+    - [Sadržaj](#sadr%C5%BEaj)
+    - [Programsko definiranje prikaza](#programsko-definiranje-prikaza)
+    - [Programska izmjena prikaza](#programska-izmjena-prikaza)
+    - [Definiranje vlastitog prikaza](#definiranje-vlastitog-prikaza)
+        - [Koristeći postojeće prikaze](#koriste%C4%87i-postoje%C4%87e-prikaze)
+        - [Samostalna izrada prikaza](#samostalna-izrada-prikaza)
+
 <!-- /TOC -->
 
 <div class="page"></div>
@@ -303,6 +307,8 @@ Sada, svaki put kada korisnik unese tekst u `EditText` i klikne na gumb "Klikni 
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dinamičko dodavanje elemenata</i></p>
 </div>
 
+<div class="page"></div>
+
 ## Definiranje vlastitog prikaza
 
 Pored korištenja ugrađenih Android prikaza, možemo kreirati i vlastite prilagođene prikaze koji nasljeđuju postojeće klase ili implementiraju vlastita sučelja.
@@ -322,6 +328,8 @@ Možemo se vratiti na prijašnji zadatak FoodTracker gdje imamo više `MainActiv
 Ovdje koristimo `TextView` widget za prikaz liste stavki. Umjesto da svaki put ažuriramo `TextView` koji nas dosta limitira na izgled, napravit ćemo vlastiti **prikaz** stavke. 
 
 Prije toga ćemo promijeniti `TextView` widget u vertikalni `LinearLayout`, te isto tako ažurirati `MainAcctivity` da koristi linear layout i zakomentirati prijašnji kôd koji nam sada ne radi.
+
+<div class="page"></div>
 
 Sada možemo stvoriti novu klasu `StavkaView` i proširit je s `LinearLayout`, zatim ćemo unutar nje dodati dva `TextView` elementa za **naziv** i **kalorije** koje ćemo stvoriti i namjestiti u konstruktoru.
 
@@ -354,6 +362,8 @@ Kada pokrenemo imamo ovakav izgled:
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>StavkaView</i></p>
 </div>
+
+<div class="page"></div>
 
 Kada imamo vlastiti prikaz, onda ga možemo preurediti kako želimo. Primjer:
 
@@ -398,7 +408,7 @@ Prvo ćemo inicijalizirati nekoliko ključnih varijabli koje će nam služiti za
 - `Paint backgroundPaint, progressPaint & textPaint`
     - **Paint** objekt za crtanje
 
-Ove varijable čine osnovu za kreiranje vizualnog i funkcionalnog `ProgressView` prikaza. Također ćemo dodati pomoćnu metodu `initPaints()` za namještanje **Paint** objekata i **settere** za **currentProgress** i **maxProgress**:
+Također ćemo dodati pomoćnu metodu `initPaints()` za namještanje **Paint** objekata i **settere** za **currentProgress** i **maxProgress**:
 
 - `Paint initPaints()`
   - Inicijalizacira i konfiguira `Paint` objekt koji se koristiti kod `onDraw` metode
