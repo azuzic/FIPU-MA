@@ -15,13 +15,16 @@
 
 # [5] - Dinamičko definiranje prikaza
 
-**Posljednje ažurirano:** 21. studenog 2025.
+**Posljednje ažurirano:** 10. prosinca 2025.
 
 ## Sadržaj
 <!-- TOC -->
 - [Sadržaj](#sadržaj)
 - [Programsko definiranje prikaza](#programsko-definiranje-prikaza)
 - [Programska izmjena prikaza](#programska-izmjena-prikaza)
+- [Definiranje vlastitog prikaza](#definiranje-vlastitog-prikaza)
+    - [Koristeći postojeće prikaze](#koristeći-postojeće-prikaze)
+    - [Samostalna izrada prikaza](#samostalna-izrada-prikaza)
 <!-- /TOC -->
 
 <div class="page"></div>
@@ -298,6 +301,199 @@ Sada, svaki put kada korisnik unese tekst u `EditText` i klikne na gumb "Klikni 
     </div>
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dinamičko dodavanje elemenata</i></p>
+</div>
+
+## Definiranje vlastitog prikaza
+
+Pored korištenja ugrađenih Android prikaza, možemo kreirati i vlastite prilagođene prikaze koji nasljeđuju postojeće klase ili implementiraju vlastita sučelja.
+
+### Koristeći postojeće prikaze
+
+Možemo se vratiti na prijašnji zadatak FoodTracker gdje imamo više `MainActivity`, `SettingsActivity` i `AddItemActivity`.
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/FoodTracker.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>FoodTracker</i></p>
+</div>
+
+Ovdje koristimo `TextView` widget za prikaz liste stavki. Umjesto da svaki put ažuriramo `TextView` koji nas dosta limitira na izgled, napravit ćemo vlastiti **prikaz** stavke. 
+
+Prije toga ćemo promijeniti `TextView` widget u vertikalni `LinearLayout`, te isto tako ažurirati `MainAcctivity` da koristi linear layout i zakomentirati prijašnji kôd koji nam sada ne radi.
+
+Sada možemo stvoriti novu klasu `StavkaView` i proširit je s `LinearLayout`, zatim ćemo unutar nje dodati dva `TextView` elementa za **naziv** i **kalorije** koje ćemo stvoriti i namjestiti u konstruktoru.
+
+```java
+public class StavkaView extends LinearLayout {
+    private TextView textNaziv;
+    private TextView textKalorije;
+
+    public StavkaView(Context context, String naziv, float kalorije) {
+        super(context);
+        this.setOrientation(LinearLayout.HORIZONTAL);
+
+        textNaziv = new TextView(context);
+        textNaziv.setText(naziv);
+        addView(textNaziv);
+
+        textKalorije = new TextView(context);
+        textKalorije.setText(kalorije + " kcal");
+        addView(textKalorije);
+    }
+}
+```
+
+Kada pokrenemo imamo ovakav izgled:
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/StavkaView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>StavkaView</i></p>
+</div>
+
+Kada imamo vlastiti prikaz, onda ga možemo preurediti kako želimo. Primjer:
+
+```java
+public StavkaView(Context context, String naziv, float kalorije) {
+    super(context);
+    this.setOrientation(LinearLayout.HORIZONTAL);
+
+    setPadding(64, 32, 64, 32);
+
+    textNaziv = new TextView(context);
+    textNaziv.setText(naziv);
+    textNaziv.setTextSize(16f);
+
+    LayoutParams nazivParams = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1.0f);
+    addView(textNaziv, nazivParams);
+
+    textKalorije = new TextView(context);
+    textKalorije.setText(kalorije + " kcal");
+    textKalorije.setTextSize(16f);
+    textKalorije.setTypeface(null, Typeface.BOLD);
+    LayoutParams kalorijeParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    addView(textKalorije, kalorijeParams);
+}
+```
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/StavkaViewNice.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Uređen prikaz StavkaView</i></p>
+</div>
+
+### Samostalna izrada prikaza
+
+Sada kada znamo kako napraviti vlastiti prikaz za stavku, pokušat ćemo izraditi vlastiti prikaz za **cilj** `ProgressView` potpuno iz nule. Za početak, u `activity_main.xml` dodajemo jedan **ConstraintLayout** u koji ćemo smjestiti naš prilagođeni prikaz.
+
+Prvo ćemo inicijalizirati nekoliko ključnih varijabli koje će nam služiti za praćenje stanja i crtanje prikaza:
+- `float currentProgress & maxProgress`
+    - Početna i maksimalna vrijednost napretka
+- `Paint backgroundPaint, progressPaint & textPaint`
+    - **Paint** objekt za crtanje
+
+Ove varijable čine osnovu za kreiranje vizualnog i funkcionalnog `ProgressView` prikaza. Također ćemo dodati pomoćnu metodu `initPaints()` za namještanje **Paint** objekata i **settere** za **currentProgress** i **maxProgress**:
+
+- `Paint initPaints()`
+  - Inicijalizacira i konfiguira `Paint` objekt koji se koristiti kod `onDraw` metode
+  - Omogućuje definiranje boja, debljine linija, stila ispune i ostalih grafičkih svojstava
+- `setCurrentProgress(float currentProgress)`
+- `setMaxProgress(float maxProgress)`
+
+> **`invalidate()`** metoda se koristi za **osvježavanje prikaza**, ponovo poziva *onDraw* i crta prikaz s ažuriranim vrijednostima. Obično se koristi nakon promjene stanja prikaza, u ovom slučaju kada se ažurira *currentProgress* ili *maxProgress*.
+
+Budući da kreiramo vlastiti prikaz, moramo napraviti **@Override** za dvije ključne metode:
+
+- [`onMeasure(int widthMeasureSpec, int heightMeasureSpec)`](https://stackoverflow.com/questions/12266899/onmeasure-custom-view-explanation)
+  - Ova metoda služi za određivanje dimenzija našeg prikaza unutar roditeljskog layouta
+  - Budući da se element nalazi unutar **ConstraintLayout-a**, potrebno je pravilno postavljanje širine i visine, kao i osiguravanje da se prikaz skalira i reagira na ograničenja roditelja
+- `onDraw(@NonNull Canvas canvas)`
+  - Ovdje definiramo kako će naš prikaz izgledati
+  - Koristeći `Canvas`, možemo crtati oblike, linije, tekst i boje koje predstavljaju napredak ili stanje cilja
+
+`ProgressView` izgleda kao sljedeće:
+```java
+public class ProgressView extends View {
+    private float currentProgress = 0;
+    private float maxProgress = 100;
+
+    private final Paint backgroundPaint;
+    private final Paint progressPaint;
+    private final Paint textPaint;
+
+    public ProgressView(Context context) {
+        super(context);
+        backgroundPaint = initPaints();
+        progressPaint = new Paint(backgroundPaint);
+        textPaint = new Paint(backgroundPaint);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int desiredHeight = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics()
+        );
+        setMeasuredDimension(widthMeasureSpec, desiredHeight);
+    }
+
+    private Paint initPaints() {
+        Paint base = new Paint();
+        base.setStyle(Paint.Style.FILL);
+        base.setAntiAlias(true);
+        return base;
+    }
+
+    protected void onDraw(@NonNull Canvas canvas) {
+        super.onDraw(canvas);
+        int width = getWidth();
+        int height = getHeight();
+        Log.d("TAG", "onDraw: " + height);
+
+        // Pozadina
+        backgroundPaint.setColor(Color.LTGRAY);
+        canvas.drawRect(0, 0, width, height, backgroundPaint);
+
+        // Progress
+        float ratio = (maxProgress > 0) ? Math.min(currentProgress / maxProgress, 1f) : 0f;
+        int progressWidth = (int) (width * ratio);
+
+        // Boja
+        progressPaint.setColor(ratio < 1.0 ? Color.rgb(76, 175, 80) : Color.RED);
+        canvas.drawRect(0, 0, progressWidth, height, progressPaint);
+
+        // Tekst
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(height / 2f);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        String text = currentProgress + " / " + maxProgress ;
+        canvas.drawText(text, width / 2f, height / 2f + textPaint.getTextSize() / 2, textPaint);
+    }
+
+    public void setCurrentProgress(float currentProgress) {
+        this.currentProgress = currentProgress;
+        invalidate();
+    }
+
+    public void setMaxProgress(float maxProgress) {
+        this.maxProgress = maxProgress;
+        invalidate();
+    }
+
+}
+```
+
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/ProgressView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>ProgressView</i></p>
 </div>
 
 </div>
