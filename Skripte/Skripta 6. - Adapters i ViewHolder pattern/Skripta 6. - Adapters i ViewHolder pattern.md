@@ -192,7 +192,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 }
 ```
-<div class="page"></div>
+
 Korištenje u aktivnosti `MainActivity.java`:
 
 ```java

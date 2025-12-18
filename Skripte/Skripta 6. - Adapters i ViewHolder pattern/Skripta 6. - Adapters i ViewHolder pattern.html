@@ -216,6 +216,7 @@
 					"Courier New", monospace, "Droid Sans Fallback";
 				font-size: 1em;
 				line-height: 1.357em;
+                line-break: anywhere;
 			}
 
 			body.wordWrap pre {
@@ -421,21 +422,14 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <h2 id="sadr%C5%BEaj">Sadržaj</h2>
 <!-- TOC -->
 <ul>
-<li><a href="#mobilne-aplikacije">Mobilne Aplikacije</a></li>
-<li><a href="#5---adapters-i-viewholder-pattern">[5] - Adapters i ViewHolder pattern</a>
-<ul>
 <li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
 <li><a href="#adapteri">Adapteri</a></li>
-<li><a href="#viewholder-pattern">ViewHolder pattern</a>
-<ul>
+<li><a href="#viewholder-pattern">ViewHolder pattern</a></li>
 <li><a href="#recyclerview">RecyclerView</a>
 <ul>
 <li><a href="#primjer-kori%C5%A1tenja-recyclerview">Primjer korištenja RecyclerView</a></li>
+<li><a href="#primjer-ko%C5%A1arica">Primjer Košarica</a></li>
 <li><a href="#a%C5%BEuriranje-recyclerview">Ažuriranje RecyclerView</a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -476,10 +470,10 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <li>U <code>onCreateViewHolder()</code> se napuhuje (<em>inflate</em>) layout za jedan item i inicijalno kreira <em>ViewHolder</em> koji čuva sve UI reference</li>
 <li>U <code>onBindViewHolder()</code> adapter samo postavlja podatke u te već spremljene view elemente bez dodatnog pretraživanja, što omogućuje brzo i glatko pomicanje</li>
 </ul>
-<h3 id="recyclerview">RecyclerView</h3>
+<h2 id="recyclerview">RecyclerView</h2>
 <p><code>RecyclerView</code> je napredna komponenta za prikaz lista i kolekcija podataka. Dizajniran je tako da radi brzo, učinkovito i fleksibilno, posebno kada radimo s velikim brojem elemenata. Ključni princip je <strong>recikliranje prikaza</strong> – umjesto da za svaki element stvara novi View, <em>RecyclerView</em> ponovno koristi već postojeće prikaze koji više nisu na ekranu.</p>
 <blockquote>
-<p><em>RecyclerView</em> je dio AndroidX biblioteka, stoga ga je potrebno dodati u projekt putem <code>build.gradle</code> datoteke prije korištenja ili ga preuzeti unutar <em>Palette</em> GUI-a kod XML pregleda.</p>
+<p><em>RecyclerView</em> je dio AndroidX biblioteke, stoga ga je potrebno dodati u projekt putem <code>build.gradle</code> datoteke prije korištenja ili ga preuzeti unutar <em>Palette</em> GUI-a kod XML pregleda.</p>
 </blockquote>
 <p>Za razliku od starijeg <code>ListView</code>, <code>RecyclerView</code> omogućuje:</p>
 <ul>
@@ -488,7 +482,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 <li>animacije pri dodavanju, uklanjanju i promjenama elemenata</li>
 <li>lakše korištenje <em>ViewHolder</em> patterna koji je obvezan i poboljšava performanse</li>
 </ul>
-<h4 id="primjer-kori%C5%A1tenja-recyclerview">Primjer korištenja RecyclerView</h4>
+<h3 id="primjer-kori%C5%A1tenja-recyclerview">Primjer korištenja RecyclerView</h3>
 <p>Dodat ćemo <strong>RecyclerView</strong> u <code>activity_main.xml</code> iz <em>Palette</em> GUI-a:</p>
 <pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
     <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span>
@@ -520,17 +514,23 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dodavanje RecyclerView</i></p>
 </div>
+<ul>
+<li>Potrebno je postaviti <code>app:layoutManager</code>, inače stavke neće biti prikazani jer <em>RecyclerView</em> ne zna kako rasporediti elemente</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">androidx.recyclerview.widget.RecyclerView</span>
+    <span class="hljs-attr">app:layoutManager</span>=<span class="hljs-string">"androidx.recyclerview.widget.LinearLayoutManager"</span>
+    <span class="hljs-attr">...</span>
+/&gt;</span>
+</div></code></pre>
 <p>Zatim ćemo napraviti jedan item (<code>list_item.xml</code>) u <em>layout</em> direktoriju:</p>
 <pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
     <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
-    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
-    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"vertical"</span>&gt;</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span>
-        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/itemText"</span>
-        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/textView"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"0dp"</span>
         <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
-        <span class="hljs-attr">android:padding</span>=<span class="hljs-string">"12dp"</span>
-        <span class="hljs-attr">android:textSize</span>=<span class="hljs-string">"18sp"</span> /&gt;</span>
+        <span class="hljs-attr">android:layout_weight</span>=<span class="hljs-string">"1"</span>/&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span>
 </div></code></pre>
 <div style="width: fit-content; display: flex; flex-direction: column;">
@@ -540,18 +540,15 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>list_item.xml</i></p>
 </div>
+<ul>
+<li>Potrebno je postaviti <code>android:layout_height</code> na <code>wrap_content</code>, inače će biti prikazan samo jedna stavka jer će svi itemi imati visinu jednaku visini roditeljskog RecyclerView-a</li>
+</ul>
 <p>Sada možemo napraviti <strong>Adapter</strong> klasu <code>MyAdapter.java</code>:</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">Adapter</span>&lt;<span class="hljs-title">MyAdapter</span>.<span class="hljs-title">MyViewHolder</span>&gt; </span>{
 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; items;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> OnItemClickListener listener;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(List&lt;String&gt; items, OnItemClickListener listener)</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(List&lt;String&gt; items)</span> </span>{
         <span class="hljs-keyword">this</span>.items = items;
-        <span class="hljs-keyword">this</span>.listener = listener;
-    }
-    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnItemClickListener</span> </span>{
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onItemClick</span><span class="hljs-params">(String item, <span class="hljs-keyword">int</span> position)</span></span>;
     }
 
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>{
@@ -559,13 +556,10 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 
         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyViewHolder</span><span class="hljs-params">(@NonNull View itemView)</span> </span>{
             <span class="hljs-keyword">super</span>(itemView);
-            text = itemView.findViewById(R.id.itemText);
+            text = itemView.findViewById(R.id.textView);
         }
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(String item, OnItemClickListener listener, <span class="hljs-keyword">int</span> position)</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(String item)</span> </span>{
             text.setText(item);
-            itemView.setOnClickListener(v -&gt; {
-                <span class="hljs-keyword">if</span> (listener != <span class="hljs-keyword">null</span>) listener.onItemClick(item, position);
-            });
         }
     }
 
@@ -580,7 +574,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(@NonNull MyViewHolder holder, <span class="hljs-keyword">int</span> position)</span> </span>{
         String item =items.get(position);
-        holder.bind(item, listener, position);
+        holder.bind(item);
     }
 
     <span class="hljs-meta">@Override</span>
@@ -589,17 +583,18 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     }
 }
 </div></code></pre>
-<div class="page"></div>
 <p>Korištenje u aktivnosti <code>MainActivity.java</code>:</p>
 <pre class="hljs"><code><div>RecyclerView recycler = findViewById(R.id.myRecyclerView);
 MyAdapter adapter = <span class="hljs-keyword">new</span> MyAdapter(
-    Arrays.asList(<span class="hljs-string">"Item 1"</span>, <span class="hljs-string">"Item 2"</span>, <span class="hljs-string">"Item 3"</span>, <span class="hljs-string">"Item 4"</span>),
-    (item, pos) -&gt; {
-        Toast.makeText(<span class="hljs-keyword">this</span>, <span class="hljs-string">"["</span> + pos + <span class="hljs-string">" ] Clicked: "</span> + item, Toast.LENGTH_SHORT).show();
-    }
+    Arrays.asList(<span class="hljs-string">"Item 1"</span>, <span class="hljs-string">"Item 2"</span>, <span class="hljs-string">"Item 3"</span>, <span class="hljs-string">"Item 4"</span>)
 );
 recycler.setAdapter(adapter);
 </div></code></pre>
+<ul>
+<li>Pronalazimo RecyclerView u layoutu</li>
+<li>Kreiramo instancu <code>MyAdapter</code> s listom stavki</li>
+<li>Postavljamo adapter na RecyclerView</li>
+</ul>
 <div style="width: fit-content; display: flex; flex-direction: column;">
     <div style="display: flex; justify-content: center;">
         <img src="slike/RecyclerViewPrimjer.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
@@ -607,29 +602,21 @@ recycler.setAdapter(adapter);
     <br/>
     <p style="margin-top: -16px; width: 100%; text-align: center;"><i>RecyclerView primjer</i></p>
 </div>
-<p><code>MyAdapter</code> klasa je velika tako da ćemo je razdijeliti u sekcije i pobjasniti. Prvo kreiramo klasu adaptera koja nasljeđuje <code>RecyclerView.Adapter</code> i koristi vlastiti <code>ViewHolder</code>. U adapteru držimo listu podataka i listener za klikove na elemente.</p>
+<p><code>MyAdapter</code> klasa je velika tako da ćemo je razdijeliti u sekcije i pobjasniti. Prvo kreiramo klasu adaptera koja nasljeđuje <code>RecyclerView.Adapter</code> i koristi vlastiti <code>ViewHolder</code>. U adapteru držimo listu podataka.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">Adapter</span>&lt;<span class="hljs-title">MyAdapter</span>.<span class="hljs-title">MyViewHolder</span>&gt; </span>{
 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; items;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> OnItemClickListener listener;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(List&lt;String&gt; items, OnItemClickListener listener)</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(List&lt;String&gt; items)</span> </span>{
         <span class="hljs-keyword">this</span>.items = items;
-        <span class="hljs-keyword">this</span>.listener = listener;
     }
-
-    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnItemClickListener</span> </span>{
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onItemClick</span><span class="hljs-params">(String item, <span class="hljs-keyword">int</span> position)</span></span>;
-    }
-
     ...
 </div></code></pre>
 <ul>
 <li><code>items</code> sadrži sve stavke koje želimo prikazati</li>
-<li><code>listener</code> omogućuje vanjskom kodu da reagira kada korisnik klikne na redak</li>
-<li>Interface <code>OnItemClickListener</code> definira metodu koja prima item i njegovu poziciju</li>
+<li>Konstruktor <code>MyAdapter</code> prima listu stavki koju sprema u polje</li>
 </ul>
-<p>Nakon toga definiramo <code>ViewHolder</code> koji drži reference na UI elemente reda i može ih popuniti podacima.</p>
+<p>Nakon toga definiramo <strong>ViewHolder</strong> <code>MyViewHolder</code> koji drži reference na UI elemente i može ih popuniti podacima.</p>
 <pre class="hljs"><code><div>    ...
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>{
         TextView text;
@@ -639,20 +626,16 @@ recycler.setAdapter(adapter);
             text = itemView.findViewById(R.id.itemText);
         }
 
-        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(String item, OnItemClickListener listener, <span class="hljs-keyword">int</span> position)</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(String item)</span> </span>{
             text.setText(item);
-            itemView.setOnClickListener(v -&gt; {
-                <span class="hljs-keyword">if</span> (listener != <span class="hljs-keyword">null</span>) listener.onItemClick(item, position);
-            });
         }
     }
     ...
 </div></code></pre>
 <ul>
-<li>Konstruktor <em>ViewHoldera</em> pronalazi <code>TextView</code> u layoutu</li>
-<li>Metoda <code>bind</code> postavlja tekst i dodaje click listener koji poziva callback iz interfacea</li>
+<li>Konstruktor <em>ViewHoldera</em> pronalazi <code>TextView</code> u layoutu itema i sprema referencu u polje <code>text</code></li>
+<li>Metoda <code>bind</code> postavlja tekst u <code>TextView</code> kada se pozove iz adaptera</li>
 </ul>
-<div class="page"></div>
 <p>Adapter <strong>mora kreirati</strong> <em>ViewHolder</em> kada <em>RecyclerView</em> zatraži novi element.</p>
 <pre class="hljs"><code><div>    <span class="hljs-meta">@NonNull</span>
     <span class="hljs-meta">@Override</span>
@@ -662,22 +645,43 @@ recycler.setAdapter(adapter);
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyViewHolder(view);
     }
 </div></code></pre>
+<ol>
+<li><code>LayoutInflater.from(parent.getContext())</code> – dobiva inflater iz konteksta roditeljskog ViewGroup-a
 <ul>
-<li>Layout za jedan red napuhujemo (inflate) iz <code>list_item.xml</code></li>
-<li>Vraćamo novi <em>ViewHolder</em> koji čuva reference na UI elemente</li>
+<li><code>parent</code> je RecyclerView koji sadrži iteme</li>
+<li><code>getContext()</code> vraća kontekst aplikacije ili aktivnosti u kojoj se RecyclerView nalazi</li>
+<li>Inflater se koristi za napuhivanje (<em>učitavanje</em>) XML layout datoteka u stvarne View objekte u memoriji</li>
 </ul>
-<p>Kada RecyclerView treba prikazati podatke na određenoj poziciji, adapter bind-a podatke u ViewHolder.</p>
+</li>
+<li><code>.inflate(R.layout.list_item, parent, false)</code> – napuhuje (učitava) XML layout datoteku <code>list_item.xml</code> u View objekat
+<ul>
+<li><code>R.layout.list_item</code> je referenca na XML datoteku koja definira izgled jednog itema u listi</li>
+<li><code>parent</code> je roditeljski ViewGroup (RecyclerView) koji će sadržavati ovaj item</li>
+<li><code>false</code> znači da se novi View neće odmah dodati u roditelja</li>
+</ul>
+</li>
+<li><code>return new MyViewHolder(view)</code> – kreira i vraća novi ViewHolder s referencama na UI elemente iz napuhanog layout-a
+<ul>
+<li><code>view</code> je root View napuhanog layouta koji se prosljeđuje konstruktoru ViewHolder-a</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Ova metoda se poziva samo kada je potreban novi ViewHolder (<em>npr. pri inicijalnom prikazu ili kada nema recikliranih ViewHolder-a dostupnih</em>)</li>
+</ul>
+<p>Kada <em>RecyclerView</em> treba prikazati podatke u određenom položaju, poziva se <code>onBindViewHolder()</code>:</p>
 <pre class="hljs"><code><div>    <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(@NonNull MyViewHolder holder, <span class="hljs-keyword">int</span> position)</span> </span>{
         String item = items.get(position);
-        holder.bind(item, listener, position);
+        holder.bind(item);
     }
 </div></code></pre>
 <ul>
-<li>Dohvaća se item iz liste prema poziciji</li>
-<li>Poziva se <code>bind</code> da se postavi tekst i aktivira click listener</li>
+<li>Prima <em>ViewHolder</em> i poziciju stavke koja se treba prikazati</li>
+<li>Dohvaća podatke iz liste <code>items</code> na danoj poziciji</li>
+<li>Poziva <code>bind()</code> metodu <em>ViewHoldera</em> kako bi postavio podatke</li>
 </ul>
-<p>Na kraju postavljamo <em>getter</em> ta broj elemenata:</p>
+<p>Na kraju postavljamo <code>getItemCount()</code> metodu:</p>
 <pre class="hljs"><code><div>    <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getItemCount</span><span class="hljs-params">()</span> </span>{
         <span class="hljs-keyword">return</span> items.size();
@@ -685,10 +689,315 @@ recycler.setAdapter(adapter);
 }
 </div></code></pre>
 <ul>
-<li>Vraća veličinu liste, što <em>RecyclerView</em> koristi za stvaranje i recikliranje redaka</li>
+<li>Vraća ukupan broj stavki u adapteru</li>
+<li>Bez ove metode <em>RecyclerView</em> ne zna koliko elemenata treba prikazati</li>
+<li>Služi za određivanje veličine liste koja će biti prikazana (<em>npr. paginacija</em>)</li>
 </ul>
-<h4 id="a%C5%BEuriranje-recyclerview">Ažuriranje RecyclerView</h4>
-<p>Kada stvorimo <em>adapter</em>, želimo ga i ažurirati s novom listom. Tako da ćemo dodati dodatnu metodu <code>setItems()</code>.</p>
+<h3 id="primjer-ko%C5%A1arica">Primjer Košarica</h3>
+<p>Kao primjer složenijeg adaptera, napravit ćemo aplikaciju za košaricu u trgovini. Košarica će sadržavati listu proizvoda s nazivom, cijenom i količinom. Također ćemo imati mogućnost povećanja i smanjenja količine proizvoda, dodavanje i uklanjanje proizvoda te izračun ukupne cijene svih proizvoda.</p>
+<p>Napravit ćemo klasu <code>Proizvod</code>, koja predstavlja jedan proizvod u košarici. Ima sljedeća svojstva i metode:</p>
+<ul>
+<li>Naziv proizvoda (<code>naziv</code>)</li>
+<li>Cijena po jedinici (<code>cijena</code>)</li>
+<li>Količina proizvoda u košarici (<code>kolicina</code>)</li>
+<li><code>povecajKolicinu(int kolicina)</code>
+<ul>
+<li>Povećanje količine ne smije prijeći 100</li>
+</ul>
+</li>
+<li><code>smanjiKolicinu(int kolicina)</code>
+<ul>
+<li>Smanjenje količine ne smije ići ispod 0</li>
+</ul>
+</li>
+<li><code>izracunajUkupnuCijenu()</code>
+<ul>
+<li>Metoda vraća ukupnu cijenu kao <code>double</code></li>
+<li>Zaokružuje rezultat na dvije decimale</li>
+</ul>
+</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Proizvod</span> </span>{
+    <span class="hljs-keyword">private</span> String naziv;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> cijena;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> kolicina;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Proizvod</span><span class="hljs-params">(String naziv, <span class="hljs-keyword">double</span> cijena, <span class="hljs-keyword">int</span> kolicina)</span> </span>{
+        <span class="hljs-keyword">this</span>.naziv = naziv;
+        <span class="hljs-keyword">this</span>.cijena = cijena;
+        <span class="hljs-keyword">this</span>.kolicina = kolicina;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getNaziv</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> naziv; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getCijena</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> cijena; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getKolicina</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> kolicina; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">povecajKolicinu</span><span class="hljs-params">(<span class="hljs-keyword">int</span> kolicina)</span> </span>{
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.kolicina + kolicina &lt; <span class="hljs-number">100</span>) <span class="hljs-keyword">this</span>.kolicina += kolicina;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">smanjiKolicinu</span><span class="hljs-params">(<span class="hljs-keyword">int</span> kolicina)</span> </span>{
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.kolicina - kolicina &gt; <span class="hljs-number">0</span>) <span class="hljs-keyword">this</span>.kolicina -= kolicina;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">izracunajUkupnuCijenu</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> cijena * kolicina; }
+}
+</div></code></pre>
+<p>Zatim ćemo napraviti klasu <code>Kosarica</code>, koja predstavlja košaricu s proizvodima. Ima sljedeća svojstva i metode:</p>
+<ul>
+<li>Lista proizvoda u košarici (<code>proizvodi</code>)</li>
+<li><code>getProizvodi()</code>
+<ul>
+<li>Vraća listu proizvoda</li>
+</ul>
+</li>
+<li><code>dodajProizvod(Proizvod proizvod)</code>
+<ul>
+<li>Dodaje proizvod u košaricu</li>
+</ul>
+</li>
+<li><code>ukloniProizvod(Proizvod proizvod)</code>
+<ul>
+<li>Uklanja proizvod iz košarice</li>
+</ul>
+</li>
+<li><code>ukupanIznos()</code>
+<ul>
+<li>Vraća ukupan iznos svih proizvoda u košarici kao <code>double</code></li>
+<li>Zaokružuje rezultat na dvije decimale</li>
+</ul>
+</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Kosarica</span> </span>{
+    <span class="hljs-keyword">private</span> List&lt;Proizvod&gt; proizvodi = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Proizvod&gt; <span class="hljs-title">getProizvodi</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> proizvodi; }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dodajProizvod</span><span class="hljs-params">(Proizvod proizvod)</span></span>{ proizvodi.add(proizvod); }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ukloniProizvod</span><span class="hljs-params">(Proizvod proizvod)</span></span>{ proizvodi.remove(proizvod); }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">ukupanIznos</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">double</span> ukupanIznos = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (Proizvod proizvod : proizvodi) 
+            ukupanIznos += proizvod.izracunajUkupnuCijenu();
+        <span class="hljs-keyword">return</span> Math.round(ukupanIznos * <span class="hljs-number">100.0</span>) / <span class="hljs-number">100.0</span>;
+    }
+}
+</div></code></pre>
+<p>Napravit ćemo <code>MainActivity.java</code> gdje ćemo koristiti <code>Kosarica</code> i dodati nekoliko proizvoda.
+U <code>MainActivity.java</code> ćemo napraviti instancu <code>Kosarica</code> i dodati nekoliko proizvoda:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> Kosarica kosarica;
+...
+<span class="hljs-meta">@Override</span> 
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+    ...
+    kosarica = <span class="hljs-keyword">new</span> Kosarica();
+
+    Proizvod jabuka = <span class="hljs-keyword">new</span> Proizvod(<span class="hljs-string">"Jabuka"</span>, <span class="hljs-number">0.28f</span>, <span class="hljs-number">2</span>);
+    Proizvod banana = <span class="hljs-keyword">new</span> Proizvod(<span class="hljs-string">"Banana"</span>, <span class="hljs-number">0.16f</span>, <span class="hljs-number">5</span>);
+    Proizvod breskva = <span class="hljs-keyword">new</span> Proizvod(<span class="hljs-string">"Breskva"</span>, <span class="hljs-number">0.42f</span>, <span class="hljs-number">1</span>);
+
+    kosarica.dodajProizvod(jabuka);
+    kosarica.dodajProizvod(banana);
+    kosarica.dodajProizvod(breskva);
+    ...
+}
+</div></code></pre>
+<p><code>activity_main.xml</code> će sadržavati <code>RecyclerView</code> za prikaz proizvoda, <code>TextView</code> za prikaz ukupnog iznosa. EditText i Button-e za dodavanje novih proizvoda.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/KosaricaActivityMain.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Kosarica - activity_main.xml</i></p>
+</div>
+<p>Napravit ćemo layout za jedan proizvod u košarici <code>proizvod_item.xml</code> koji će sadržavati naziv proizvoda, cijenu, količinu, gumbe za povećanje i smanjenje količine te gumb za uklanjanje proizvoda iz košarice.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/kosarica_item.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Kosarica - proizvod_item.xml</i></p>
+</div>
+<p>Sada možemo napraviti <code>KosaricaAdapter.java</code> koji će nasljeđivati <code>RecyclerView.Adapter</code> i koristiti <code>KosaricaViewHolder</code> za prikaz proizvoda u košarici. U adapteru ćemo implementirati logiku za povećanje, smanjenje količine i uklanjanje proizvoda iz košarice.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KosaricaAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">Adapter</span>&lt;<span class="hljs-title">KosaricaAdapter</span>.<span class="hljs-title">ProizvodViewHolder</span>&gt; </span>{
+
+    <span class="hljs-comment">// Referenca na košaricu</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Kosarica kosarica;
+
+    <span class="hljs-comment">// Listener za obavještavanje promjena u košarici</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnItemsChangedListener</span> </span>{  
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onItemChanged</span><span class="hljs-params">()</span></span>; 
+    }
+
+    <span class="hljs-comment">// Referenca na listener &amp; metoda za postavljanje listenera</span>
+    <span class="hljs-keyword">private</span> OnItemsChangedListener itemsChangedListener;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setOnItemsChangedListener</span><span class="hljs-params">(OnItemsChangedListener listener)</span> </span>{
+        <span class="hljs-keyword">this</span>.itemsChangedListener = listener;
+    }
+
+    <span class="hljs-comment">// Konstruktor adaptera prima instancu košarice</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">KosaricaAdapter</span><span class="hljs-params">(Kosarica kosarica)</span> </span>{ 
+        KosaricaAdapter.kosarica = kosarica; 
+    }
+    ...
+</div></code></pre>
+<p>Definicija <code>ProizvodViewHolder</code> klase unutar <code>KosaricaAdapter</code>:</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProizvodViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>{
+
+    <span class="hljs-comment">// UI elementi za prikaz proizvoda</span>
+    TextView textNaziv;
+    TextView textCijena;
+    TextView textKolicina;
+    ImageButton buttonAdd;
+    ImageButton buttonMinus;
+    ImageButton buttonRemove;
+
+    <span class="hljs-comment">// Konstruktor ViewHolder-a</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ProizvodViewHolder</span><span class="hljs-params">(@NonNull View itemView)</span> </span>{
+        <span class="hljs-keyword">super</span>(itemView);
+        textNaziv = itemView.findViewById(R.id.textNaziv);
+        textCijena = itemView.findViewById(R.id.textCijena);
+        textKolicina = itemView.findViewById(R.id.textKolicina);
+        buttonAdd = itemView.findViewById(R.id.btnAdd);
+        buttonMinus = itemView.findViewById(R.id.btnMinus);
+        buttonRemove = itemView.findViewById(R.id.btnRemove);
+    }
+
+    <span class="hljs-comment">// Metoda za postavljanje podataka i ponašanja gumba UI elemenata</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">postaviProizvod</span><span class="hljs-params">(Proizvod proizvod)</span> </span>{
+        <span class="hljs-comment">// Postavljanje podataka u UI elemente</span>
+        textNaziv.setText(proizvod.getNaziv());
+        textCijena.setText(String.valueOf(proizvod.getCijena()));
+        textKolicina.setText(String.valueOf(proizvod.getKolicina()));
+
+        <span class="hljs-comment">// Definiranje ponašanja gumba</span>
+        buttonAdd.setOnClickListener(view -&gt; {
+            proizvod.povecajKolicinu(<span class="hljs-number">1</span>);
+            textKolicina.setText(String.valueOf(proizvod.getKolicina()));
+            <span class="hljs-comment">// Obavještavanje listenera o promjeni</span>
+            itemsChangedListener.onItemChanged();
+        });
+
+        buttonMinus.setOnClickListener(view -&gt; {
+            proizvod.smanjiKolicinu(<span class="hljs-number">1</span>);
+            textKolicina.setText(String.valueOf(proizvod.getKolicina()));
+            <span class="hljs-comment">// Obavještavanje listenera o promjeni</span>
+            itemsChangedListener.onItemChanged();
+        });
+
+        buttonRemove.setOnClickListener(view -&gt; {
+            kosarica.ukloniProizvod(proizvod);
+            <span class="hljs-comment">// Obavještavanje listenera o promjeni</span>
+            itemsChangedListener.onItemChanged();
+            <span class="hljs-comment">// Obavještavanje adaptera o promjeni podataka</span>
+            notifyDataSetChanged();
+        });
+    }
+}
+...
+</div></code></pre>
+<ul>
+<li><strong><code>notifyDataSetChanged()</code></strong> obavještava adapter da su se podaci promijenili i da treba osvježiti prikaz</li>
+</ul>
+<p>Metode adaptera za kreiranje i bindanje ViewHolder-a te dobivanje broja stavki:</p>
+<pre class="hljs"><code><div>...
+<span class="hljs-comment">// Kreiranje ViewHolder-a</span>
+<span class="hljs-comment">// napuhavanje layouta, vraćanje ViewHolder-a</span>
+<span class="hljs-meta">@NonNull</span> <span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ProizvodViewHolder <span class="hljs-title">onCreateViewHolder</span><span class="hljs-params">(@NonNull ViewGroup kosarica_recycler, <span class="hljs-keyword">int</span> viewType)</span> </span>{
+    View proizvod_item_view = LayoutInflater.from(kosarica_recycler.getContext())
+            .inflate(R.layout.proizvod_item, kosarica_recycler, <span class="hljs-keyword">false</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ProizvodViewHolder(proizvod_item_view);
+}
+
+<span class="hljs-comment">// Bindanje podataka u ViewHolder</span>
+<span class="hljs-comment">// postavljanje podataka u UI elemente, definiranje ponašanja gumba</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(@NonNull ProizvodViewHolder proizvodViewHolder, <span class="hljs-keyword">int</span> position)</span> </span>{
+    Proizvod proizvod = kosarica.getProizvodi().get(position);
+    proizvodViewHolder.postaviProizvod(proizvod);
+}
+
+<span class="hljs-comment">// Dobivanje broja stavki u košarici - vraćanje veličine liste proizvoda, </span>
+<span class="hljs-comment">// koristi se za određivanje broja elemenata u RecyclerView-u</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getItemCount</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> kosarica.getProizvodi().size();
+}
+</div></code></pre>
+<p>Sada možemo koristiti <code>KosaricaAdapter</code> u <code>MainActivity.java</code>:</p>
+<ul>
+<li>Inicijaliziramo UI elemente i postavljamo početni ukupni iznos</li>
+<li>Postavljamo <code>OnClickListener</code> za gumb dodavanja proizvoda</li>
+<li>Inicijaliziramo <code>RecyclerView</code> i <code>KosaricaAdapter</code>, te postavljamo listener za ažuriranje ukupnog iznosa</li>
+<li>Dodajemo razdjelnike između stavki i postavljamo adapter na RecyclerView</li>
+<li>Metoda <code>updateTotalAmount()</code> ažurira prikaz ukupnog iznosa u TextView-u</li>
+<li>Metoda <code>dodajProizvod()</code> dodaje novi proizvod u košaricu i obavještava adapter o promjeni podataka</li>
+</ul>
+<pre class="hljs"><code><div>    ...
+    TextView textSveukupno;
+    Button dugmeDodaj;
+    EditText textProizvod;
+    EditText textCijena;
+
+    RecyclerView recycler;
+    KosaricaAdapter adapter;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+        ...
+        <span class="hljs-comment">// Inicijalizacija UI elemenata</span>
+        textSveukupno = findViewById(R.id.textSveukupno);
+        dugmeDodaj = findViewById(R.id.btnDodaj);
+        textProizvod = findViewById(R.id.inputNaziv);
+        textCijena = findViewById(R.id.inputCijena);
+
+        updateTotalAmount(); <span class="hljs-comment">// Postavljanje početnog ukupnog iznosa</span>
+        dugmeDodaj.setOnClickListener(v -&gt; dodajProizvod());
+
+        <span class="hljs-comment">// Postavljanje RecyclerView i adaptera</span>
+        recycler = findViewById(R.id.myRecyclerView);
+        adapter = <span class="hljs-keyword">new</span> KosaricaAdapter(kosarica);
+
+        <span class="hljs-comment">// Postavljanje listenera za ažuriranje ukupnog iznosa</span>
+        adapter.setOnItemsChangedListener(<span class="hljs-keyword">this</span>::updateTotalAmount);
+
+        <span class="hljs-comment">// Dodavanje razdjelnika između stavki i postavljanje adaptera</span>
+        recycler.addItemDecoration(<span class="hljs-keyword">new</span> DividerItemDecoration(<span class="hljs-keyword">this</span>, DividerItemDecoration.VERTICAL));
+        recycler.setAdapter(adapter);
+    }
+
+    <span class="hljs-comment">// Metoda za ažuriranje ukupnog iznosa u TextView-u</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateTotalAmount</span><span class="hljs-params">()</span> </span>{
+        String totalText = String.valueOf(kosarica.ukupanIznos());
+        textSveukupno.setText(totalText);
+    }
+
+    <span class="hljs-comment">// Metoda za dodavanje novog proizvoda u košaricu</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dodajProizvod</span><span class="hljs-params">()</span> </span>{
+
+        String nazivProizvoda = textProizvod.getText().toString();
+        <span class="hljs-keyword">double</span> cijenaProizvoda = Double.parseDouble(textCijena.getText().toString());
+        Proizvod noviProizvod = <span class="hljs-keyword">new</span> Proizvod(nazivProizvoda, cijenaProizvoda, <span class="hljs-number">1</span>);
+
+        kosarica.dodajProizvod(noviProizvod);
+        updateTotalAmount(); <span class="hljs-comment">// Postavljanje početnog ukupnog iznosa</span>
+
+        <span class="hljs-comment">// Obavještavanje adaptera o promjeni podataka</span>
+        adapter.notifyDataSetChanged();
+    }
+}
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/kosarica.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Kosarica recycler view</i></p>
+</div>
+<h3 id="a%C5%BEuriranje-recyclerview">Ažuriranje RecyclerView</h3>
+<p>Kada se podaci u adapteru promijene, potrebno je obavijestiti <em>RecyclerView</em> da treba osvježiti prikaz. To se radi pozivom metode <strong><code>notifyDataSetChanged()</code></strong> unutar adaptera.</p>
 <pre class="hljs"><code><div>    ...
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setItems</span><span class="hljs-params">(List&lt;String&gt; newItems)</span> </span>{
         <span class="hljs-keyword">this</span>.items = newItems;
@@ -705,37 +1014,110 @@ recycler.setAdapter(adapter);
 <blockquote>
 <p>U praksi se <strong><code>notifyDataSetChanged()</code></strong> rijetko koristi jer ponovno bindanje svih itema nije učinkovito. Bolje je koristiti <strong><code>DiffUtil</code></strong> ili specifične metode poput <code>notifyItemInserted()</code>, <code>notifyItemRemoved()</code> ili <code>notifyItemChanged()</code> koje osvježavaju samo promijenjene elemente, što poboljšava performanse RecyclerView-a.</p>
 </blockquote>
-<p>Zato ćemo ažurirati <code>setItems()</code> da koristi <strong>DiffUtil</strong> tako da ćemo napraviti <code>MyDiffCallback</code> klasu:</p>
-<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDiffCallback</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">DiffUtil</span>.<span class="hljs-title">Callback</span> </span>{
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; oldList;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; newList;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyDiffCallback</span><span class="hljs-params">(List&lt;String&gt; oldList, List&lt;String&gt; newList)</span> </span>{
-        <span class="hljs-keyword">this</span>.oldList = oldList;
-        <span class="hljs-keyword">this</span>.newList = newList;
+<p>Možemo implementirati notifyItemRemoved() u <code>KosaricaAdapter</code> unutar <code>buttonRemove</code> OnClickListener-a:</p>
+<pre class="hljs"><code><div>buttonRemove.setOnClickListener(view -&gt; {
+    kosarica.ukloniProizvod(proizvod);
+    notifyItemRemoved(position);
+    itemsChangedListener.onItemChanged();
+});
+</div></code></pre>
+<blockquote>
+<p>Potrebno je proslijediti <code>position</code> u <code>postaviProizvod()</code> metodu kako bi se znao točan položaj proizvoda koji se uklanja.</p>
+</blockquote>
+<p>Možemo implementirati dodajProizvod() u <code>MainActivity</code> bez korištenja <code>notifyDataSetChanged()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dodajProizvod</span><span class="hljs-params">()</span> </span>{
+    String nazivProizvoda = textProizvod.getText().toString();
+    <span class="hljs-keyword">double</span> cijenaProizvoda = Double.parseDouble(textCijena.getText().toString());
+    Proizvod noviProizvod = <span class="hljs-keyword">new</span> Proizvod(nazivProizvoda, cijenaProizvoda, <span class="hljs-number">1</span>);
+
+    kosarica.dodajProizvod(noviProizvod);
+    <span class="hljs-comment">// Obavještavanje adaptera o dodavanju novog proizvoda</span>
+    <span class="hljs-comment">// size() - 1 jer je novi proizvod dodan na kraj liste</span>
+    adapter.notifyItemInserted(kosarica.getProizvodi().size() - <span class="hljs-number">1</span>);
+    updateTotalAmount();
+}
+</div></code></pre>
+<p>Drugi način je korištenje <strong>DiffUtil</strong> klase koja omogućuje efikasno izračunavanje razlika između starih i novih podataka te ažuriranje samo onih elemenata koji su se promijenili.
+Napravit ćemo klasu <code>KosaricaDiffCallback</code> koja nasljeđuje <code>DiffUtil.Callback</code> i implementira potrebne metode za usporedbu starih i novih podataka.</p>
+<ul>
+<li>KosaricaDiffCallback prima dvije liste proizvoda: staru i novu</li>
+<li>Implementira metode za dobivanje veličine starih i novih lista, te za usporedbu stavki i njihovog sadržaja.</li>
+<li><code>areItemsTheSame()</code> provjerava jesu li stavke iste</li>
+<li><code>areContentsTheSame()</code> provjerava jesu li svojstva stavki ista (<em>npr. naziv, cijena, količina</em>)</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KosaricaDiffCallback</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">DiffUtil</span>.<span class="hljs-title">Callback</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;Proizvod&gt; oldProizvodi;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;Proizvod&gt; newProizvodi;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">KosaricaDiffCallback</span><span class="hljs-params">(List&lt;Proizvod&gt; oldProizvodi, List&lt;Proizvod&gt; newProizvodi)</span> </span>{
+        <span class="hljs-keyword">this</span>.oldProizvodi = oldProizvodi;
+        <span class="hljs-keyword">this</span>.newProizvodi = newProizvodi;
     }
+
     <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getOldListSize</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> oldList.size(); }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getOldListSize</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> oldProizvodi.size(); }
+
     <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getNewListSize</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> newList.size(); }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getNewListSize</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> newProizvodi.size(); }
+
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">areItemsTheSame</span><span class="hljs-params">(<span class="hljs-keyword">int</span> oldItemPosition, <span class="hljs-keyword">int</span> newItemPosition)</span> </span>{
-        <span class="hljs-keyword">return</span> areContentsTheSame(oldItemPosition, newItemPosition);
+        <span class="hljs-keyword">return</span> oldProizvodi.get(oldItemPosition).equals(newProizvodi.get(newItemPosition));
     }
+
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">areContentsTheSame</span><span class="hljs-params">(<span class="hljs-keyword">int</span> oldItemPosition, <span class="hljs-keyword">int</span> newItemPosition)</span> </span>{
-        <span class="hljs-keyword">return</span> oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+        <span class="hljs-keyword">return</span> (oldProizvodi.get(oldItemPosition).getNaziv().equals(newProizvodi.get(newItemPosition).getNaziv()) &amp;&amp;
+                oldProizvodi.get(oldItemPosition).getCijena()==newProizvodi.get(newItemPosition).getCijena() &amp;&amp;
+                oldProizvodi.get(oldItemPosition).getKolicina()==newProizvodi.get(newItemPosition).getKolicina());
     }
 }
 </div></code></pre>
-<p>Prima novu i staru listu te ih uspoređuje (<em>pojedine stavke <code>areItemsTheSame()</code> i njihova svojstva, tjst. sadržaj <code>areContentsTheSame()</code></em>) i vraća rezultat usporedbe listi. Sada možemo koristiti ovu klasu za ažuriranje <em>adaptera</em>.</p>
-<pre class="hljs"><code><div>    ...
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setItems</span><span class="hljs-params">(List&lt;String&gt; newItems)</span> </span>{
-        DiffUtil.DiffResult diffResult =
-                DiffUtil.calculateDiff(<span class="hljs-keyword">new</span> MyDiffCallback(<span class="hljs-keyword">this</span>.items, newItems));
-        <span class="hljs-keyword">this</span>.items = newItems;
+<p>Zatim ćemo u <code>KosaricaAdapter</code> implementirati metodu <code>setProizvodi()</code> koja koristi <code>DiffUtil</code> za izračunavanje razlika između starih i novih podataka te ažuriranje RecyclerView-a, te dodati <code>setProizvodi()</code> metodu u <code>Kosarica</code>:</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">// Metoda za postavljanje novih proizvoda u adapter koristeći DiffUtil</span>
+    ...
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setProizvodi</span><span class="hljs-params">(List&lt;Proizvod&gt; newProizvodi)</span> </span>{
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+            <span class="hljs-keyword">new</span> KosaricaDiffCallback(kosarica.getProizvodi(), newProizvodi)
+        );
+        <span class="hljs-comment">// Ažuriranje liste proizvoda u kosarici</span>
+        kosarica.setProizvodi(<span class="hljs-keyword">new</span> ArrayList&lt;&gt;(newProizvodi));
+        <span class="hljs-comment">// Obavještavanje adaptera o promjenama koristeći DiffUtil rezultat</span>
         diffResult.dispatchUpdatesTo(<span class="hljs-keyword">this</span>);
     }
     ...
+    <span class="hljs-comment">// U Kosarica klasi dodajemo setProizvodi metodu</span>
+    ...
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setProizvodi</span><span class="hljs-params">(List&lt;Proizvod&gt; proizvodi)</span> </span>{ <span class="hljs-keyword">this</span>.proizvodi = proizvodi; }
+    ...
+</div></code></pre>
+<p>Sada možemo koristiti <code>setProizvodi()</code> metodu u <code>MainActivity</code> umjesto <code>notifyDataSetChanged()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dodajProizvod</span><span class="hljs-params">()</span> </span>{
+    String nazivProizvoda = textProizvod.getText().toString();
+    <span class="hljs-keyword">double</span> cijenaProizvoda = Double.parseDouble(textCijena.getText().toString());
+    Proizvod noviProizvod = <span class="hljs-keyword">new</span> Proizvod(nazivProizvoda, cijenaProizvoda, <span class="hljs-number">1</span>);
+
+    <span class="hljs-comment">// Kreiranje nove instance Kosarica s ažuriranim proizvodima</span>
+    Kosarica newKosarica = <span class="hljs-keyword">new</span> Kosarica();
+    newKosarica.setProizvodi(<span class="hljs-keyword">new</span> ArrayList&lt;&gt;(kosarica.getProizvodi()));
+    newKosarica.dodajProizvod(noviProizvod);
+    <span class="hljs-comment">// Ažuriranje adaptera s novom listom proizvoda koristeći DiffUtil</span>
+    adapter.setProizvodi(newKosarica.getProizvodi());
+    <span class="hljs-comment">// Ažuriranje ukupnog iznosa</span>
+    updateTotalAmount();
+}
+</div></code></pre>
+<p>Isto tako možemo koristiti <code>setProizvodi()</code> metodu unutar <code>buttonRemove</code> OnClickListener-a u <code>KosaricaAdapter</code>:</p>
+<pre class="hljs"><code><div>buttonRemove.setOnClickListener(view -&gt; {
+    <span class="hljs-comment">// Kreiranje nove instance Kosarica s ažuriranim proizvodima</span>
+    Kosarica newKosarica = <span class="hljs-keyword">new</span> Kosarica();
+    newKosarica.setProizvodi(<span class="hljs-keyword">new</span> ArrayList&lt;&gt;(kosarica.getProizvodi()));
+    newKosarica.ukloniProizvod(proizvod);
+    <span class="hljs-comment">// Ažuriranje adaptera s novom listom proizvoda koristeći DiffUtil</span>
+    setProizvodi(newKosarica.getProizvodi());
+    <span class="hljs-comment">// Ažuriranje ukupnog iznosa</span>
+    itemsChangedListener.onItemChanged();
+});
 </div></code></pre>
 </div>
 </body>
