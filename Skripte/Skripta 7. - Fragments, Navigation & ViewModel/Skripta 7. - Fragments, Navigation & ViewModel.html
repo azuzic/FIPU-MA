@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Skripta 7. - Fragments, Navigation & ViewModel</title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="7---fragments-navigation--viewmodel">[7] - Fragments, Navigation &amp; ViewModel</h1>
+<p><strong>Posljednje ažurirano:</strong> 14. siječnja 2026.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#fragmenti">Fragmenti</a></li>
+<li><a href="#navigacija-izme%C4%91u-fragmenata">Navigacija između fragmenata</a></li>
+<li><a href="#viewmodel">ViewModel</a></li>
+<li><a href="#samostalni-zadatak-za-vje%C5%BEbu">Samostalni zadatak za vježbu</a></li>
+</ul>
+<!-- /TOC -->
+<div class="page"></div>
+<h2 id="fragmenti">Fragmenti</h2>
+<p><code>Fragment</code> predstavlja modularni dio korisničkog sučelja koji se može koristiti u jednoj ili više aktivnosti. Za razliku od aktivnosti, fragmenti nemaju vlastit prozor, već se uvijek prikazuju unutar aktivnosti. Fragmenti omogućuju bolju kontrolu nad korisničkim sučeljem i fleksibilnost pri dizajniranju aplikacije, posebno na tablet uređajima gdje možemo prikazati više fragmenata istovremeno.</p>
+<p><strong>Omogućuju:</strong></p>
+<ul>
+<li><strong>Modularnost</strong> – odvajanje logike korisničkog sučelja u manje, ponovno iskoristive dijelove</li>
+<li><strong>Fleksibilnost</strong> – mogućnost zamjene ili dodavanja fragmenata tijekom izvođenja aplikacije</li>
+<li><strong>Prilagodba</strong> – jednostavnije prilagođavanje sučelja različitim veličinama ekrana</li>
+<li><strong>Ponovna upotreba</strong> – isti fragment može se koristiti u različitim aktivnostima</li>
+</ul>
+<blockquote>
+<p>Mogu se dodavati, uklanjati ili zamjenjivati tijekom izvođenja aplikacije.</p>
+</blockquote>
+<p>Da bi se koristili fragmenti, potrebno je definirati njihov izgled u XML datoteci i implementirati njihovu logiku u odgovarajućoj klasi.</p>
+<p>Napravit ćemo prazni projekt s jednom aktivnošću <code>MainActivity</code>.</p>
+<p>U <code>MainActivity.xml</code> datoteci definiramo layout <code>FrameLayout</code> za fragmente:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span>
+    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span>
+    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/main"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">".MainActivity"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/fragment_container"</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"0dp"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"0dp"</span>
+        <span class="hljs-attr">app:layout_constraintBottom_toTopOf</span>=<span class="hljs-string">"@+id/bottom_nav"</span>
+        <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">app:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span>/&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span>
+
+</div></code></pre>
+<ul>
+<li>Možemo ga dodati i nakon izrade fragmenta koristeći paletu <strong>Design</strong></li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/frame_layout.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dodavanje FrameLayout spremnika za fragmente</i></p>
+</div>
+<ul>
+<li><code>FrameLayout</code> s <code>id=&quot;@+id/fragment_container&quot;</code> služi kao <strong>spremnik</strong> u koji će se učitavati fragmenti tijekom izvođenja te je odabran jer omogućuje prikaz samo jednog fragmenta istovremeno</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/new_fragment.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Izrada novog praznog fragmenta</i></p>
+</div>
+<p>Zatim kreiramo prvi fragment <code>HomeFragment</code> s pripadajućim layoutom <code>fragment_home.xml</code>:</p>
+<p>Da bi kreirali fragment u Android Studiju, desni klik na <code>java</code> direktorij unutar <code>app/src/main</code>, zatim <strong>New &gt; Fragment &gt; Fragment (Blank)</strong>.</p>
+<div class="page"></div>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>
+    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">".HomeFragment"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span>
+        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span>
+        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>
+        <span class="hljs-attr">android:text</span>=<span class="hljs-string">"home"</span> /&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">FrameLayout</span>&gt;</span>
+</div></code></pre>
+<p><code>HomeFragment.java</code> ima puno predefiniranog koda, no najvažniji dio je <code>onCreateView()</code> metoda i <code>HomeFragment()</code> konstruktor:</p>
+<pre class="hljs"><code><div>    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeFragment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Fragment</span> </span>{
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HomeFragment</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-comment">// Required empty public constructor</span>
+        }
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> View <span class="hljs-title">onCreateView</span><span class="hljs-params">(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)</span> </span>{
+            View view = inflater.inflate(R.layout.fragment_home, container, <span class="hljs-keyword">false</span>);
+
+            <span class="hljs-keyword">return</span> view;
+        }
+    }
+</div></code></pre>
+<ul>
+<li>Svaki fragment mora imati <strong>javni konstruktor bez parametara</strong></li>
+<li><code>onCreateView()</code> metoda vraća View koji predstavlja korisničko sučelje fragmenta</li>
+<li><code>LayoutInflater.inflate()</code> učitava XML layout datoteku i pretvara je u View objekt</li>
+</ul>
+<p>U <code>MainActivity.java</code> učitavamo <code>HomeFragment</code> unutar <code>onCreate()</code> metode:</p>
+<pre class="hljs"><code><div>getSupportFragmentManager().beginTransaction()
+    .replace(R.id.fragment_container, <span class="hljs-keyword">new</span> HomeFragment())
+    .commit();
+</div></code></pre>
+<ul>
+<li><code>getSupportFragmentManager()</code> vraća <code>FragmentManager</code> koji upravlja fragmentima unutar aktivnosti</li>
+<li><code>.beginTransaction()</code> počinje transakciju za dodavanje, uklanjanje ili zamjenu fragmenata</li>
+<li><code>.replace(R.id.fragment_container, new HomeFragment())</code> zamjenjuje fragment koji se nalazi u spremniku s novim fragmentom</li>
+<li><code>.commit()</code> potvrđuje transakciju i primjenjuje je</li>
+</ul>
+<h2 id="navigacija-izme%C4%91u-fragmenata">Navigacija između fragmenata</h2>
+<p>Navigacija između fragmenata može se postići na nekoliko načina:</p>
+<ol>
+<li><strong>BottomNavigationView</strong> – metoda s ikonama na dnu zaslona</li>
+<li><strong>Side Navigation Drawer</strong> – metoda s izbornikom koji se pojavljuje s lijeve strane</li>
+</ol>
+<p>Koristit ćemo <code>BottomNavigationView</code> tako ćemo stvoriti dodatne fragmente <code>BooksFragment</code> i <code>SettingsFragment</code>.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/BottomNavigationView.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Dodavanje BottomNavigationView za navigaciju</i></p>
+</div>
+<p>U <code>activity_main.xml</code> dodajemo <code>BottomNavigationView</code> za navigaciju između fragmenata:</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.bottomnavigation.BottomNavigationView</span>
+    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/bottom_nav"</span>
+    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"0dp"</span>
+    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>
+    <span class="hljs-attr">app:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span>
+    <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span>
+    <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span>
+    <span class="hljs-attr">app:menu</span>=<span class="hljs-string">"@menu/bottom_menu"</span>/&gt;</span>
+</div></code></pre>
+<ul>
+<li><code>app:menu=&quot;@menu/bottom_menu&quot;</code> povezuje izbornik definiran u XML datoteci s <code>BottomNavigationView</code></li>
+<li>trenutačno ne postoji <code>bottom_menu.xml</code>, pa ga moramo kreirati</li>
+</ul>
+<p>Stvorit ćemo direktorij <code>menu</code> unutar <code>res</code> direktorija ako već ne postoji.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/MenuDirektorij.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Izrada menu direktorija</i></p>
+</div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/resource_type_menu.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Resource Type: menu</i></p>
+</div>
+<p>Zatim kreiramo novu <code>Menu Resource File</code> pod nazivom <code>bottom_menu.xml</code> unutar <code>res/menu</code> direktorija.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/bottom_menu.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Izrada bottom_menu.xml datoteke</i></p>
+</div>
+<p>U <code>bottom_menu.xml</code> definiramo stavke izbornika tako da svaka stavka predstavlja jedan fragment. Dodajemo tri stavke: Books, Home i Settings koristeći <code>&lt;item&gt;</code> elemente ili putem <strong>Design</strong> prikaza <code>Menu Item</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">menu</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">item</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/nav_books"</span>
+        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">"@drawable/outline_book_2_24"</span>
+        <span class="hljs-attr">android:title</span>=<span class="hljs-string">"Books"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">item</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/nav_home"</span>
+        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">"@drawable/outline_home_24"</span>
+        <span class="hljs-attr">android:title</span>=<span class="hljs-string">"Home"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">item</span>
+        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/nav_settings"</span>
+        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">"@drawable/outline_apps_24"</span>
+        <span class="hljs-attr">android:title</span>=<span class="hljs-string">"Settings"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span>
+</div></code></pre>
+<p>Da bismo dodali ikone za stavke izbornika, koristimo <strong>Vector Asset</strong> alat u Android Studiju. Ikone stvaramo tako da desni klik na <code>drawable</code> direktorij unutar <code>res</code>, zatim <strong>New &gt; Vector Asset</strong> i odabiremo željene ikone iz Material Design biblioteke.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/VectorAsset.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Stvaranje Vector Asset ikona</i></p>
+</div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/MaterialDesignIcon.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Odabir ikona iz Material Design biblioteke</i></p>
+</div>
+<p>Sada <code>BottomNavigationView</code> ima tri stavke izbornika s pripadajućim ikonama koje možemo vidjeti u <strong>Design</strong> prikazu <code>activity_main.xml</code> datoteke:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/BottomNavigationViewDesign.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Prikaz BottomNavigationView u Design prikazu</i></p>
+</div>
+<p>Sada ćemo u MainActivity postaviti listener za odabir stavki izbornika:</p>
+<pre class="hljs"><code><div>BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+
+bottomNav.setOnItemSelectedListener(item -&gt; {
+    Fragment fragment = <span class="hljs-keyword">new</span> BooksFragment();
+
+    <span class="hljs-keyword">if</span> (item.getItemId() == R.id.nav_home)
+        fragment = <span class="hljs-keyword">new</span> HomeFragment();
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (item.getItemId() == R.id.nav_settings)
+        fragment = <span class="hljs-keyword">new</span> SettingsFragment();
+
+    getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.fragment_container, fragment)
+        .addToBackStack(<span class="hljs-keyword">null</span>)
+        .commit();
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+});
+</div></code></pre>
+<ul>
+<li><code>setOnItemSelectedListener()</code> postavlja <strong>listener</strong> koji se poziva kada korisnik odabere stavku u izborniku</li>
+<li><code>item.getItemId()</code> vraća ID odabrane stavke koju možemo usporediti s ID-jevima iz <code>bottom_menu.xml</code></li>
+<li>Ovisno o odabranoj stavki, kreiramo odgovarajući fragment</li>
+<li><code>addToBackStack(null)</code> dodaje transakciju u back stack, što omogućuje vraćanje na prethodni fragment pritiskom na <code>back</code> gumb</li>
+<li>Vraćamo <code>true</code> kako bi označili da je stavka obrađena</li>
+</ul>
+<p>Za dodavanje animacija prilikom navigacije između fragmenata, možemo koristiti <code>setCustomAnimations</code> metodu:</p>
+<pre class="hljs"><code><div>.setCustomAnimations(
+    R.anim.fade_in,  <span class="hljs-comment">// enter</span>
+    R.anim.fade_out, <span class="hljs-comment">// exit</span>
+    R.anim.fade_in,  <span class="hljs-comment">// popEnter</span>
+    R.anim.fade_out  <span class="hljs-comment">// popExit</span>
+)
+</div></code></pre>
+<blockquote>
+<p>Potrebno je napomenuti da <code>setCustomAnimations</code> treba pozvati prije <code>.replace()</code> metode u transakciji.</p>
+</blockquote>
+<p>Za nju je potrebno je definirati animacije u <code>res/anim</code> direktoriju, ako ga nema potrebno ga je kreirati.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/animacije.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Animacije za tranziciju fragmenata</i></p>
+</div>
+<p><strong>Fade In:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">alpha</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">android:fromAlpha</span>=<span class="hljs-string">"0.0"</span>
+    <span class="hljs-attr">android:toAlpha</span>=<span class="hljs-string">"1.0"</span>
+    <span class="hljs-attr">android:duration</span>=<span class="hljs-string">"300"</span>/&gt;</span>
+</div></code></pre>
+<p><strong>Fade Out:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">alpha</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="hljs-attr">android:fromAlpha</span>=<span class="hljs-string">"1.0"</span>
+    <span class="hljs-attr">android:toAlpha</span>=<span class="hljs-string">"0.0"</span>
+    <span class="hljs-attr">android:duration</span>=<span class="hljs-string">"300"</span>/&gt;</span>
+</div></code></pre>
+
+<h2 id="viewmodel">ViewModel</h2>
+<p><code>ViewModel</code> je komponenta čija je primarna svrha <strong>čuvanje i upravljanje podacima vezanima uz korisničko sučelje</strong> na način koji je otporan na promjene konfiguracije uređaja, poput rotacije zaslona ili promjene jezika.</p>
+<ul>
+<li><strong>Perzistentan tijekom rotacije zaslona</strong> – obično se aktivnost ponovno kreira pri rotaciji, ali ViewModel ostaje isti</li>
+<li><strong>Dijeljenje podataka</strong> – više fragmenata unutar iste aktivnosti može dijeliti isti ViewModel</li>
+<li><strong>Odvajanje logike</strong> – odvojena je logika obrade podataka od korisničkog sučelja</li>
+</ul>
+<p>U primjeru kreiramo <code>SharedViewModel</code> koji će biti dostupan svim fragmentima:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SharedViewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ViewModel</span> </span>{
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> MutableLiveData&lt;String&gt; selectedItem = <span class="hljs-keyword">new</span> MutableLiveData&lt;&gt;();
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">selectItem</span><span class="hljs-params">(String item)</span> </span>{
+        selectedItem.setValue(item);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> LiveData&lt;String&gt; <span class="hljs-title">getSelectedItem</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> selectedItem;
+    }
+}
+</div></code></pre>
+<ul>
+<li><code>MutableLiveData&lt;String&gt;</code> je svojstvo koje se može mijenjati i promatrati</li>
+<li><code>LiveData</code> automatski obavještava promatrače kada se podaci promijene</li>
+<li><code>selectItem()</code> postavlja novu vrijednost koju aktivni fragment može koristiti i promatrati</li>
+<li><code>getSelectedItem()</code> vraća <code>LiveData</code> koji fragmenti mogu promatrati</li>
+</ul>
+<p>Proširit ćemo <code>BooksFragment</code> kako bi omogućio korisniku unos podataka koji će biti pohranjeni u <code>SharedViewModel</code> i dugme za postavljanje, te <code>HomeFragment</code> koji će prikazivati novopostavljeni unos.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/fragment_books.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Prošireni fragment_books.xml</i></p>
+</div>
+<p>Korištenje <code>SharedViewModel</code> u <code>OnCreateView</code> metodi u <code>BooksFragment.java</code>:</p>
+<pre class="hljs"><code><div>SharedViewModel viewModel = <span class="hljs-keyword">new</span> ViewModelProvider(requireActivity()).get(SharedViewModel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+Button postaviBtn = view.findViewById(R.id.postaviBtn);
+postaviBtn.setOnClickListener(v -&gt; {
+    EditText editText = view.findViewById(R.id.inputKnjiga);
+    String input = editText.getText().toString();
+    viewModel.selectItem(input);
+});
+</div></code></pre>
+<ul>
+<li><code>new ViewModelProvider(requireActivity())</code> kreira instancu ViewModelProvider-a vezanu uz aktivnost</li>
+<li><code>.get(SharedViewModel.class)</code> dohvaća <code>SharedViewModel</code> instancu</li>
+<li><code>requireActivity()</code> vraća aktivnost koja sadrži ovaj fragment jer oba fragmenta trebaju istu ViewModel instancu</li>
+<li><code>viewModel.selectItem(input)</code> postavlja novu vrijednost kroz ViewModel koja će biti dostupna ostalim fragmentima</li>
+</ul>
+<p>Korištenje <code>SharedViewModel</code> u <code>OnCreateView</code> metodi u <code>HomeFragment.java</code>:</p>
+<pre class="hljs"><code><div>SharedViewModel viewModel = <span class="hljs-keyword">new</span> ViewModelProvider(requireActivity()).get(SharedViewModel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+viewModel.getSelectedItem().observe(getViewLifecycleOwner(), item -&gt; {
+    TextView textView = view.findViewById(R.id.textView);
+    textView.setText(item);
+});
+</div></code></pre>
+<ul>
+<li><code>viewModel.getSelectedItem()</code> vraća <code>LiveData</code> objekt koji možemo promatrati</li>
+<li><code>.observe(getViewLifecycleOwner(), item -&gt; {...})</code> registrira <strong>observer</strong> koji će biti pozvan kada se podaci u <code>LiveData</code> promijene</li>
+</ul>
+<div class="page"></div>
+<h2 id="samostalni-zadatak-za-vje%C5%BEbu">Samostalni zadatak za vježbu</h2>
+<p>Napraviti aplikaciju koja omogućuje pregled/dodavanje knjiga i označavanje kao omiljena. Aplikacija treba koristiti više fragmenata za različite dijelove funkcionalnosti, a podaci trebaju biti dijeljeni između fragmenata putem <code>ViewModel</code>-a.</p>
+<p><strong>Klasa knjige:</strong></p>
+<p>Treba napraviti klasu <code>Book</code> koja predstavlja jednu knjigu. Klasa treba sadržavati:</p>
+<ul>
+<li>Svojstva: <code>title</code> i <code>author</code></li>
+<li>Konstruktor koji prima naslov i autora</li>
+<li>Getter metode</li>
+</ul>
+<p><strong>Adapter za RecyclerView:</strong></p>
+<p>Treba napraviti <code>BookAdapter</code> koji će:</p>
+<ul>
+<li>Sadržavati listu knjiga</li>
+<li>koristiti <code>book_item.xml</code> layout za prikaz naslova i autora</li>
+</ul>
+<p><strong>ViewModel (<code>BookViewModel</code>):</strong></p>
+<p>Treba napraviti <code>BookViewModel</code> koji će:</p>
+<ul>
+<li>Sadržavati <code>MutableLiveData&lt;List&lt;Book&gt;&gt;</code> listu svih knjiga</li>
+<li>Sadržavati <code>MutableLiveData&lt;List&lt;Book&gt;&gt;</code> listu omiljenih knjiga</li>
+<li>Implementirati metode: <code>addBook(Book book)</code>, <code>addFavorite(Book book)</code></li>
+<li>Getter metode</li>
+</ul>
+<p><strong>Fragmenti:</strong></p>
+<ol>
+<li>
+<p><strong>HomeFragment</strong></p>
+<ul>
+<li>Prikazuje <strong>nasumičnu knjigu dana</strong> (naslov + autor)</li>
+<li>Dugme &quot;Sljedeća&quot; prikazuje novu nasumičnu knjigu</li>
+<li>Dugme &quot;Dodaj u omiljene&quot; dodaje knjigu u omiljene</li>
+</ul>
+</li>
+<li>
+<p><strong>BooksFragment</strong></p>
+<ul>
+<li>Prikazuje <strong>listu knjiga</strong></li>
+<li>Mogućnost dodavanja nove knjige</li>
+</ul>
+</li>
+<li>
+<p><strong>FavoritesFragment</strong></p>
+<ul>
+<li>Prikazuje sve knjige koje je korisnik označio kao <strong>omiljene</strong>.</li>
+<li>Dugme “Dodaj u omiljene” dostupno je u HomeFragment.</li>
+</ul>
+</li>
+</ol>
+<p><strong>BottomNavigationView:</strong></p>
+<ul>
+<li>Home / Books / Favorites</li>
+<li>Home je default fragment</li>
+</ul>
+<p><strong>Dodatno:</strong></p>
+<ul>
+<li>Svi fragmenti trebaju <strong>koristiti ViewModel</strong> za dijeljenje podataka između njih</li>
+<li>Knjige se mogu spremati u <strong>lokalni popis u ViewModel-u</strong>, nije potreban database</li>
+</ul>
+<p><strong>Inicijalni podaci:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">new</span> Book(<span class="hljs-string">"1984"</span>, <span class="hljs-string">"George Orwell"</span>);
+<span class="hljs-keyword">new</span> Book(<span class="hljs-string">"Dune"</span>, <span class="hljs-string">"Frank Herbert"</span>);
+<span class="hljs-keyword">new</span> Book(<span class="hljs-string">"The Hobbit"</span>, <span class="hljs-string">"J.R.R. Tolkien"</span>);
+</div></code></pre>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+        <img src="slike/Zadatak_Home.png" style="border: solid 1px lightgray; border-radius: 8px; width: 32%;"/>
+        <img src="slike/Zadatak_Books.png" style="border: solid 1px lightgray; border-radius: 8px; width: 32%;"/>
+        <img src="slike/Zadatak_Favourites.png" style="border: solid 1px lightgray; border-radius: 8px; width: 32%;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer rješenja zadatka</i></p>
+</div>
+</div>
+</body>
+</html>

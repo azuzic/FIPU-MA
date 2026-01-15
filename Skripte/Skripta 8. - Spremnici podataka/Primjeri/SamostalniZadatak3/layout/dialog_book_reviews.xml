@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reviews_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <EditText
+        android:id="@+id/input_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ocjena (1-5)"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/input_review_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tekst recenzije"
+        android:lines="3"/>
+
+    <Button
+        android:id="@+id/btn_add_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dodaj recenziju"/>
+
+    <Button
+        android:id="@+id/btn_delete_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Obriši knjigu"/>
+</LinearLayout>

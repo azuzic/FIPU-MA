@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/input_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Naslov"/>
+
+    <EditText
+        android:id="@+id/input_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Autor"/>
+
+    <EditText
+        android:id="@+id/input_isbn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ISBN"/>
+
+    <EditText
+        android:id="@+id/input_pages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Broj stranica"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/input_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Godina izdanja"
+        android:inputType="number"/>
+</LinearLayout>

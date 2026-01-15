@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Skripta 8. - Spremnici podataka</title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne Aplikacije</h1>
+<p><strong>Nositelj</strong>: doc. dr. sc. Nikola Tanković<br>
+<strong>Izvođač</strong>: dr. sc. Robert Šajina<br>
+<strong>Asistent</strong>: mag. inf. Alesandro Žužić</p>
+<p><strong>Ustanova</strong>: Sveučilište Jurja Dobrile u Puli, Fakultet informatike u Puli</p>
+<p style="float: clear; display: flex; gap: 8px; align-items: center;" class="font-brioni text-sm whitespace-nowrap">
+    <img src="../Logo/fipu_logo.svg" style="height: 96px; box-shadow: none !important;" class="mr-4"></img>
+    Fakultet informatike u Puli
+</p>
+<h1 id="8---spremnici-podataka">[8] - Spremnici podataka</h1>
+<p><strong>Posljednje ažurirano:</strong> 14. siječnja 2026.</p>
+<h2 id="sadr%C5%BEaj">Sadržaj</h2>
+<!-- TOC -->
+<ul>
+<li><a href="#sadr%C5%BEaj">Sadržaj</a></li>
+<li><a href="#internal-storage">Internal Storage</a>
+<ul>
+<li><a href="#spremanje-datoteke">Spremanje datoteke</a></li>
+<li><a href="#%C4%8Ditanje-datoteke">Čitanje datoteke</a></li>
+<li><a href="#brisanje-datoteke">Brisanje datoteke</a></li>
+<li><a href="#rad-s-json-datotekama">Rad s JSON datotekama</a></li>
+<li><a href="#samostalni-zadatak-za-vje%C5%BEbu-1">Samostalni zadatak za vježbu #1</a></li>
+</ul>
+</li>
+<li><a href="#external-storage">External Storage</a>
+<ul>
+<li><a href="#spremanje-datoteke">Spremanje datoteke</a></li>
+<li><a href="#%C4%8Ditanje-datoteke">Čitanje datoteke</a></li>
+<li><a href="#samostalni-zadatak-za-vje%C5%BEbu-2">Samostalni zadatak za vježbu #2</a></li>
+</ul>
+</li>
+<li><a href="#room">Room</a>
+<ul>
+<li><a href="#room-entity">Room Entity</a></li>
+<li><a href="#room-dao">Room DAO</a></li>
+<li><a href="#room-database">Room Database</a></li>
+<li><a href="#dodavanje-podataka">Dodavanje podataka</a></li>
+<li><a href="#a%C5%BEuriranje-podataka">Ažuriranje podataka</a></li>
+<li><a href="#%C4%8Ditanje-podataka-s-opservacijom">Čitanje podataka s opservacijom</a></li>
+<li><a href="#brisanje-podataka">Brisanje podataka</a></li>
+<li><a href="#samostalni-zadatak-za-vje%C5%BEbu-3">Samostalni zadatak za vježbu #3</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<div class="page"></div>
+<h2 id="internal-storage">Internal Storage</h2>
+<p><code>Internal Storage</code> predstavlja privatni prostor pohrane koji je dostupan samo aplikaciji. Podaci pohranjeni ovdje su:</p>
+<ul>
+<li><strong>Privatni</strong> – nedostupni drugim aplikacijama</li>
+<li><strong>Sigurni</strong> – zaštićeni od ostalih aplikacija</li>
+<li><strong>Automatski obrisani</strong> – brišu se pri deinstalaciji aplikacije</li>
+<li><strong>Bez dodatnih dozvola</strong> – nije potrebna dozvola u <code>AndroidManifest.xml</code></li>
+</ul>
+<p><strong>Primjeri korištenja Internal Storage:</strong></p>
+<ul>
+<li>Cache datoteke</li>
+<li>JSON datoteke s postavkama</li>
+<li>Privremeni podaci</li>
+<li>Podaci koji nisu dostupni korisniku</li>
+<li>Lokalne baze podataka</li>
+</ul>
+<h3 id="spremanje-datoteke">Spremanje datoteke</h3>
+<p>Za spremanje datoteke koristimo <code>FileOutputStream</code> koji dobijemo pozivom <code>openFileOutput()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">try</span> (FileOutputStream fos = openFileOutput(<span class="hljs-string">"data.txt"</span>, Context.MODE_PRIVATE)) {
+    fos.write(<span class="hljs-string">"Hello World"</span>.getBytes());
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    Log.e(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"Error writing file"</span>, e);
+}
+</div></code></pre>
+<ul>
+<li><code>openFileOutput()</code> otvara ili kreira datoteku u Internal Storage direktoriju aplikacije</li>
+<li><code>Context.MODE_PRIVATE</code> osigurava da je datoteka dostupna samo aplikaciji</li>
+<li>Try-with-resources blok automatski zatvara <code>FileOutputStream</code></li>
+</ul>
+<h3 id="%C4%8Ditanje-datoteke">Čitanje datoteke</h3>
+<p>Za čitanje datoteke koristimo <code>FileInputStream</code> koji dobijemo pozivom <code>openFileInput()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">try</span> (FileInputStream fis = openFileInput(<span class="hljs-string">"data.txt"</span>)) {
+    <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
+    <span class="hljs-keyword">int</span> bytesRead = fis.read(buffer);
+    String content = <span class="hljs-keyword">new</span> String(buffer, <span class="hljs-number">0</span>, bytesRead);
+    Log.d(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"Content: "</span> + content);
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    Log.e(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"Error reading file"</span>, e);
+}
+</div></code></pre>
+<ul>
+<li><code>openFileInput()</code> otvara datoteku iz Internal Storage direktorija</li>
+<li>Čitamo podatke u buffer od 1024 bajta</li>
+<li>Pretvorimo bajt polje u String za lakšu upotrebu</li>
+</ul>
+<h3 id="brisanje-datoteke">Brisanje datoteke</h3>
+<p>Za brisanje datoteke koristimo <code>deleteFile()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">boolean</span> deleted = deleteFile(<span class="hljs-string">"data.txt"</span>);
+<span class="hljs-keyword">if</span> (deleted) {
+    Log.d(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"File deleted successfully"</span>);
+}
+</div></code></pre>
+<h3 id="rad-s-json-datotekama">Rad s JSON datotekama</h3>
+<p>JSON je popularan format za pohranu strukturiranih podataka. Android podržava rad s JSON datotekama kroz biblioteke kao što su <code>Gson</code> ili ugrađeni <code>JSONObject</code>.</p>
+<p><strong>Primjer s Gson bibliotekom:</strong></p>
+<p>Trebamo dodati Gson ovisnost u <code>build.gradle</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">dependencies</span> {
+    ...
+    implementation <span class="hljs-string">'com.google.code.gson:gson:2.13.2'</span>
+}
+</div></code></pre>
+<p><strong>Spremanje JSON datoteke:</strong></p>
+<p><code>FoodItem</code> klasa korištena u primjerima:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FoodItem</span> </span>{
+    String name;
+    <span class="hljs-keyword">double</span> calories;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">FoodItem</span><span class="hljs-params">(String name, <span class="hljs-keyword">double</span> calories)</span> </span>{
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.calories = calories;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> name;  }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getCalories</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> calories; }
+}
+</div></code></pre>
+<div class="page"></div>
+<pre class="hljs"><code><div><span class="hljs-comment">// Kreiramo objekt koji trebamo spremiti</span>
+FoodItem food = <span class="hljs-keyword">new</span> FoodItem(<span class="hljs-string">"Jabuka"</span>, <span class="hljs-number">95</span>);
+
+<span class="hljs-comment">// Pretvaramo objekt u JSON string</span>
+Gson gson = <span class="hljs-keyword">new</span> Gson();
+String jsonString = gson.toJson(food);
+
+<span class="hljs-comment">// Spremamo JSON u datoteku</span>
+<span class="hljs-keyword">try</span> (FileOutputStream fos = openFileOutput(<span class="hljs-string">"food.json"</span>, Context.MODE_PRIVATE)) {
+    fos.write(jsonString.getBytes());
+    Log.d(<span class="hljs-string">"JSON"</span>, <span class="hljs-string">"JSON saved: "</span> + jsonString);
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    Log.e(<span class="hljs-string">"JSON"</span>, <span class="hljs-string">"Error saving JSON"</span>, e);
+}
+</div></code></pre>
+<ul>
+<li><code>Gson.toJson()</code> pretvara Java objekt u JSON string</li>
+<li>Podatke spremamo kao i obične tekstualne datoteke</li>
+</ul>
+<p><strong>Čitanje JSON datoteke:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">try</span> (FileInputStream fis = openFileInput(<span class="hljs-string">"food.json"</span>)) {
+    <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
+    <span class="hljs-keyword">int</span> bytesRead = fis.read(buffer);
+    String jsonString = <span class="hljs-keyword">new</span> String(buffer, <span class="hljs-number">0</span>, bytesRead);
+    
+    <span class="hljs-comment">// Pretvaramo JSON string u Java objekt</span>
+    Gson gson = <span class="hljs-keyword">new</span> Gson();
+    FoodItem food = gson.fromJson(jsonString, FoodItem<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    
+    Log.d(<span class="hljs-string">"JSON"</span>, <span class="hljs-string">"Food loaded: "</span> + food.getName() + <span class="hljs-string">", "</span> + food.getCalories());
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    Log.e(<span class="hljs-string">"JSON"</span>, <span class="hljs-string">"Error reading JSON"</span>, e);
+}
+</div></code></pre>
+<ul>
+<li><code>Gson.fromJson()</code> pretvara JSON string u Java objekt</li>
+<li>Trebamo specificirati klasu u koju trebamo pretvoriti</li>
+</ul>
+<div class="page"></div>
+<h3 id="samostalni-zadatak-za-vje%C5%BEbu-1">Samostalni zadatak za vježbu #1</h3>
+<p>Napišite funkciju koja sprema listu objekata <code>FoodItem</code> u JSON datoteku unutar Internal Storage. Zatim napišite funkciju koja čita tu JSON datoteku i vraća listu <code>FoodItem</code> objekata. Prikažite korištenje tih funkcija s <code>Logcat</code>. <code>FoodItem</code> klasa je ista kao u gornjim primjerima.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+        <img src="slike/cat1.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer rješenja zadatka #1</i></p>
+</div>
+<h2 id="external-storage">External Storage</h2>
+<p><code>External Storage</code> predstavlja prostor pohrane dostupan korisniku i potencijalno drugim aplikacijama. Za razliku od Internal Storage, External Storage:</p>
+<ul>
+<li><strong>Nije privatan</strong> – vidljiv je korisniku i može biti dostupan drugim aplikacijama</li>
+<li><strong>Nije siguran</strong> – ne jamči sigurnost podataka</li>
+<li><strong>Nije obrisan pri deinstalaciji</strong> – podaci ostaju nakon uklanjanja aplikacije (u većini slučajeva)</li>
+<li><strong>Zahtijeva dozvole</strong> – na starijim verzijama Androida trebaju dozvole</li>
+</ul>
+<p><strong>External Storage koristimo kada:</strong></p>
+<ul>
+<li>Korisnik treba vidjeti ili otvoriti datoteku</li>
+<li>Podaci trebaju biti dostupni nakon deinstalacije aplikacije</li>
+<li>Trebamo dijeliti datoteke s drugim aplikacijama</li>
+<li>Trebamo eksportirati podatke u formatu kao što su CSV ili PDF</li>
+</ul>
+<p><strong>Primjeri korištenja External Storage:</strong></p>
+<ul>
+<li>Export podataka (CSV, PDF)</li>
+<li>Preuzimanje datoteka</li>
+<li>Slike i video zapisi</li>
+<li>Backup podataka</li>
+</ul>
+<div class="page"></div>
+<p>External Storage ima dva glavna tipa direktorija:</p>
+<ol>
+<li><strong>App-specific direktoriji</strong> – dostupni samo aplikaciji, ne zahtijevaju dozvole</li>
+<li><strong>Shared direktoriji</strong> – dostupni svim aplikacijama, trebaju dozvole</li>
+</ol>
+<pre class="hljs"><code><div>/storage/emulated/0/
+├── Android/
+│   └── data/
+│       └── com.example.app/
+│           └── files/
+│               ├── Documents/
+│               ├── Pictures/
+│               └── Music/
+├── Documents/
+├── Pictures/
+├── Music/
+├── Downloads/
+└── ...
+</div></code></pre>
+<p>App-specific External Storage je direktorij dostupan samo jednoj aplikaciji.</p>
+<ul>
+<li>Vidljiv je korisniku putem file explorera</li>
+<li>Ne zahtijeva dodatne dozvole (<em>od Android 8+</em>)</li>
+<li>Briše se pri deinstalaciji aplikacije</li>
+<li>Za export podataka, privremene datoteke i slike</li>
+</ul>
+<h3 id="spremanje-datoteke">Spremanje datoteke</h3>
+<pre class="hljs"><code><div>File dir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+<span class="hljs-keyword">if</span> (dir != <span class="hljs-keyword">null</span> &amp;&amp; dir.exists()) {
+    File file = <span class="hljs-keyword">new</span> File(dir, <span class="hljs-string">"test.txt"</span>);
+    <span class="hljs-keyword">try</span> (FileOutputStream fos = <span class="hljs-keyword">new</span> FileOutputStream(file)) {
+        fos.write(<span class="hljs-string">"Test data"</span>.getBytes());
+        Log.d(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"File saved: "</span> + file.getAbsolutePath());
+    } <span class="hljs-keyword">catch</span> (IOException e) {
+        Log.e(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"Error saving file"</span>, e);
+    }
+}
+</div></code></pre>
+<ul>
+<li><code>getExternalFilesDir()</code> vraća app-specific direktorij na External Storage</li>
+<li><code>Environment.DIRECTORY_DOCUMENTS</code> je konstanta za Documents mapu</li>
+<li>Kreiramo novu datoteku unutar tog direktorija <code>new File(dir, &quot;test.txt&quot;)</code></li>
+<li>Spremamo podatke u datoteku koristeći <code>FileOutputStream</code></li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/app_specific_external_storage.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Spremanje datoteke u app-specific External Storage</i></p>
+</div>
+<h3 id="%C4%8Ditanje-datoteke">Čitanje datoteke</h3>
+<pre class="hljs"><code><div>File dir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+<span class="hljs-keyword">if</span> (dir != <span class="hljs-keyword">null</span> &amp;&amp; dir.exists()) {
+    File file = <span class="hljs-keyword">new</span> File(dir, <span class="hljs-string">"test.txt"</span>);
+    <span class="hljs-keyword">if</span> (file.exists()) {
+        <span class="hljs-keyword">try</span> (FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(file)) {
+            <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[(<span class="hljs-keyword">int</span>) file.length()];
+            <span class="hljs-keyword">int</span> bytesRead = fis.read(buffer);
+            String content = <span class="hljs-keyword">new</span> String(buffer, <span class="hljs-number">0</span>, bytesRead);
+            Log.d(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"Content: "</span> + content);
+        } <span class="hljs-keyword">catch</span> (IOException e) {
+            Log.e(<span class="hljs-string">"STORAGE"</span>, <span class="hljs-string">"Error reading file"</span>, e);
+        }
+    }
+}
+</div></code></pre>
+<ul>
+<li>Provjeravamo postoji li direktorij i datoteka prije čitanja</li>
+<li>Koristimo <code>FileInputStream</code> za čitanje podataka iz datoteke</li>
+</ul>
+<div class="page"></div>
+<h3 id="samostalni-zadatak-za-vje%C5%BEbu-2">Samostalni zadatak za vježbu #2</h3>
+<p>Napišite funkciju koja sprema listu objekata <code>FoodItem</code> u JSON datoteku unutar app-specific External Storage. Zatim napišite funkciju koja čita tu JSON datoteku i vraća listu <code>FoodItem</code> objekata. Prikažite korištenje tih funkcija s <code>Logcat</code>. <code>FoodItem</code> klasa je ista kao u gornjim primjerima.</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+        <img src="slike/cat.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer rješenja zadatka #2</i></p>
+</div>
+<h2 id="room">Room</h2>
+<p><code>Room</code> je moderna Android biblioteka koja nudi ORM (<em>Object Relational Mapping</em>) sloj iznad <strong>SQLite</strong> baze. Room pojednostavljuje rad s bazom podataka i izbjegava česte greške kao što su:</p>
+<ul>
+<li><strong>Memory leak</strong> Cursora</li>
+<li><strong>Boilerplate koda</strong> za CRUD operacije</li>
+<li><strong>Compile-time security</strong> – SQL upiti se provjeravaju tijekom kompajliranja</li>
+<li><strong>LiveData/Flow integracija</strong> – automatska opservacija promjena u bazi</li>
+</ul>
+<p>Room se sastoji od tri glavne komponente:</p>
+<ol>
+<li><strong>Entity</strong> – predstavlja tablicu u bazi podataka</li>
+<li><strong>DAO</strong> (<em>Data Access Object</em>) – definira operacije nad tablicom</li>
+<li><strong>Database</strong> – apstraktna klasa koja povezuje sve komponente</li>
+</ol>
+<blockquote>
+<p>Kod implementacije koristimo <code>room.common</code> i <code>room.runtime</code> biblioteke kada ih importamo</p>
+</blockquote>
+<div class="page"></div>
+<h3 id="room-entity">Room Entity</h3>
+<p><code>Entity</code> je klasa koja predstavlja tablicu u bazi. Mapiramo je s pomoću <code>@Entity</code> anotacije:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Entity</span>(tableName = <span class="hljs-string">"food_items"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FoodItem</span> </span>{
+    <span class="hljs-meta">@PrimaryKey</span>(autoGenerate = <span class="hljs-keyword">true</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;
+    
+    <span class="hljs-meta">@NonNull</span>
+    <span class="hljs-keyword">public</span> String name;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> calories;
+    
+    <span class="hljs-meta">@ColumnInfo</span>(name = <span class="hljs-string">"date_added"</span>)
+    <span class="hljs-keyword">public</span> String dateAdded;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">FoodItem</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> calories, String dateAdded)</span> </span>{
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.calories = calories;
+        <span class="hljs-keyword">this</span>.dateAdded = dateAdded;
+    }
+}
+</div></code></pre>
+<ul>
+<li><code>@Entity</code> definira klasu kao tablicu</li>
+<li><code>@PrimaryKey</code> označava primarni ključ</li>
+<li><code>autoGenerate = true</code> automatski dodjeluje ID</li>
+<li><code>@NonNull</code> osigurava da stupac ne smije biti NULL</li>
+<li><code>@ColumnInfo</code> omogućuje promjenu imena stupca u bazi</li>
+</ul>
+<h3 id="room-dao">Room DAO</h3>
+<p>DAO je sučelje koje definira operacije nad tablicom. Room automatski implementira te metode:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Dao</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">FoodDao</span> </span>{
+    
+    <span class="hljs-meta">@Insert</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(FoodItem foodItem)</span></span>;
+    
+    <span class="hljs-meta">@Update</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(FoodItem foodItem)</span></span>;
+    
+    <span class="hljs-meta">@Delete</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(FoodItem foodItem)</span></span>;
+    
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT * FROM food_items ORDER BY name ASC"</span>)
+    LiveData&lt;List&lt;FoodItem&gt;&gt; getAllFood();
+    
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT * FROM food_items WHERE id = :foodId"</span>)
+    <span class="hljs-function">LiveData&lt;FoodItem&gt; <span class="hljs-title">getFoodById</span><span class="hljs-params">(<span class="hljs-keyword">int</span> foodId)</span></span>;
+    
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT * FROM food_items WHERE calories &gt; :minCalories"</span>)
+    LiveData&lt;List&lt;FoodItem&gt;&gt; getFoodByCalories(<span class="hljs-keyword">int</span> minCalories);
+    
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"DELETE FROM food_items WHERE id = :foodId"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">deleteFoodById</span><span class="hljs-params">(<span class="hljs-keyword">int</span> foodId)</span></span>;
+}
+</div></code></pre>
+<ul>
+<li><code>@Insert</code> automatski generira insert SQL</li>
+<li><code>@Update</code> automatski generira update SQL</li>
+<li><code>@Delete</code> automatski generira delete SQL</li>
+<li><code>@Query</code> omogućuje prilagođene SQL upite</li>
+<li><code>LiveData&lt;List&lt;T&gt;&gt;</code> automatski osigurava promjene u UI kada se baza promijeni</li>
+</ul>
+<h3 id="room-database">Room Database</h3>
+<p>Database klasa je apstraktna klasa koja nasljeđuje <code>RoomDatabase</code> i povezuje sve Entity i DAO:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Database</span>(entities = {FoodItem<span class="hljs-class">.<span class="hljs-keyword">class</span>}, <span class="hljs-title">version</span> </span>= <span class="hljs-number">1</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppDatabase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RoomDatabase</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> FoodDao <span class="hljs-title">foodDao</span><span class="hljs-params">()</span></span>;
+}
+</div></code></pre>
+<ul>
+<li><code>@Database</code> defini sve Entity-je koje su dio baze</li>
+<li><code>version</code> se koristi za migracije (kao u SQLiteOpenHelper)</li>
+<li>Apstraktne metode vraćaju instance DAO-a</li>
+</ul>
+<p>Room bazu inicijaliziramo s pomoću <code>Room.databaseBuilder()</code>:</p>
+<pre class="hljs"><code><div>AppDatabase db = Room.databaseBuilder(
+    getApplicationContext(),
+    AppDatabase<span class="hljs-class">.<span class="hljs-keyword">class</span>,
+    "<span class="hljs-title">food_database</span>.<span class="hljs-title">db</span>"
+).<span class="hljs-title">build</span>()</span>;
+
+FoodDao dao = db.foodDao();
+</div></code></pre>
+<ul>
+<li><code>databaseBuilder()</code> kreira instancu baze</li>
+<li>Trebamo proslijediti kontekst, klasu baze i naziv datoteke</li>
+<li><code>.build()</code> kreira instancu</li>
+</ul>
+<div class="page"></div>
+<blockquote>
+<p>Trebamo koristiti Singleton pattern kako bi se baza učitala samo jednom:</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DatabaseProvider</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> AppDatabase instance;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> AppDatabase <span class="hljs-title">getInstance</span><span class="hljs-params">(Context context)</span> </span>{
+        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {
+            instance = Room.databaseBuilder(
+                context,
+                AppDatabase<span class="hljs-class">.<span class="hljs-keyword">class</span>,
+                "<span class="hljs-title">food_database</span>.<span class="hljs-title">db</span>"
+            ).<span class="hljs-title">build</span>()</span>;
+        }
+        <span class="hljs-keyword">return</span> instance;
+    }
+}
+</div></code></pre>
+<h3 id="dodavanje-podataka">Dodavanje podataka</h3>
+<pre class="hljs"><code><div>FoodItem apple = <span class="hljs-keyword">new</span> FoodItem(<span class="hljs-string">"Apple"</span>, <span class="hljs-number">95</span>, <span class="hljs-string">"2026-01-14"</span>);
+<span class="hljs-keyword">new</span> Thread(() -&gt; {
+    AppDatabase db = DatabaseProvider.getInstance(context);
+    db.foodDao().insert(apple);
+    Log.d(<span class="hljs-string">"ROOM"</span>, <span class="hljs-string">"Food inserted"</span>);
+}).start();
+</div></code></pre>
+<ul>
+<li>DB operacije trebaju biti na background thread-u</li>
+<li>Koristimo novi Thread</li>
+</ul>
+<h3 id="a%C5%BEuriranje-podataka">Ažuriranje podataka</h3>
+<pre class="hljs"><code><div>FoodItem updatedFood = <span class="hljs-keyword">new</span> FoodItem(<span class="hljs-string">"Updated Apple"</span>, <span class="hljs-number">100</span>, <span class="hljs-string">"2026-01-14"</span>);
+updatedFood.id = <span class="hljs-number">1</span>;
+
+<span class="hljs-keyword">new</span> Thread(() -&gt; {
+    AppDatabase db = DatabaseProvider.getInstance(context);
+    db.foodDao().update(updatedFood);
+    Log.d(<span class="hljs-string">"ROOM"</span>, <span class="hljs-string">"Food updated"</span>);
+}).start();
+</div></code></pre>
+<p>Dok je aplikacija pokrenuta, možemo vidjeti kreiranu bazu u koristeći <code>App Inspection</code> alat u Android Studiu tako da odemo na <code>View &gt; Tool Windows &gt; App Inspection</code>, zatim odaberemo <code>Database Inspector</code>:</p>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+        <img src="slike/DatabaseInspector.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Database Inspector</i></p>
+</div>
+<h3 id="%C4%8Ditanje-podataka-s-opservacijom">Čitanje podataka s opservacijom</h3>
+<pre class="hljs"><code><div>AppDatabase db = DatabaseProvider.getInstance(context);
+db.foodDao().getAllFood().observe(<span class="hljs-keyword">this</span>, foodList -&gt; {
+    Log.d(<span class="hljs-string">"ROOM"</span>, <span class="hljs-string">"Foods updated: "</span> + foodList.size());
+});
+</div></code></pre>
+<ul>
+<li><code>observe()</code> automatski se poziva kada se baza promijeni</li>
+</ul>
+<blockquote>
+<p>observe() se ne može koristiti unutar Thread-a</p>
+</blockquote>
+<h3 id="brisanje-podataka">Brisanje podataka</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">new</span> Thread(() -&gt; {
+    AppDatabase db = DatabaseProvider.getInstance(context);
+    db.foodDao().deleteFoodById(<span class="hljs-number">1</span>);
+    Log.d(<span class="hljs-string">"ROOM"</span>, <span class="hljs-string">"Food deleted"</span>);
+}).start();
+</div></code></pre>
+<div class="page"></div>
+<h3 id="samostalni-zadatak-za-vje%C5%BEbu-3">Samostalni zadatak za vježbu #3</h3>
+<p>Kreirajte Android aplikaciju za upravljanje <strong>personalnom knjižnicom</strong> s UI-jem i Room bazom podataka. Aplikacija trebala biti sadržavati:</p>
+<p><strong>Entity klase:</strong></p>
+<ul>
+<li><code>Book</code> – s poljima: <code>id</code>, <code>title</code>, <code>author</code>, <code>isbn</code>, <code>pages</code>, <code>publishedYear</code>, <code>dateAdded</code></li>
+<li><code>BookReview</code> – s poljima: <code>id</code>, <code>bookId</code>, <code>rating</code> (1-5), <code>reviewText</code>, <code>dateReviewed</code></li>
+</ul>
+<p><strong>Funkcionalnosti:</strong></p>
+<ol>
+<li><strong>Dodavanje knjige</strong> – forma s poljem za naslov, autora, ISBN, broj stranica i godinu izdanja</li>
+<li><strong>Prikaz liste knjiga</strong> – RecyclerView s knjigama sortiranim po naslovu</li>
+<li><strong>Filtriranje</strong> – prikaz samo knjiga izdanih nakon određene godine</li>
+<li><strong>Dodavanje recenzije</strong> – forma koja omogućuje dodavanje ocjene (1-5) i teksta recenzije za odabranu knjigu</li>
+<li><strong>Prikaz recenzija</strong> – list recenzija za odabranu knjigu s prosječnom ocjenom</li>
+<li><strong>Brisanje</strong> – mogućnost brisanja knjige i njenih recenzija iz baze</li>
+</ol>
+<p><strong>DAO operacije trebaju biti:</strong></p>
+<ul>
+<li>Insert za knjige i recenzije</li>
+<li>Delete s kaskadnim brisanjem recenzija</li>
+<li>Query sve knjige sortirane po naslovu</li>
+<li>Query sve knjige iznad određene godine</li>
+<li>Query recenzije za određenu knjigu</li>
+<li>Query prosječnu ocjenu za knjigu</li>
+</ul>
+<p><strong>UI zahtjevi:</strong></p>
+<ul>
+<li>Activity/Fragment za prikaz lista</li>
+<li>Dialog/Activity/Fragment za dodavanje nove knjige</li>
+<li>Dialog/Activity/Fragment za dodavanje recenzije</li>
+<li>Button za dodavanje knjige</li>
+<li>Prikaz prosječne ocjene ispod svake knjige</li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+        <img src="slike/Zadatak_Home.png" style="border: solid 1px lightgray; border-radius: 8px; width: 24%;"/>
+        <img src="slike/Zadatak_Add.png" style="border: solid 1px lightgray; border-radius: 8px; width: 24%;"/>
+        <img src="slike/Zadatak_Book.png" style="border: solid 1px lightgray; border-radius: 8px; width: 24%;"/>
+        <img src="slike/Zadatak_Filter.png" style="border: solid 1px lightgray; border-radius: 8px; width: 24%;"/>
+    </div>
+    <img src="slike/Zadatak_DB.png" style="border: solid 1px lightgray; border-radius: 8px; width: 100%; margin-top: 8px;"/>
+    <img src="slike/Zadatak_DB2.png" style="border: solid 1px lightgray; border-radius: 8px; width: 100%; margin-top: 8px;"/>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Primjer rješenja zadatka #3</i></p>
+</div>
+</div>
+</body>
+</html>
