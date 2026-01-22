@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Primjer kolokvija #2</title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="mobilne-aplikacije">Mobilne aplikacije</h1>
+<h2 id="primjer-kolokvija-2---pizzerija">Primjer kolokvija #2 - Pizzerija</h2>
+<p>Kolokvij nosi ukupno <strong>25 bodova</strong> i piše se <strong>120 minuta</strong>.</p>
+<p>Drugi kolokvij se rješava u <strong>jednom Android projektu</strong>. Postavke projekta neka budu:</p>
+<ul>
+<li>Template: <strong>No Activity</strong></li>
+<li>Project name: <strong>primjer_drugog_kolokvija</strong></li>
+<li>Package name: <strong>hr.fipu.primjer_drugog_kolokvija</strong></li>
+<li>Save location: <strong>po želji</strong></li>
+<li>Language: <strong>Java</strong></li>
+<li>Minimum SDK: <strong>API 28: (Pie) Android 9.0</strong></li>
+<li>Build configuration language: <strong>Groovy DSL (build.gradle)</strong></li>
+</ul>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: center;">
+        <img src="slike/Postavke.png" style="border: solid 1px lightgray; border-radius: 8px;"/>
+    </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Postavke svakog projekta</i></p>
+</div>
+<blockquote>
+<p><strong>Napomena</strong>: Pri rješavanju zadataka dopušteno je koristiti službenu Android dokumentaciju, materijale s predavanja i internet. Nije dopušteno koristiti generative AI alate (<em>ChatGPT, DeepSeek, Claude, Grok itd.</em>).</p>
+</blockquote>
+<blockquote>
+<p><strong>Napomena</strong>: Android Studio ima integrirani <strong>Gemini</strong> AI i njegova uporaba je dopuštena <em>isključivo</em> za manje funkcionalnosti poput automatskog dovršavanja koda i sugestija unutar editora. <strong>Nije dopušteno generirati kompletna rješenja zadataka od početka do kraja.</strong></p>
+</blockquote>
+<div class="page"></div>
+<h2 id="zadatak-1-5-bodova---mainactivity-s-fragmentima-i-bottom-navigation">Zadatak 1. (5 bodova) - MainActivity s Fragmentima i Bottom Navigation</h2>
+<p>Kreirajte <code>MainActivity</code> koja koristi <strong>FrameLayout</strong> kao spremnik za fragmente. Aplikacija treba koristiti <code>BottomNavigationView</code> s tri stavke za navigaciju između fragmenata:</p>
+<h3 id="fragmenti-i-menu-stavke">Fragmenti i Menu stavke:</h3>
+<ol>
+<li><strong>HomeFragment</strong> - &quot;Meni&quot;</li>
+<li><strong>MakePizzaFragment</strong> - &quot;Nova piza&quot;</li>
+<li><strong>AddIngredientsFragment</strong> - &quot;Sastojci&quot;</li>
+</ol>
+<h3 id="specifikacije">Specifikacije:</h3>
+<p><strong>MainActivity Layout:</strong></p>
+<ul>
+<li>Glavni container: <code>ConstraintLayout</code></li>
+<li><code>FrameLayout</code> za fragmente s <code>id=&quot;@+id/fragment_container&quot;</code></li>
+<li><code>BottomNavigationView</code> s <code>id=&quot;@+id/bottom_nav&quot;</code> na dnu zaslona</li>
+</ul>
+<p><strong>BottomNavigationView:</strong></p>
+<ul>
+<li>Ima tri stavke gdje svaka stavka mora imati ikonicu i tekst:</li>
+<li>Tekst i ikone stavki:
+<ul>
+<li>&quot;Meni&quot;: <code>ic_menu_sort_by_size</code></li>
+<li>&quot;Nova piza&quot;: <code>ic_menu_add</code></li>
+<li>&quot;Sastojci&quot;: <code>ic_menu_mapmode</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Fragmenti:</strong></p>
+<ul>
+<li><code>HomeFragment</code> - prikazuje sve napravljene pizze iz baze podataka</li>
+<li><code>MakePizzaFragment</code> - prikazuje formu za kreiranje nove pizze</li>
+<li><code>AddIngredientsFragment</code> - prikazuje sve dostupne sastojke i mogućnost dodavanja novih</li>
+</ul>
+<div class="page"></div>
+<h2 id="zadatak-2-8-bodova---room-database-i-entity-klase">Zadatak 2. (8 bodova) - Room Database i Entity Klase</h2>
+<p>Implementirajte Room bazu podataka.</p>
+<h3 id="room-entity-klase">Room Entity Klase</h3>
+<h4 id="ingrediententity"><code>IngredientEntity</code></h4>
+<p>Entity klasa koja predstavlja tablicu sastojaka:</p>
+<ul>
+<li><code>id</code> - primarni ključ (<em>autoGenerate</em>)</li>
+<li><code>name</code> - naziv sastojka (<em>obavezno, unique</em>)</li>
+<li><code>quantity</code> - dostupna količina u gramima</li>
+<li><code>pricePerGram</code> - cijena po gramu</li>
+</ul>
+<h4 id="pizzaentity"><code>PizzaEntity</code></h4>
+<p>Entity klasa koja predstavlja tablicu pizza:</p>
+<ul>
+<li><code>id</code> - primarni ključ (<em>autoGenerate</em>)</li>
+<li><code>name</code> - naziv pizze (<em>obavezno</em>)</li>
+<li><code>price</code> - ukupna cijena pizze (<em>izračunata</em>)</li>
+<li><code>createdDate</code> - datum kreiranja (<em>timestamp</em>)</li>
+</ul>
+<h4 id="pizzaingrediententity-relacijska-tablica"><code>PizzaIngredientEntity</code> (relacijska tablica)</h4>
+<p>Relacijska entity klasa koja povezuje pizze s ingredijentima:</p>
+<ul>
+<li><code>id</code> - primarni ključ (<em>autoGenerate</em>)</li>
+<li><code>pizzaId</code> - ID pizze (<em>foreign key s CASCADE delete</em>)</li>
+<li><code>ingredientId</code> - ID sastojka (<em>foreign key s CASCADE delete</em>)</li>
+<li><code>quantityUsed</code> - količina korištena za ovu pizu (<em>u gramima</em>)</li>
+</ul>
+<h3 id="dao-interface">DAO Interface</h3>
+<h4 id="ingredientdao"><code>IngredientDao</code></h4>
+<p>Trebate implementirati sljedeće metode:</p>
+<ul>
+<li><code>insert()</code> - dodavanje novog sastojka</li>
+<li><code>update()</code> - ažuriranje sastojka</li>
+<li><code>delete()</code> - brisanje sastojka</li>
+<li><code>getAllIngredients()</code> - vraća sve sastojke kao <code>LiveData&lt;List&lt;IngredientEntity&gt;&gt;</code></li>
+<li><code>getIngredientByName(String name)</code> - pronalazi sastojak po nazivu</li>
+<li><code>getIngredientById(int id)</code> - pronalazi sastojak po ID-u</li>
+<li><code>deleteByName(String name)</code> - briše sastojak po nazivu</li>
+</ul>
+<h4 id="pizzadao"><code>PizzaDao</code></h4>
+<p>Trebate implementirati sljedeće metode:</p>
+<ul>
+<li><code>insert()</code> - dodavanje nove pizze</li>
+<li><code>update()</code> - ažuriranje pizze</li>
+<li><code>delete()</code> - brisanje pizze</li>
+<li><code>getAllPizzas()</code> - vraća sve pizze sortirane po datumu kreiranja (najnovije first) kao <code>LiveData&lt;List&lt;PizzaEntity&gt;&gt;</code></li>
+<li><code>getPizzaById(int id)</code> - pronalazi pizu po ID-u</li>
+<li><code>deleteById(int pizzaId)</code> - briše pizu po ID-u</li>
+<li><code>getPizzasByPriceRange(double minPrice, double maxPrice)</code> - vraća sve pizze u određenom rasponu cijene kao <code>LiveData&lt;List&lt;PizzaEntity&gt;&gt;</code></li>
+<li><code>getPizzasByNameContaining(String namePart)</code> - vraća sve pizze čiji naziv sadrži traženi tekst kao <code>LiveData&lt;List&lt;PizzaEntity&gt;&gt;</code></li>
+<li><code>getTotalPriceAllPizzas()</code> - vraća zbroj cijena svih pizza kao <code>LiveData&lt;Double&gt;</code></li>
+</ul>
+<h4 id="pizzaingredientdao"><code>PizzaIngredientDao</code></h4>
+<p>Trebate implementirati sljedeće metode:</p>
+<ul>
+<li><code>insert()</code> - dodavanje relacije između pizze i sastojka</li>
+<li><code>getIngredientsForPizza(int pizzaId)</code> - vraća sve sastojke korištene za određenu pizu kao <code>List&lt;IngredientEntity&gt;</code></li>
+<li><code>calculatePizzaPrice(int pizzaId)</code> - izračunava ukupnu cijenu pizze na osnovu sastojaka i njihovih cijena kao <code>Double</code></li>
+</ul>
+<h3 id="room-database">Room Database</h3>
+<p>Kreirajte <code>AppDatabase</code> klasu koja nasljeđuje <code>RoomDatabase</code>:</p>
+<ul>
+<li>Trebala sadržavati sve tri Entity klase (IngredientEntity, PizzaEntity, PizzaIngredientEntity)</li>
+<li>Version: 1</li>
+<li>Trebaju apstraktne metode koje vraćaju instance svih DAO-a:
+<ul>
+<li><code>ingredientDao()</code></li>
+<li><code>pizzaDao()</code></li>
+<li><code>pizzaIngredientDao()</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="databaseprovider-singleton">DatabaseProvider (Singleton)</h3>
+<p>Kreirajte <code>DatabaseProvider</code> klasu koja koristi Singleton pattern:</p>
+<ul>
+<li>Trebala sadržavati statičku instancu baze</li>
+<li>Naziv baze: &quot;pizzeria_database.db&quot;</li>
+</ul>
+<h3 id="inicijalni-podatci">Inicijalni Podatci</h3>
+<pre class="hljs"><code><div>Mozzarella (1000g, 0.05 po gramu)
+Paradajz (500g, 0.03 po gramu)
+Masline (200g, 0.10 po gramu)
+Paprika (400g, 0.08 po gramu)
+Gljive (300g, 0.12 po gramu)
+Peperoni (200g, 0.20 po gramu)
+</div></code></pre>
+<div class="page"></div>
+<h2 id="zadatak-3-12-bodova---klase-fragmenti-i-implementacija-ui-ja">Zadatak 3. (12 bodova) - Klase, Fragmenti i Implementacija UI-ja</h2>
+<p>Kreirajte pomoćne klase za upravljanje pizzerijom i implementirajte sve fragmente s integracijom u Room bazu.</p>
+<h3 id="1-pomo%C4%87ne-plain-old-java-object-pojo-klase">1. Pomoćne Plain Old Java Object (POJO) Klase</h3>
+<h4 id="pizzaingredientinfo-klasa---opcionalno"><code>PizzaIngredientInfo</code> Klasa - opcionalno</h4>
+<p>Klasa za prikaz informacija o sastojku korištenom u pizzi:</p>
+<ul>
+<li><code>ingredientId</code> - ID sastojka</li>
+<li><code>ingredientName</code> - naziv sastojka</li>
+<li><code>quantityUsed</code> - količina korištena</li>
+<li><code>pricePerGram</code> - cijena po gramu</li>
+</ul>
+<h4 id="pizzeria-klasa-singleton-pattern"><code>Pizzeria</code> Klasa (<em>Singleton pattern</em>)</h4>
+<p>Klasa koja predstavlja logiku pizzerije (<em>koristi Room bazu</em>):</p>
+<p><strong>Metode za upravljanje sastojcima:</strong></p>
+<ul>
+<li><code>addIngredientToDatabase()</code> - dodaje novi sastojak u bazu (background thread)</li>
+<li><code>removeIngredientFromDatabase()</code> - briše sastojak iz baze</li>
+<li><code>getAvailableIngredients()</code> - vraća sve dostupne sastojke kao LiveData</li>
+<li><code>updateIngredientQuantity()</code> - ažurira količinu sastojka</li>
+<li><code>checkIngredientAvailability()</code> - provjerava ima li dovoljno određenog sastojka</li>
+</ul>
+<p><strong>Metode za upravljanje pizzama:</strong></p>
+<ul>
+<li><code>createPizza()</code> - kreira novu pizu, sprema je u bazu i ažurira količine sastojaka</li>
+<li><code>deletePizza()</code> - briše pizu iz baze (cascade delete sastojaka)</li>
+<li><code>getAllPizzas()</code> - vraća sve pizze kao LiveData</li>
+<li><code>getPizzasByPrice()</code> - vraća pizze filtrirane po rasponu cijena</li>
+<li><code>getPizzasByName()</code> - vraća pizze filtrirane po naslovu</li>
+<li><code>getPizzasCreatedAfter()</code> - vraća pizze kreirane nakon određenog datuma</li>
+<li><code>getTotalRevenue()</code> - vraća ukupnu sumu svih pizza kao LiveData<Double></li>
+</ul>
+<h3 id="2-fragmenti">2. Fragmenti</h3>
+<h4 id="homefragment-meni">HomeFragment (<em>Meni</em>)</h4>
+<p>Prikazuje sve napravljene pizze iz baze u RecyclerView:</p>
+<p><strong>Elementi:</strong></p>
+<ul>
+<li><code>RecyclerView</code> s pizzama</li>
+<li>Svaka stavka pokazuje:
+<ul>
+<li>Naziv pizze</li>
+<li>Datum kreiranja</li>
+<li>Cijena pizze</li>
+<li>Lista korištenih sastojaka (<em>s količinama</em>)</li>
+<li>Dugme &quot;Obriši&quot;</li>
+</ul>
+</li>
+</ul>
+<p><strong>Filtriranje (<em>dodatno</em>):</strong></p>
+<ul>
+<li>EditText za pretragu pizza po naslovu</li>
+<li>Dva EditText-a za pretragu pizza po cijenama (<em>min-max</em>)</li>
+</ul>
+<p><code>TextView</code> koji prikazuje ukupnu cijenu svih pizza</p>
+<blockquote>
+<p><strong>Inicijalno:</strong> Lista je prazna, ali se ažurira kada se nove pizze kreiraju</p>
+</blockquote>
+<h4 id="makepizzafragment-nova-pizza">MakePizzaFragment (<em>Nova pizza</em>)</h4>
+<p>Omogućuje korisniku da kreira novu pizu:</p>
+<p><strong>Elementi:</strong></p>
+<ul>
+<li><code>EditText</code> za naziv nove pizze</li>
+<li><code>RecyclerView</code> s dostupnim sastojcima gdje svaki red ima:
+<ul>
+<li>Naziv sastojka</li>
+<li>Dostupna količina (<em>u gramima</em>)</li>
+<li><code>CheckBox</code> za odabir sastojka</li>
+<li><code>EditText</code> za unos željene količine (<em>samo ako je odabran</em>)</li>
+<li>Prikazanu cijenu sastojka za tu količinu</li>
+</ul>
+</li>
+<li><code>TextView</code> koji prikazuje živu kalkulaciju ukupne cijene pizze</li>
+<li>Dugme &quot;Kreiraj Pizu&quot; koje je:
+<ul>
+<li><strong>Aktivno</strong> ako je unesen naziv i barem jedan sastojak s dovoljnom količinom</li>
+<li><strong>Deaktivirano</strong> ako nedostaju podaci ili nije označen nijedan sastojak</li>
+</ul>
+</li>
+<li><code>Toast</code> poruke:
+<ul>
+<li>Uspješno kreirane pizze</li>
+<li>Greške ako nema dovoljno sastojaka</li>
+<li>Validacijske greške</li>
+</ul>
+</li>
+</ul>
+<h4 id="addingredientsfragment-sastojci">AddIngredientsFragment (<em>Sastojci</em>)</h4>
+<p>Omogućuje upravljanje dostupnim sastojcima:</p>
+<p><strong>Elementi:</strong></p>
+<ul>
+<li><code>RecyclerView</code> s listom svih dostupnih sastojaka gdje svaki red ima:
+<ul>
+<li>Naziv sastojka</li>
+<li>Trenutačnu dostupnu količinu (<em>u gramima</em>)</li>
+<li>Cijenu po gramu</li>
+<li>Dugme &quot;Obriši&quot; (<em>briše sastojak iz baze</em>)</li>
+<li>Dugme &quot;Uredi&quot; (<em>otvara dialog za ažuriranje</em>)</li>
+</ul>
+</li>
+<li><strong>Dodavanje novog sastojka - forma na dnu ili kao dialog:</strong>
+<ul>
+<li><code>EditText</code> za naziv</li>
+<li><code>EditText</code> za početnu količinu</li>
+<li><code>EditText</code> za cijenu po gramu</li>
+<li>Dugme &quot;Dodaj&quot; koji:
+<ul>
+<li>Validira da li naziv već postoji (<em>ako postoji, prikaži grešku</em>)</li>
+<li>Dodaje sastojak u bazu</li>
+<li>Očisti formu</li>
+<li>Ažurira RecyclerView</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-viewmodel---sharedviewmodel">3. ViewModel - SharedViewModel</h3>
+<p>Kreirajte <code>SharedViewModel</code> koji omogućava dijeljenje podataka između fragmenata:</p>
+<ul>
+<li>Trebal sadržavati instancu <code>Pizzeria</code> klase</li>
+<li>Trebal sadržavati <code>LiveData</code> objekte za:
+<ul>
+<li>Sve pizze</li>
+<li>Sve sastojke</li>
+<li>Ukupnu cijenu</li>
+</ul>
+</li>
+<li>Getteri za LiveData objekte</li>
+<li>Svi fragmenti pristupaju istoj <code>Pizzeria</code> instanci kroz <code>ViewModel</code></li>
+</ul>
+<h3 id="4-adapteri">4. Adapteri</h3>
+<h4 id="pizzaadapter"><code>PizzaAdapter</code></h4>
+<ul>
+<li>Prikazuje pizze u RecyclerView</li>
+<li>Trebala imati listener za &quot;Obriši&quot; dugme</li>
+<li>&quot;Obriši&quot; omogućava brisanje pizze</li>
+</ul>
+<h4 id="ingredientadapter"><code>IngredientAdapter</code></h4>
+<ul>
+<li>Prikazuje sastojke u RecyclerView</li>
+<li>Trebala imati listener za &quot;Obriši&quot; i &quot;Uredi&quot; dugma
+<ul>
+<li>&quot;Obriši&quot; omogućava brisanje sastojka</li>
+<li>&quot;Uredi&quot; omogućava ažuriranje količine i cijene</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Napomena</strong>: Izgled korisničkog sučelja nije strogo definiran, ali treba sadržavati sve tražene elemente i biti funkcionalan</p>
+</blockquote>
+<div class="page"></div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+            <img src="slike/SastojciFragment.png" style="border: solid 1px lightgray; border-radius: 8px; width: 49%;"/>
+            <img src="slike/SastojciFragment2.png" style="border: solid 1px lightgray; border-radius: 8px; width: 49%;"/>
+        </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Sastojci Fragment</i></p>
+</div>
+<div style="width: fit-content; display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between;">
+            <img src="slike/PizaFragment.png" style="border: solid 1px lightgray; border-radius: 8px; width: 49%;"/>
+            <img src="slike/MeniFragment.png" style="border: solid 1px lightgray; border-radius: 8px; width: 49%;"/>
+        </div>
+    <br/>
+    <p style="margin-top: -16px; width: 100%; text-align: center;"><i>Nova Piza Fragment & Meni Fragment</i></p>
+</div>
+<h2 id="predajte-sljede%C4%87e">Predajte sljedeće:</h2>
+<p><strong>Predajte čitav projekt kao <code>.zip</code> ili <code>.rar</code> datoteku.</strong></p>
+</div>
+</body>
+</html>
