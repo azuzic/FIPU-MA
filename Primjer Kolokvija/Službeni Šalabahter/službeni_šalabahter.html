@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Službeni šalabahter</title>
+		<meta
+			http-equiv="Content-type"
+			content="text/html;charset=UTF-8" />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet" />
+		<style>
+			/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+			/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+			:not(code *) {
+				font-family: "Poppins", sans-serif;
+			}
+            html {
+                display: flex;
+                justify-content: center;
+            }
+			body {
+				font-family: var(
+					--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif
+				);
+				font-size: var(--vscode-markdown-font-size, 14px);
+				line-height: var(--vscode-markdown-line-height, 22px);
+				word-wrap: break-word;
+				color: #3b3b3b;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                width: full;
+			}
+			.body {
+                max-width: 1012px;
+			}
+
+			#code-csp-warning {
+				position: fixed;
+				top: 0;
+				right: 0;
+				color: white;
+				margin: 16px;
+				text-align: center;
+				font-size: 12px;
+				font-family: sans-serif;
+				background-color: #444444;
+				cursor: pointer;
+				padding: 6px;
+				box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+			}
+
+			#code-csp-warning:hover {
+				text-decoration: none;
+				background-color: #007acc;
+				box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+			}
+
+			body.scrollBeyondLastLine {
+				margin-bottom: calc(100vh - 22px);
+			}
+
+			body.showEditorSelection .code-line {
+				position: relative;
+			}
+
+			body.showEditorSelection .code-active-line:before,
+			body.showEditorSelection .code-line:hover:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: -12px;
+				height: 100%;
+			}
+
+			body.showEditorSelection li.code-active-line:before,
+			body.showEditorSelection li.code-line:hover:before {
+				left: -30px;
+			}
+
+			.vscode-light.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.15);
+			}
+
+			.vscode-light.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(0, 0, 0, 0.4);
+			}
+
+			.vscode-light.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-dark.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.4);
+			}
+
+			.vscode-dark.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 255, 255, 0.6);
+			}
+
+			.vscode-dark.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-active-line:before {
+				border-left: 3px solid rgba(255, 160, 0, 0.7);
+			}
+
+			.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+				border-left: 3px solid rgba(255, 160, 0, 1);
+			}
+
+			.vscode-high-contrast.showEditorSelection
+				.code-line
+				.code-line:hover:before {
+				border-left: none;
+			}
+
+			img {
+				max-width: 100%;
+				max-height: 100%;
+				border-radius: 8px;
+				filter: drop-shadow(-0 2px 2px rgba(0, 0, 0, 0.07));
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			a:focus,
+			input:focus,
+			select:focus,
+			textarea:focus {
+				outline: 1px solid -webkit-focus-ring-color;
+				outline-offset: -1px;
+			}
+
+			hr {
+				border: 0;
+				height: 2px;
+				border-bottom: 2px solid;
+			}
+
+			h1 {
+				padding-bottom: 0.3em;
+				line-height: 1.2;
+				border-bottom-width: 1px;
+				border-bottom-style: solid;
+			}
+
+			h1,
+			h2,
+			h3 {
+				font-weight: normal;
+			}
+
+			table {
+				border-collapse: collapse;
+			}
+
+			table > thead > tr > th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			table > thead > tr > th,
+			table > thead > tr > td,
+			table > tbody > tr > th,
+			table > tbody > tr > td {
+				padding: 5px 10px;
+			}
+
+			table > tbody > tr + tr > td {
+				border-top: 1px solid;
+			}
+
+			td > code {
+                word-break: break-all;
+            }
+
+			blockquote {
+				margin: 0 7px 0 5px;
+				padding: 0 16px 0 10px;
+				border-left-width: 5px;
+				border-left-style: solid;
+			}
+
+			code {
+				font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
+					"Courier New", monospace, "Droid Sans Fallback";
+				font-size: 1em;
+				line-height: 1.357em;
+			}
+
+			body.wordWrap pre {
+				white-space: pre-wrap;
+			}
+
+			pre:not(.hljs),
+			pre.hljs code > div {
+				padding: 16px;
+				border-radius: 3px;
+				overflow: auto;
+			}
+
+			pre code {
+				color: var(--vscode-editor-foreground);
+				tab-size: 4;
+			}
+
+			/** Theming */
+
+			.vscode-light pre {
+				background-color: rgba(220, 220, 220, 0.4);
+			}
+
+			.vscode-dark pre {
+				background-color: rgba(10, 10, 10, 0.4);
+			}
+
+			.vscode-high-contrast pre {
+				background-color: rgb(0, 0, 0);
+			}
+
+			.vscode-high-contrast h1 {
+				border-color: rgb(0, 0, 0);
+			}
+
+			.vscode-light table > thead > tr > th {
+				border-color: rgba(0, 0, 0, 0.69);
+			}
+
+			.vscode-dark table > thead > tr > th {
+				border-color: rgba(255, 255, 255, 0.69);
+			}
+
+			.vscode-light h1,
+			.vscode-light hr,
+			.vscode-light table > tbody > tr + tr > td {
+				border-color: rgba(0, 0, 0, 0.18);
+			}
+
+			.vscode-dark h1,
+			.vscode-dark hr,
+			.vscode-dark table > tbody > tr + tr > td {
+				border-color: rgba(255, 255, 255, 0.18);
+			}
+		</style>
+
+		<style>
+			/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+			.hljs {
+				background: white;
+				color: black;
+			}
+
+			.hljs-comment,
+			.hljs-quote,
+			.hljs-variable {
+				color: #008000;
+			}
+
+			.hljs-keyword,
+			.hljs-selector-tag,
+			.hljs-built_in,
+			.hljs-name,
+			.hljs-tag {
+				color: #00f;
+			}
+
+			.hljs-string,
+			.hljs-title,
+			.hljs-section,
+			.hljs-attribute,
+			.hljs-literal,
+			.hljs-template-tag,
+			.hljs-template-variable,
+			.hljs-type,
+			.hljs-addition {
+				color: #a31515;
+			}
+
+			.hljs-deletion,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo,
+			.hljs-meta {
+				color: #2b91af;
+			}
+
+			.hljs-doctag {
+				color: #808080;
+			}
+
+			.hljs-attr {
+				color: #f00;
+			}
+
+			.hljs-symbol,
+			.hljs-bullet,
+			.hljs-link {
+				color: #00b0e8;
+			}
+
+			.hljs-emphasis {
+				font-style: italic;
+			}
+
+			.hljs-strong {
+				font-weight: bold;
+			}
+		</style>
+
+		<style>
+			/*
+ * Markdown PDF CSS
+ */
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC",
+					"Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #cccccc;
+				border-radius: 3px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				overflow-wrap: break-word;
+			}
+
+			pre:not(.hljs) {
+				padding: 23px;
+				line-height: 19px;
+			}
+
+			blockquote {
+				background: rgba(127, 127, 127, 0.1);
+				border-color: rgba(0, 122, 204, 0.5);
+			}
+
+			.emoji {
+				height: 1.4em;
+			}
+
+			code {
+				font-size: 14px;
+				line-height: 19px;
+			}
+
+			/* for inline code */
+			:not(pre):not(.hljs) > code {
+				color: #3b3b3b; /* Change the old color so it seems less like an error */
+				font-size: inherit;
+				background: #e0e0e0;
+				border-radius: 4px;
+				padding: 1px 2px;
+				margin: -1px -2px;
+			}
+
+			/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+			.page {
+				page-break-after: always;
+			}
+		</style>
+
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<div>
+<h1 id="slu%C5%BEbeni-%C5%A1alabahter">Službeni šalabahter</h1>
+<h2 id="entity-entity">ENTITY (@Entity)</h2>
+<pre class="hljs"><code><div><span class="hljs-meta">@Entity</span>(tableName = <span class="hljs-string">"table_name"</span>, foreignKeys = {
+    <span class="hljs-meta">@ForeignKey</span>(entity = OtherEntity<span class="hljs-class">.<span class="hljs-keyword">class</span>,
+                <span class="hljs-title">parentColumns</span> </span>= <span class="hljs-string">"id"</span>,
+                childColumns = <span class="hljs-string">"other_id"</span>,
+                onDelete = ForeignKey.CASCADE)
+})
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyEntity</span> </span>{
+    <span class="hljs-meta">@PrimaryKey</span>(autoGenerate = <span class="hljs-keyword">true</span>)
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> id;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> other_id; <span class="hljs-comment">// foreign key</span>
+    
+    <span class="hljs-meta">@NonNull</span>
+    <span class="hljs-meta">@ColumnInfo</span>(name = <span class="hljs-string">"name"</span>)
+    <span class="hljs-keyword">private</span> String name;
+    
+    <span class="hljs-meta">@ColumnInfo</span>(name = <span class="hljs-string">"value"</span>)
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> value;
+    
+    <span class="hljs-comment">// Konstruktor</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyEntity</span><span class="hljs-params">(@NonNull String name, <span class="hljs-keyword">double</span> value)</span> </span>{
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.value = value;
+    }
+    
+    <span class="hljs-comment">// Getteri i Setteri</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> id; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setId</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span> </span>{ <span class="hljs-keyword">this</span>.id = id; }
+    
+    <span class="hljs-meta">@NonNull</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> name; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(@NonNull String name)</span> </span>{ <span class="hljs-keyword">this</span>.name = name; }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> value; }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setValue</span><span class="hljs-params">(<span class="hljs-keyword">double</span> value)</span> </span>{ <span class="hljs-keyword">this</span>.value = value; }
+}
+</div></code></pre>
+<div class="page"></div>
+<h2 id="dao-dao">DAO (@Dao)</h2>
+<pre class="hljs"><code><div><span class="hljs-meta">@Dao</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyDao</span> </span>{
+    
+    <span class="hljs-comment">// Osnovne operacije bez SQL-a</span>
+    <span class="hljs-meta">@Insert</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(MyEntity entity)</span></span>;
+    
+    <span class="hljs-meta">@Update</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(MyEntity entity)</span></span>;
+    
+    <span class="hljs-meta">@Delete</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">(MyEntity entity)</span></span>;
+    
+    <span class="hljs-comment">// Prilagođeni upiti s @Query</span>
+    <span class="hljs-comment">// QUERY FUNKCIJE: AGGREGATE, WHERE, ORDER BY, LIMIT</span>
+    <span class="hljs-comment">// SELECT FUNKCIJE: COUNT, SUM, AVG, MIN, MAX</span>
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT * FROM table_name"</span>)
+    LiveData&lt;List&lt;MyEntity&gt;&gt; getAll();
+
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT * FROM table_name WHERE name = :name ORDER BY value DESC LIMIT 1"</span>)
+    <span class="hljs-function">LiveData&lt;MyEntity&gt; <span class="hljs-title">getByName</span><span class="hljs-params">(String name)</span></span>;
+    
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"DELETE FROM table_name WHERE id = :id"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">deleteById</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span></span>;
+
+    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT MIN(value) FROM table_name"</span>)
+    <span class="hljs-function">LiveData&lt;Double&gt; <span class="hljs-title">etMinValue</span><span class="hljs-params">()</span></span>;
+}
+</div></code></pre>
+<h2 id="database--provider">DATABASE &amp; PROVIDER</h2>
+<p><strong>AppDatabase:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Database</span>(entities = {Entity<span class="hljs-class">.<span class="hljs-keyword">class</span>}, <span class="hljs-title">version</span> </span>= <span class="hljs-number">1</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppDatabase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RoomDatabase</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> MyDao <span class="hljs-title">myDao</span><span class="hljs-params">()</span></span>;
+}
+</div></code></pre>
+<div class="page"></div>
+<p><strong>DatabaseProvider (Singleton):</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> AppDatabase instance;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> AppDatabase <span class="hljs-title">getInstance</span><span class="hljs-params">(Context context)</span> </span>{
+    <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) {
+        instance = Room.databaseBuilder(context, AppDatabase<span class="hljs-class">.<span class="hljs-keyword">class</span>, "<span class="hljs-title">db_name</span>.<span class="hljs-title">db</span>")
+                .<span class="hljs-title">allowMainThreadQueries</span>()
+                .<span class="hljs-title">build</span>()</span>;
+    }
+    <span class="hljs-keyword">return</span> instance;
+}
+</div></code></pre>
+<h2 id="singleton-pomo%C4%87na-klasa-i-kori%C5%A1tenje-baze">SINGLETON POMOĆNA KLASA & KORIŠTENJE BAZE</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHelperClass</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MyHelperClass instance;
+    <span class="hljs-keyword">private</span> DAO dao;
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyHelperClass</span><span class="hljs-params">(Context context)</span> </span>{
+        AppDatabase db = DatabaseProvider.getInstance(context);
+        <span class="hljs-keyword">this</span>.dao = db.myDao();
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> MyHelperClass <span class="hljs-title">getInstance</span><span class="hljs-params">(Context context)</span> </span>{
+        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) instance = <span class="hljs-keyword">new</span> MyHelperClass(context);
+        <span class="hljs-keyword">return</span> instance;
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addMyClass</span><span class="hljs-params">(Entity e)</span> </span>{ 
+        <span class="hljs-keyword">new</span> Thread(() -&gt; {
+            dao.insert(e);
+        }).start();
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteMyClass</span><span class="hljs-params">(Entity e)</span> </span>{ 
+        <span class="hljs-keyword">new</span> Thread(() -&gt; {
+            dao.delete(e);
+        }).start();
+    }
+    <span class="hljs-keyword">public</span> LiveData&lt;List&lt;Entity&gt;&gt; getAll() { 
+        <span class="hljs-keyword">return</span> dao.getAll(); 
+    }
+}
+</div></code></pre>
+<div class="page"></div>
+<h2 id="viewmodel">VIEWMODEL</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SharedViewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ViewModel</span> </span>{
+    <span class="hljs-keyword">private</span> MyHelperClass myHelperClass;
+    <span class="hljs-keyword">private</span> LiveData&lt;List&lt;Entity&gt;&gt; myClasses;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SharedViewModel</span><span class="hljs-params">(@NonNull Application application)</span> </span>{
+        <span class="hljs-keyword">super</span>(application);
+        myHelperClass = MyHelperClass.getInstance(application);
+        myClasses = myHelperClass.getAll();
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> MyHelperClass <span class="hljs-title">getMyHelperClass</span><span class="hljs-params">()</span> </span>{ 
+        <span class="hljs-keyword">return</span> myHelperClass; 
+    }
+    <span class="hljs-keyword">public</span> LiveData&lt;List&lt;Entity&gt;&gt; getMyClasses() { 
+        <span class="hljs-keyword">return</span> myClasses; 
+    }
+}
+</div></code></pre>
+<h2 id="adapter-recyclerview">ADAPTER (RecyclerView)</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">Adapter</span>&lt;<span class="hljs-title">MyAdapter</span>.<span class="hljs-title">ViewHolder</span>&gt; </span>{
+    <span class="hljs-keyword">private</span> List&lt;Entity&gt; items;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> OnActionListener listener;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnActionListener</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onButtonPressed</span><span class="hljs-params">(Entity item)</span></span>;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyAdapter</span><span class="hljs-params">(OnActionListener listener)</span> </span>{
+        <span class="hljs-keyword">this</span>.items = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">this</span>.listener = listener;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setItems</span><span class="hljs-params">(List&lt;Entity&gt; items)</span> </span>{
+        <span class="hljs-keyword">this</span>.items = items;
+        notifyDataSetChanged();
+    }
+    
+    <span class="hljs-meta">@NonNull</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ViewHolder <span class="hljs-title">onCreateViewHolder</span><span class="hljs-params">(ViewGroup parent, <span class="hljs-keyword">int</span> viewType)</span> </span>{
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_id, parent, <span class="hljs-keyword">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ViewHolder(view);
+    }
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(ViewHolder holder, <span class="hljs-keyword">int</span> position)</span> </span>{
+        Entity item = items.get(position);
+        holder.bind(item, listener);
+    }
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getItemCount</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> items.size(); }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>{
+        TextView textView;
+        Button btn;
+        
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ViewHolder</span><span class="hljs-params">(View itemView)</span> </span>{
+            <span class="hljs-keyword">super</span>(itemView);
+            textView = itemView.findViewById(R.id.textView);
+            btn = itemView.findViewById(R.id.btn);
+        }
+        
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bind</span><span class="hljs-params">(Entity item, OnActionListener listener)</span> </span>{
+            textView.setText(item.getKlasa());
+            btn.setOnClickListener(v -&gt; listener.onButtonPressed(item));
+        }
+    }
+}
+</div></code></pre>
+<h2 id="fragmenti-i-kori%C5%A1tenje-viewmodelaadaptera">FRAGMENTI & KORIŠTENJE VIEWMODELA/ADAPTERA</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">myFragment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Fragment</span> </span>{
+    <span class="hljs-keyword">private</span> SharedViewModel viewModel;
+    <span class="hljs-keyword">private</span> MyAdapter adapter;
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> View <span class="hljs-title">onCreateView</span><span class="hljs-params">(LayoutInflater inflater, ViewGroup container, Bundle state)</span> </span>{
+        View view = inflater.inflate(R.layout.fragment_my, container, <span class="hljs-keyword">false</span>);
+
+        viewModel = <span class="hljs-keyword">new</span> ViewModelProvider(requireActivity()).get(SharedViewModel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        
+        <span class="hljs-comment">// Korištenje adaptera</span>
+        RecyclerView recycler = view.findViewById(R.id.recycler);
+        adapter = <span class="hljs-keyword">new</span> MyAdapter((item) -&gt; { <span class="hljs-comment">/* onButtonPressed */</span> });
+        recycler.setAdapter(adapter);
+        
+        <span class="hljs-comment">// Prati LiveData</span>
+        viewModel.getMyClasses().observe(getViewLifecycleOwner(), items -&gt; {
+            adapter.setItems(items);
+        });
+
+        <span class="hljs-keyword">return</span> view;
+    }
+}
+</div></code></pre>
+<div class="page"></div>
+<h2 id="kori%C5%A1tenje-fragmenata">KORIŠTENJE FRAGMENATA</h2>
+<pre class="hljs"><code><div>getSupportFragmentManager().beginTransaction()
+    .replace(R.id.fragment_container, <span class="hljs-keyword">new</span> myFragment())
+    .commit();
+</div></code></pre>
+<h2 id="toast-i-alertdialog">TOAST & ALERTDIALOG</h2>
+<pre class="hljs"><code><div>Toast.makeText(requireContext(), <span class="hljs-string">"Poruka"</span>, Toast.LENGTH_SHORT).show();
+
+AlertDialog.Builder builder = <span class="hljs-keyword">new</span> AlertDialog.Builder(requireContext());
+EditText input = <span class="hljs-keyword">new</span> EditText(requireContext());
+
+builder.setTitle(<span class="hljs-string">"Naslov"</span>);
+builder.setView(input);
+builder.setPositiveButton(<span class="hljs-string">"OK"</span>, (dialog, which) -&gt; { <span class="hljs-comment">/* akcija na OK */</span> });
+builder.setNegativeButton(<span class="hljs-string">"Cancel"</span>, <span class="hljs-keyword">null</span>);
+builder.show();
+</div></code></pre>
+<h2 id="listeneri">LISTENERI</h2>
+<p><strong>Button onClickListener:</strong></p>
+<pre class="hljs"><code><div>button.setOnClickListener(v -&gt; {
+    <span class="hljs-comment">// akcija na klik</span>
+});
+</div></code></pre>
+<p><strong>CheckBox onCheckedChangeListener:</strong></p>
+<pre class="hljs"><code><div>checkBox.setOnCheckedChangeListener((buttonView, isChecked) -&gt; {
+    <span class="hljs-comment">// akcija na promjenu stanja</span>
+});
+</div></code></pre>
+<p><strong>TextWatcher:</strong></p>
+<pre class="hljs"><code><div>editText.addTextChangedListener(<span class="hljs-keyword">new</span> TextWatcher() {
+    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">beforeTextChanged</span><span class="hljs-params">(CharSequence s, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> after)</span> </span>{}
+    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onTextChanged</span><span class="hljs-params">(CharSequence s, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> before, <span class="hljs-keyword">int</span> count)</span> </span>{
+        <span class="hljs-comment">// akcija na promjenu teksta</span>
+    }
+    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterTextChanged</span><span class="hljs-params">(Editable s)</span> </span>{}
+});
+</div></code></pre>
+</div>
+</body>
+</html>
