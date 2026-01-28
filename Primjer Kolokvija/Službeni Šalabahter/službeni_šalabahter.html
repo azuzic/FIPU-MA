@@ -497,14 +497,14 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     <span class="hljs-keyword">return</span> instance;
 }
 </div></code></pre>
-<h2 id="singleton-pomo%C4%87na-klasa-i-kori%C5%A1tenje-baze">SINGLETON POMOĆNA KLASA & KORIŠTENJE BAZE</h2>
+<h2 id="singleton-pomo%C4%87na-klasa--kori%C5%A1tenje-baze">SINGLETON POMOĆNA KLASA &amp; KORIŠTENJE BAZE</h2>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHelperClass</span> </span>{
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MyHelperClass instance;
-    <span class="hljs-keyword">private</span> DAO dao;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> MyDao myDao;
     
     <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyHelperClass</span><span class="hljs-params">(Context context)</span> </span>{
         AppDatabase db = DatabaseProvider.getInstance(context);
-        <span class="hljs-keyword">this</span>.dao = db.myDao();
+        <span class="hljs-keyword">this</span>.myDao = db.myDao();
     }
     
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">synchronized</span> MyHelperClass <span class="hljs-title">getInstance</span><span class="hljs-params">(Context context)</span> </span>{
@@ -514,16 +514,16 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addMyClass</span><span class="hljs-params">(Entity e)</span> </span>{ 
         <span class="hljs-keyword">new</span> Thread(() -&gt; {
-            dao.insert(e);
+            myDao.insert(e);
         }).start();
     }
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteMyClass</span><span class="hljs-params">(Entity e)</span> </span>{ 
         <span class="hljs-keyword">new</span> Thread(() -&gt; {
-            dao.delete(e);
+            myDao.delete(e);
         }).start();
     }
     <span class="hljs-keyword">public</span> LiveData&lt;List&lt;Entity&gt;&gt; getAll() { 
-        <span class="hljs-keyword">return</span> dao.getAll(); 
+        <span class="hljs-keyword">return</span> myDao.getAll(); 
     }
 }
 </div></code></pre>
@@ -598,7 +598,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     }
 }
 </div></code></pre>
-<h2 id="fragmenti-i-kori%C5%A1tenje-viewmodelaadaptera">FRAGMENTI & KORIŠTENJE VIEWMODELA/ADAPTERA</h2>
+<h2 id="fragmenti--kori%C5%A1tenje-viewmodelaadaptera">FRAGMENTI &amp; KORIŠTENJE VIEWMODELA/ADAPTERA</h2>
 <pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">myFragment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Fragment</span> </span>{
     <span class="hljs-keyword">private</span> SharedViewModel viewModel;
     <span class="hljs-keyword">private</span> MyAdapter adapter;
@@ -629,7 +629,7 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
     .replace(R.id.fragment_container, <span class="hljs-keyword">new</span> myFragment())
     .commit();
 </div></code></pre>
-<h2 id="toast-i-alertdialog">TOAST & ALERTDIALOG</h2>
+<h2 id="toast--alertdialog">TOAST &amp; ALERTDIALOG</h2>
 <pre class="hljs"><code><div>Toast.makeText(requireContext(), <span class="hljs-string">"Poruka"</span>, Toast.LENGTH_SHORT).show();
 
 AlertDialog.Builder builder = <span class="hljs-keyword">new</span> AlertDialog.Builder(requireContext());
@@ -642,23 +642,32 @@ builder.setNegativeButton(<span class="hljs-string">"Cancel"</span>, <span class
 builder.show();
 </div></code></pre>
 <h2 id="listeneri">LISTENERI</h2>
-<p><strong>Button onClickListener:</strong></p>
-<pre class="hljs"><code><div>button.setOnClickListener(v -&gt; {
-    <span class="hljs-comment">// akcija na klik</span>
-});
-</div></code></pre>
-<p><strong>CheckBox onCheckedChangeListener:</strong></p>
-<pre class="hljs"><code><div>checkBox.setOnCheckedChangeListener((buttonView, isChecked) -&gt; {
+<pre class="hljs"><code><div><span class="hljs-comment">// Button onClickListener</span>
+button.setOnClickListener(v -&gt; { <span class="hljs-comment">/* akcija na klik */</span> });
+
+<span class="hljs-comment">// CheckBox onCheckedChangeListener</span>
+checkBox.setOnCheckedChangeListener((buttonView, isChecked) -&gt; {
     <span class="hljs-comment">// akcija na promjenu stanja</span>
 });
-</div></code></pre>
-<p><strong>TextWatcher:</strong></p>
-<pre class="hljs"><code><div>editText.addTextChangedListener(<span class="hljs-keyword">new</span> TextWatcher() {
-    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">beforeTextChanged</span><span class="hljs-params">(CharSequence s, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> after)</span> </span>{}
-    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onTextChanged</span><span class="hljs-params">(CharSequence s, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> before, <span class="hljs-keyword">int</span> count)</span> </span>{
-        <span class="hljs-comment">// akcija na promjenu teksta</span>
-    }
+
+<span class="hljs-comment">// TextWatcher za EditText</span>
+editText.addTextChangedListener(<span class="hljs-keyword">new</span> TextWatcher() {
+    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">beforeTextChanged</span><span class="hljs-params">(CharSequence s, <span class="hljs-keyword">int</span> start, 
+        <span class="hljs-keyword">int</span> count, <span class="hljs-keyword">int</span> after)</span> </span>{}
+    <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onTextChanged</span><span class="hljs-params">(CharSequence s, <span class="hljs-keyword">int</span> start, 
+        <span class="hljs-keyword">int</span> before, <span class="hljs-keyword">int</span> count)</span> </span>{ <span class="hljs-comment">/* akcija na promjenu teksta */</span> }
     <span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterTextChanged</span><span class="hljs-params">(Editable s)</span> </span>{}
+});
+
+<span class="hljs-comment">// BottomNavigationView listener</span>
+bottomNavigationView.setOnItemSelectedListener(item -&gt; {
+    <span class="hljs-keyword">switch</span> (item.getItemId()) {
+        <span class="hljs-keyword">case</span> R.id.nav_id_1: <span class="hljs-comment">// akcija za nav_id_1</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">case</span> R.id.nav_id_2: <span class="hljs-comment">// akcija za nav_id_2</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">default</span>: <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
 });
 </div></code></pre>
 </div>

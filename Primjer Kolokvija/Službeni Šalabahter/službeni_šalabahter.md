@@ -269,28 +269,33 @@ builder.show();
 
 ## LISTENERI
 
-**Button onClickListener:**
 ```java
-button.setOnClickListener(v -> {
-    // akcija na klik
-});
-``` 
+// Button onClickListener
+button.setOnClickListener(v -> { /* akcija na klik */ });
 
-**CheckBox onCheckedChangeListener:**
-```java
+// CheckBox onCheckedChangeListener
 checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
     // akcija na promjenu stanja
 });
-```
 
-**TextWatcher:**
-```java
+// TextWatcher za EditText
 editText.addTextChangedListener(new TextWatcher() {
-    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-    @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // akcija na promjenu teksta
-    }
+    @Override public void beforeTextChanged(CharSequence s, int start, 
+        int count, int after) {}
+    @Override public void onTextChanged(CharSequence s, int start, 
+        int before, int count) { /* akcija na promjenu teksta */ }
     @Override public void afterTextChanged(Editable s) {}
+});
+
+// BottomNavigationView listener
+bottomNavigationView.setOnItemSelectedListener(item -> {
+    switch (item.getItemId()) {
+        case R.id.nav_id_1: // akcija za nav_id_1
+            return true;
+        case R.id.nav_id_2: // akcija za nav_id_2
+            return true;
+        default: return false;
+    }
 });
 ```
 
